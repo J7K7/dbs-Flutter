@@ -28,7 +28,7 @@ class SplashController extends GetxController {
     // await SharedPrefs.init(); // Ensure _prefsInstance is initialized
 
     Future.delayed(const Duration(seconds: 5), () {
-      Get.offAll(() => const ViewAllProducts());
+      Get.offAll(() => ViewAllProducts());
     });
   }
 }

@@ -13,4 +13,10 @@ const fsMedium = 16.0;
 const fsLarge = 18.0;
 const fsXLarge = 20.0;
 const fsXXLarge = 24.0;
-const fsXXXLarge = 30.0;
+const fsXXXLarge = 32.0;
+
+/*API Related Constant */
+const BASEURL = "http://10.20.0.110:3000/";
+const LIVEURL = "";
+const IMAGE_PATH = "http://10.20.0.110:3000/images/";
+const defaultErrorImageUrl = "assets/images/noImage.jpg";

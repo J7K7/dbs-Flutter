@@ -1,5 +1,6 @@
 import 'package:dbs_frontend/Themes/AppTheme.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';
+import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,8 +25,8 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
-          themeMode: ThemeMode.dark,
-          home: SplashScreen(),
+          // themeMode: ThemeMode.dark,
+          home: ViewAllProducts(),
           // home: LoginScreen(),
         );
       },

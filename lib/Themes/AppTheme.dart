@@ -9,16 +9,18 @@ class AppTheme {
   static final ThemeData lightTheme = ThemeData(
     // Define the primary color palette
     primaryColor: primary100,
+    scaffoldBackgroundColor: bg100,
+
     // accentColor: accent100,
-    colorScheme: const ColorScheme.light().copyWith(
-      brightness: Brightness.light,
-      background: bg100,
-    ),
+    // colorScheme: const ColorScheme.light().copyWith(
+    //   // brightness: Brightness.light,
+    //   background: bg100,
+    // ),
     hintColor: text200,
     appBarTheme: const AppBarTheme(
       elevation: 3,
       centerTitle: true,
-      color: bg100,
+      color: bg200,
       titleTextStyle: AppTextStyles.headingTextStyle,
       iconTheme: IconThemeData(
         color: primary100,

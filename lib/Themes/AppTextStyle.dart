@@ -7,14 +7,16 @@ class AppTextStyles {
   // Heading text style
   static const TextStyle headingTextStyle = TextStyle(
     fontFamily: fontPoppinsBold,
-    fontSize: fsXXLarge,
+    fontWeight: FontWeight.bold,
+    fontSize: fsXXXLarge,
     color: text100,
   );
 
   // Subheading text style
   static const TextStyle subheadingTextStyle = TextStyle(
     fontFamily: fontPoppinsMedium,
-    fontSize: fsLarge,
+    fontWeight: FontWeight.bold,
+    fontSize: fsXXLarge,
     color: text100,
   );
 
@@ -22,6 +24,12 @@ class AppTextStyles {
   static const TextStyle bodyTextStyle = TextStyle(
     fontFamily: fontPoppins,
     fontSize: fsNormal,
+    color: primary200,
+  );
+  // medium BodyText
+  static const TextStyle mediumBodyTextStyle = TextStyle(
+    fontFamily: fontPoppins,
+    fontSize: fsMedium,
     color: text200,
   );
 
