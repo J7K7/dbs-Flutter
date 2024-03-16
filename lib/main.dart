@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           // themeMode: ThemeMode.dark,
-          home: ViewAllProducts(),
+          home: SplashScreen(),
           // home: LoginScreen(),
         );
       },

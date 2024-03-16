@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:dbs_frontend/Themes/AppStrings.dart';
+import 'package:dbs_frontend/Widgets/Dialogs/CustomDialog.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getClass;
-import 'package:ums_demo/Models/LoginModel.dart';
-import 'package:ums_demo/Pages/LoginScreen/Screen.dart';
-import 'package:ums_demo/Utilities/SharedPreferences.dart';
-import 'package:ums_demo/Themes/AppStrings.dart';
-import 'package:ums_demo/Widgets/Dialogs/CustomDialog.dart';
 
 class ApiStrategy {
   static final ApiStrategy _instance = ApiStrategy._internal();
@@ -33,6 +30,8 @@ class ApiStrategy {
       options.connectTimeout = const Duration(milliseconds: connectTimeOut);
       options.receiveTimeout = const Duration(milliseconds: receiveTimeOut);
       options.baseUrl = getBaseUrl();
+      options.headers['Access-Control-Allow-Origin'] = '*';
+      options.extra['withCredentials'] = true;
       options.validateStatus = (status) {
         return status! < 500;
       };
@@ -48,17 +47,19 @@ class ApiStrategy {
         request: false,
       ));
     }
+    print("Inside Iternal Streatgy");
   }
 
   Future<dynamic> tokenInterceptor(
       RequestOptions options, RequestInterceptorHandler handler) async {
     try {
-      if (SharedPrefs.isContains(LOGINDATA)) {
-        LoginModel loginModel =
-            LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA));
-        options.headers
-            .addAll({"Authorization": "Bearer ${loginModel.accessToken}"});
-      }
+      // if (SharedPrefs.isContains(LOGINDATA)) {
+      //   LoginModel loginModel =
+      //       LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA));
+      //   options.headers
+      //       .addAll({"Authorization": "Bearer ${loginModel.accessToken}"});
+      // }
+      print("Inside the token InsterSeptor");
       options.headers
           .addAll({"Content-Type": "application/x-www-form-urlencoded"});
     } catch (e) {
@@ -91,6 +92,9 @@ class ApiStrategy {
     Function? errorCallBack,
     CancelToken? token,
   }) async {
+    print("Me Is apistrategy ke 91 line pe hu");
+    print(url);
+    // print(callBack);
     _request(
       url,
       callBack,
@@ -99,6 +103,7 @@ class ApiStrategy {
       errorCallBack: errorCallBack,
       token: token,
     );
+    print("after CallBack");
   }
 
   //Post Method Call
@@ -183,30 +188,33 @@ class ApiStrategy {
         }
         return;
       }
-
+      print("Inside _request After connectivity line 186");
       /*
       Create Header section of the API to send
       Content-type, Authorization, Cookies, etc
        */
 
-      if (SharedPrefs.isContains(LOGINDATA)) {
+      /* if (SharedPrefs.isContains(LOGINDATA)) {
         LoginModel loginModel =
             LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA));
         _client!.options.headers = {
           "Authorization": "bearer ${loginModel.accessToken}"
         };
-      }
+      } */
 
       if (addHeader) {
         _client!.options.headers = {
           "Content-Type": "application/x-www-form-urlencoded"
         };
       }
+      print("Inside _request After addheader line 205");
 
       //_client!.options.headers.forEach((k, v) => debugPrint('*** Header ***: $k: $v'));
 
       Response response;
-      if (method == GET) {
+      if (method == 'get') {
+        print("inside response get");
+        print(getBaseUrl() + url);
         if (params != null && params.isNotEmpty) {
           response = await _client!.get(
             getBaseUrl() + url,
@@ -232,12 +240,16 @@ class ApiStrategy {
             cancelToken: token,
           );
           print("response");
-          print(response);
+          // print(response);
         } else {
+          print("response before else");
+          // print(response);
           response = await _client!.post(
             getBaseUrl() + url,
             cancelToken: token,
           );
+          print("response");
+          print(response);
         }
       } else if (method == DELETE) {
         if (params != null && params.isNotEmpty) {
@@ -300,21 +312,25 @@ class ApiStrategy {
       }
 
       debugPrint('Status Code --> ${response.statusCode}');
-
+      // debugPrint(response);
       switch (response.statusCode) {
         case 200:
         case 201:
           callBack(response.data);
           break;
         case 401:
-          SharedPrefs.clearLoginData();
-          getClass.Get.offAll(() => const LoginScreen());
+          // SharedPrefs.clearLoginData();
+          // getClass.Get.offAll(() => const LoginScreen());
           _handError(errorCallBack, apiUnAuthorizeAccessMsg);
           break;
         case 400:
+        case 403:
+          // _handError(errorCallBack);
+          print("Inside 403: You need to login again");
+          break;
         case 409:
           debugPrint("Response it is in :");
-          print(response);
+          print(response.data);
           _handError(errorCallBack, apiUnAuthorizeAccessMsg);
           break;
         case 404:
@@ -325,6 +341,9 @@ class ApiStrategy {
           break;
       }
     } catch (e) {
+      print("inside Catch");
+      print(getBaseUrl() + url);
+      print(method);
       if (e is DioException) {
         DioException error = e;
 
@@ -336,8 +355,8 @@ class ApiStrategy {
         } else {
           switch (error.response!.statusCode) {
             case 401:
-              SharedPrefs.clearLoginData();
-              getClass.Get.offAll(() => const LoginScreen());
+              // SharedPrefs.clearLoginData();
+              // getClass.Get.offAll(() => const LoginScreen());
               _handError(errorCallBack, apiUnAuthorizeAccessMsg);
               break;
             case 400:
@@ -353,12 +372,14 @@ class ApiStrategy {
             case 500:
             case 503:
             default:
-              print("Error bhai ");
+              // print("Error bhai ");
               _handError(errorCallBack, apiServerErrorMsg);
               break;
           }
         }
       } else {
+        print("Here inside else without");
+        print(e);
         _handError(errorCallBack, "");
       }
     }

@@ -1,5 +1,9 @@
+import 'package:dbs_frontend/Themes/AppStrings.dart';
+import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/models/feature_model.dart';
 import 'package:dbs_frontend/models/image_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 
 class ProductModel {
   int? productId;
@@ -64,4 +68,11 @@ class ProductModel {
     data['slots'] = slots;
     return data;
   }
+
+  get imageWideget => images != null && images!.isNotEmpty
+      ? CachedNetworkImage(
+          imageUrl: PRODUCT_IMAGE_PATH + images![0]['imagePath']!,
+          errorWidget: (context, url, error) => errorIconWidget(size: 50),
+          fit: BoxFit.fill)
+      : errorImageWidget();
 }

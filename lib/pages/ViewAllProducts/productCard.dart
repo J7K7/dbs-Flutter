@@ -1,11 +1,13 @@
-import 'package:dbs_frontend/Themes/AppStrings.dart';
+// import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
-// import 'package:dbs_frontend/pages/ViewAllProducts/productCard.dart';
+// import 'package:cached_network_image/cached_network_image.dart';
+
 // import 'package:flutter/material.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
+import 'package:get/get.dart';
 // import 'package:dbs_frontend/models/feature_model.dart';
 // import 'package:dbs_frontend/models/image_model.dart';
 // import ''
@@ -22,12 +24,16 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Card(
       color: bg200,
       shadowColor: accent200,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.1),
       child: Container(
-        padding: const EdgeInsets.all(12.0),
+        padding: EdgeInsets.symmetric(
+            vertical: screenWidth * 0.025, horizontal: screenHeight * 0.010),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
         ),
@@ -37,29 +43,11 @@ class ProductCard extends StatelessWidget {
           children: [
             SizedBox(
               width: double.infinity,
-              height: 200,
+              height: screenHeight * 0.30,
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: product.images != null && product.images!.isNotEmpty
-                      ? Image.network(
-                          product.images![0]['imagePath'],
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, error, stackTrace) {
-                            // Return your custom error image widget here
-                            return Container(
-                              color: accent200, // Example background color
-                              child: const Icon(
-                                Icons.error,
-                                color: primary100, // Example error icon color
-                                size: 50, // Example error icon size
-                              ),
-                            );
-                          },
-                        )
-                      : Image.network(
-                          defaultErrorImageUrl,
-                          fit: BoxFit.fill,
-                        ) // You can set a default image here
+                  child:
+                      product.imageWideget // You can set a default image here
                   ),
             ),
             vSpace(16),

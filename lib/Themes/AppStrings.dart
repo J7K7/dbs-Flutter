@@ -16,7 +16,22 @@ const fsXXLarge = 24.0;
 const fsXXXLarge = 32.0;
 
 /*API Related Constant */
-const BASEURL = "http://10.20.0.110:3000/";
+const BASEURL = "http://10.20.0.111:3000/";
 const LIVEURL = "";
-const IMAGE_PATH = "http://10.20.0.110:3000/images/";
+const PRODUCT_IMAGE_PATH = "http://10.20.0.111:3000/images/";
 const defaultErrorImageUrl = "assets/images/noImage.jpg";
+const API_PRODUCT = "product/";
+const API_GETPRODUCTLIST = API_PRODUCT + "getAllProductDetails/";
+
+/* Error Message Strings */
+const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";
+const String noInternetErrorMsg =
+    "No internet connection. Please check your internet connection and try again.";
+//Status code 400, 403, 404, 500, 503
+const String apiServerErrorMsg = "Unable to connect. Please try again later.";
+//Status code 401
+const String apiUnAuthorizeAccessMsg = "Security Token expired. Retry login";
+const String connectionTimeOutMsg = "Connection timed out.";
+
+//Messages
+const String recordNotFound = 'Record not found.';

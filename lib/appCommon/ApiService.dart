@@ -26,9 +26,13 @@ class ApiService {
     CancelToken? token,
     int? startPage,
   }) {
+    print("Inside the api Sertvice get");
+    print(url);
     ApiStrategy.getInstance().get(
       url,
       (data) {
+        // print("Data bhai at 34:");
+        // print
         if (data["Status"] == false) {
           failed!(data);
         } else {

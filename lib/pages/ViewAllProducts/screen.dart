@@ -1,4 +1,4 @@
-import 'package:dbs_frontend/Themes/AppColors.dart';
+// import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/controller.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/productCard.dart';
@@ -21,34 +21,18 @@ class ViewAllProducts extends StatelessWidget {
     // String name;
     // double screenHeight = MediaQuery.of(context).size.height;
     // double screenWidth = MediaQuery.of(context).size.width;
-    final List<Map<String, dynamic>> productFeatures = [
-      {
-        'featureName': 'Free WiFi',
-        'iconData': Icons.wifi,
-      },
-      {
-        'featureName': 'Swimming Pool',
-        'iconData': Icons.pool,
-      },
-      {
-        'featureName': 'Gym Access',
-        'iconData': Icons.fitness_center,
-      },
-      {
-        'featureName': 'Complimentary Breakfast',
-        'iconData': Icons.free_breakfast,
-      },
-      {
-        'featureName': 'Room Service',
-      },
-    ];
-
+    _controller.callAPIGetProducts();
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        leading: const Icon(
-          Icons.arrow_back_ios,
-        ),
+        leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+            ),
+            onPressed: () {
+              print("Back Button Is pressed");
+              Get.back();
+            }),
         actions: [
           IconButton(
             icon: const Icon(
@@ -60,7 +44,7 @@ class ViewAllProducts extends StatelessWidget {
       ),
       body: Obx(
         () => _controller.isLoading.value
-            ? spinKitWidgetWave()
+            ? spinKitWidgetWaveSpinner()
             : Column(
                 children: [
                   vSpace(10),
@@ -89,9 +73,10 @@ class ViewAllProducts extends StatelessWidget {
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
                           separatorBuilder: (c, i) => vSpace(),
-                          itemCount: controller.products.length,
+                          itemCount: controller.listOfProducts.length,
                           itemBuilder: (context, index) {
-                            var item = controller.products[index];
+                            var item = controller.listOfProducts[index];
+                            // print(item.images![0]['imagePath']);
                             return ProductCard(
                               product: item,
                               onPress: () {},

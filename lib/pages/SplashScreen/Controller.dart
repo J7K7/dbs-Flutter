@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
 import 'package:get/get.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,7 @@ class SplashController extends GetxController {
     // await SharedPrefs.init(); // Ensure _prefsInstance is initialized
 
     Future.delayed(const Duration(seconds: 5), () {
-      Get.offAll(() => ViewAllProducts());
+      Get.to(() => HomeScreen());
     });
   }
 }

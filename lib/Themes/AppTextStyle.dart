@@ -40,6 +40,12 @@ class AppTextStyles {
     color: text300,
   );
 
+  static const TextStyle snackBarTextStyle = TextStyle(
+    fontFamily: fontPoppins,
+    fontSize: fsLarge,
+    color: text300,
+  );
+
   // Caption text style
   static const TextStyle captionTextStyle = TextStyle(
     fontFamily: fontPoppinsLight,
