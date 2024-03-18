@@ -69,10 +69,20 @@ class ProductModel {
     return data;
   }
 
+  // get imageWideget => images != null && images!.isNotEmpty
+  //     ? CachedNetworkImage(
+  //         imageUrl: PRODUCT_IMAGE_PATH + images![0]['imagePath']!,
+  //         errorWidget: (context, url, error) => errorIconWidget(size: 50),
+  //         fit: BoxFit.fill)
+  //     : errorImageWidget();
+
   get imageWideget => images != null && images!.isNotEmpty
       ? CachedNetworkImage(
           imageUrl: PRODUCT_IMAGE_PATH + images![0]['imagePath']!,
           errorWidget: (context, url, error) => errorIconWidget(size: 50),
+          placeholder: (context, url) =>
+              CircularProgressIndicator(), // Optional placeholder
+          // Shows entire image content, might have padding
           fit: BoxFit.fill)
       : errorImageWidget();
 }
