@@ -6,7 +6,6 @@ import '../../AppCommon/ApiService.dart';
 // import 'package:ums_demo/AppCommon/CommonFunctions.dart';
 import '../../Themes/AppStrings.dart';
 // import 'package:dio/dio.dart' as dio;
-import '../ViewAllProducts/screen.dart';
 import '../../Themes/UiUtils.dart';
 
 class RegisterController extends GetxController {
