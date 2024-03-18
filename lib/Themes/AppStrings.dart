@@ -1,3 +1,5 @@
+const APP_NAME = "Dynamic Booking System";
+
 /*fonts*/
 const fontPoppins = 'Poppins';
 const fontPoppinsLight = 'Poppins-Light';
@@ -18,6 +20,18 @@ const fsXXXLarge = 32.0;
 /*API Related Constant */
 const BASEURL = "http://10.20.0.111:3000/";
 const LIVEURL = "";
+
+/*SharedPreferences Variables*/
+const ISAUTOLOGIN = "ISAUTOLOGIN";
+const LOGINDATA = "LOGINDATA";
+
+/* USER API */
+const API_USER = "user/";
+const API_REGISTER = "user/register";
+const API_LOGIN = 'login';
+
+/* product API's */
+
 const PRODUCT_IMAGE_PATH = "http://10.20.0.111:3000/images/";
 const defaultErrorImageUrl = "assets/images/noImage.jpg";
 const API_PRODUCT = "product/";

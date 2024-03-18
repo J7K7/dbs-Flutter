@@ -1,6 +1,6 @@
 import 'package:dbs_frontend/Themes/AppTheme.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';
-import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
+// import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,10 +8,6 @@ import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
-
-// sbvhjsd
-
-// xhangwes for master it is
 }
 
 class MyApp extends StatelessWidget {

@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/Widgets/Dialogs/CustomDialog.dart';
+import 'package:dbs_frontend/models/LoginModel.dart';
+import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getClass;
@@ -33,18 +36,27 @@ class ApiStrategy {
       options.headers['Access-Control-Allow-Origin'] = '*';
       options.extra['withCredentials'] = true;
       options.validateStatus = (status) {
-        return status! < 500;
+        return status! <= 500;
       };
       _client = Dio(options);
 
       _client!.interceptors.add(InterceptorsWrapper(
           onRequest: (options, handler) => tokenInterceptor(options, handler)));
 
+      // _client!.interceptors.add(LogInterceptor(
+      //   responseBody: true,
+      //   requestHeader: false,
+      //   responseHeader: false,
+      //   request: false,
+      // ));
       _client!.interceptors.add(LogInterceptor(
+        requestHeader: true,
         responseBody: true,
-        requestHeader: false,
-        responseHeader: false,
-        request: false,
+        requestBody: true,
+        // requestHeader: true,
+        responseHeader: true,
+        // request: false,
+        request: true,
       ));
     }
     print("Inside Iternal Streatgy");
@@ -53,12 +65,12 @@ class ApiStrategy {
   Future<dynamic> tokenInterceptor(
       RequestOptions options, RequestInterceptorHandler handler) async {
     try {
-      // if (SharedPrefs.isContains(LOGINDATA)) {
-      //   LoginModel loginModel =
-      //       LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA));
-      //   options.headers
-      //       .addAll({"Authorization": "Bearer ${loginModel.accessToken}"});
-      // }
+      if (SharedPrefs.isContains(LOGINDATA)) {
+        LoginModel loginModel =
+            LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA));
+        options.headers
+            .addAll({"Authorization": "Bearer ${loginModel.accessToken}"});
+      }
       print("Inside the token InsterSeptor");
       options.headers
           .addAll({"Content-Type": "application/x-www-form-urlencoded"});
@@ -193,15 +205,17 @@ class ApiStrategy {
       Create Header section of the API to send
       Content-type, Authorization, Cookies, etc
        */
+      // SharedPrefs.clearLoginData();
 
-      /* if (SharedPrefs.isContains(LOGINDATA)) {
+      if (SharedPrefs.isContains(LOGINDATA)) {
+        print("Me idhar Hu");
         LoginModel loginModel =
             LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA));
+        print(loginModel.accessToken);
         _client!.options.headers = {
           "Authorization": "bearer ${loginModel.accessToken}"
         };
-      } */
-
+      }
       if (addHeader) {
         _client!.options.headers = {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -212,7 +226,7 @@ class ApiStrategy {
       //_client!.options.headers.forEach((k, v) => debugPrint('*** Header ***: $k: $v'));
 
       Response response;
-      if (method == 'get') {
+      if (method == GET) {
         print("inside response get");
         print(getBaseUrl() + url);
         if (params != null && params.isNotEmpty) {
@@ -318,23 +332,34 @@ class ApiStrategy {
         case 201:
           callBack(response.data);
           break;
-        case 401:
-          // SharedPrefs.clearLoginData();
-          // getClass.Get.offAll(() => const LoginScreen());
-          _handError(errorCallBack, apiUnAuthorizeAccessMsg);
+        case 204:
+          callBack(response.data);
           break;
         case 400:
-        case 403:
-          // _handError(errorCallBack);
-          print("Inside 403: You need to login again");
+          callBack(response.data);
           break;
-        case 409:
-          debugPrint("Response it is in :");
-          print(response.data);
+        case 401:
+          SharedPrefs.clearLoginData();
+          getClass.Get.offAll(() => LoginScreen());
           _handError(errorCallBack, apiUnAuthorizeAccessMsg);
           break;
-        case 404:
+        case 403:
+          // _handError(errorCallBack);
+          SharedPrefs.clearLoginData();
+          getClass.Get.offAll(() => LoginScreen());
+          _handError(errorCallBack, apiUnAuthorizeAccessMsg);
+          break;
+        case 409:
+          callBack(response.data);
+          // print(response.data);
+          // _handError(errorCallBack, apiUnAuthorizeAccessMsg);
+          break;
+        case 422:
+          callBack(response.data);
+          break;
         case 500:
+          callBack(response.data);
+          break;
         case 503:
         default:
           _handError(errorCallBack, apiServerErrorMsg);
@@ -380,7 +405,7 @@ class ApiStrategy {
       } else {
         print("Here inside else without");
         print(e);
-        _handError(errorCallBack, "");
+        _handError(errorCallBack, apiServerErrorMsg);
       }
     }
   }

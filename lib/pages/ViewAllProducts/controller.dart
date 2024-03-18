@@ -201,7 +201,7 @@ class ProductListController extends GetxController {
   var isLoading = false.obs;
 
   var isActive = false.obs;
-  var cnt = 0.obs;
+  // var cnt = 0.obs;
   // var products = [].obs;
   // RxList<ProductModel> products = <ProductModel>[].obs;
   // var loginData = LoginModel().obs;
@@ -209,18 +209,18 @@ class ProductListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    print(cnt);
+    // print(cnt);
     // loginData(LoginModel.fromJson(SharedPrefs.getCustomObject(LOGINDATA)));
     // if (loginData.value.userType == 'user') {
     //   isActive(true);
     // }
-    cnt += 1;
+    // cnt += 1;
     callAPIGetProducts();
   }
 
   void callAPIGetProducts() {
     print("Api call");
-    print(cnt);
+    // print(cnt);
     isLoading(true);
     ApiService.get(
       API_GETPRODUCTLIST,

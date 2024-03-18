@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
+import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
 import 'package:get/get.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -26,10 +28,10 @@ class SplashController extends GetxController {
   }
 
   Future<void> initializePreferences() async {
-    // await SharedPrefs.init(); // Ensure _prefsInstance is initialized
+    await SharedPrefs.init(); // Ensure _prefsInstance is initialized
 
-    Future.delayed(const Duration(seconds: 5), () {
-      Get.to(() => HomeScreen());
+    Future.delayed(const Duration(seconds: 1), () {
+      Get.to(() => const LandingScreen());
     });
   }
 }

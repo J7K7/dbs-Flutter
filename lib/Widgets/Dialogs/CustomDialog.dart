@@ -1,8 +1,9 @@
-import 'package:dbs_frontend/Themes/AppColors.dart';
-import 'package:dbs_frontend/Themes/Buttons.dart';
-import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+// import 'package:ums_demo/AppCommon/CommonFunctions.dart';
+import '../../Themes/AppColors.dart';
+import '../../Themes/Buttons.dart';
+import '../../Themes/UiUtils.dart';
 
 class CustomDialog extends StatelessWidget {
   final String title;
@@ -27,7 +28,7 @@ class CustomDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      backgroundColor: bg200,
+      backgroundColor: bg100,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -42,7 +43,7 @@ class CustomDialog extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 4, bottom: 16),
               height: 1,
-              color: accent300,
+              color: bg200,
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 12),
@@ -58,8 +59,8 @@ class CustomDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 if (cancelPress != null)
-                  // outlinedButton(cancelText!, onPress: cancelPress),
-                  hSpace(),
+                  outlinedButton(cancelText!, onPress: cancelPress),
+                hSpace(),
                 mainButton(okText, radius: 8, onPress: okPress),
               ],
             ),

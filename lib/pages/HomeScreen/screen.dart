@@ -1,6 +1,9 @@
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/LandingPage/screen.dart';
+import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Controller.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +19,23 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Home Screen'), automaticallyImplyLeading: false),
+        title: const Text('Home Screen'),
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              size: 36,
+            ),
+            onPressed: () {
+              print("LOGOUT Button Is pressed");
+              SharedPrefs.clearLoginData();
+              Get.offAll(const LandingScreen());
+              // print();
+            },
+          )
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

@@ -69,15 +69,16 @@ void showGetXBar(String message) {
 
 InputDecoration textInputDecoration(String hint, {Widget? trailing}) =>
     InputDecoration(
-      hintText: hint,
-      labelText: hint,
-      suffixIcon: trailing,
-      border: OutlineInputBorder(
-        // Apply border here
-        borderRadius:
-            BorderRadius.circular(4.0), // Adjust border radius as needed
-      ),
-      focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          borderSide: BorderSide(color: primary200, width: 2.0)),
-    );
+        hintText: hint,
+        labelText: hint,
+        suffixIcon: trailing,
+        border: OutlineInputBorder(
+          // Apply border here
+          borderRadius:
+              BorderRadius.circular(4.0), // Adjust border radius as needed
+        ),
+        focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            borderSide: BorderSide(color: primary100, width: 2.0)),
+        // hoverColor: primary100,
+        labelStyle: TextStyle(color: primary100));

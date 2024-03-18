@@ -27,14 +27,23 @@ class ViewAllProducts extends StatelessWidget {
       appBar: AppBar(
         elevation: 1,
         leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-            ),
+            icon: const Icon(Icons.arrow_back_ios_sharp),
             onPressed: () {
               print("Back Button Is pressed");
               Get.back();
             }),
+        title: const Expanded(
+          child: Text('All Products', style: AppTextStyles.headingTextStyle),
+        ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.filter_list), // You can also use Icons.filter_alt
+            onPressed: () {
+              // Implement your filter logic here
+              // This onPressed callback will be triggered when the icon is pressed
+              print('Filter button pressed');
+            },
+          ),
           IconButton(
             icon: const Icon(
               Icons.shopping_cart,
@@ -52,70 +61,50 @@ class ViewAllProducts extends StatelessWidget {
             ? spinKitWidgetWaveSpinner()
             : ResponsiveBuilder(
                 builder: (context, sizingInformation) {
-                  return Column(
-                    children: [
-                      vSpace(10),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            const Expanded(
-                              child: Text('All Products',
-                                  style: AppTextStyles.headingTextStyle),
-                            ),
-                            IconButton(
-                                icon: const Icon(Icons.view_list_rounded),
-                                onPressed: () {}),
-                            IconButton(
-                                icon: const Icon(Icons.grid_view),
-                                onPressed: () {}),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: screenWidth <= 600
-                            ? GetBuilder<ProductListController>(
-                                builder: (controller) {
-                                  return ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    separatorBuilder: (c, i) => vSpace(),
-                                    itemCount: controller.listOfProducts.length,
-                                    itemBuilder: (context, index) {
-                                      var item =
-                                          controller.listOfProducts[index];
-                                      // print(item.images![0]['imagePath']);
-                                      return ProductCard(
-                                        product: item,
-                                        onPress: () {},
-                                      );
-                                    },
-                                  );
-                                },
-                              )
-                            : GridView.builder(
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: responsiveItemCount(context,
-                                      sizingInformation), // Dynamic count
-                                  mainAxisSpacing: 5,
-                                  childAspectRatio: getAspectRatio(
-                                      screenWidth, sizingInformation),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Expanded(
+                      child: screenWidth <= 600
+                          ? GetBuilder<ProductListController>(
+                              builder: (controller) {
+                                return ListView.separated(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  separatorBuilder: (c, i) => vSpace(),
+                                  itemCount: controller.listOfProducts.length,
+                                  itemBuilder: (context, index) {
+                                    var item = controller.listOfProducts[index];
+                                    // print(item.images![0]['imagePath']);
+                                    return ProductCard(
+                                      product: item,
+                                      onPress: () {},
+                                    );
+                                  },
+                                );
+                              },
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: responsiveItemCount(context,
+                                    sizingInformation), // Dynamic count
+                                mainAxisSpacing: 16,
+                                childAspectRatio: getAspectRatio(
+                                    screenWidth, sizingInformation),
 
-                                  crossAxisSpacing: 5,
-                                ),
-                                itemCount: _controller.listOfProducts.length,
-                                itemBuilder: (context, index) {
-                                  var item = _controller.listOfProducts[index];
-                                  return ProductCard(
-                                    product: item,
-                                    onPress: () {},
-                                  );
-                                },
+                                crossAxisSpacing: 4,
                               ),
-                      ),
-                    ],
+                              itemCount: _controller.listOfProducts.length,
+                              itemBuilder: (context, index) {
+                                var item = _controller.listOfProducts[index];
+                                return ProductCard(
+                                  product: item,
+                                  onPress: () {},
+                                );
+                              },
+                            ),
+                    ),
                   );
                 },
               ),
@@ -125,10 +114,10 @@ class ViewAllProducts extends StatelessWidget {
 }
 
 int responsiveItemCount(BuildContext context, SizingInformation info) {
-  // double screenWidth = MediaQuery.of(context).size.width;
-  if (info.deviceScreenType == DeviceScreenType.mobile) {
+  double screenWidth = MediaQuery.of(context).size.width;
+  if (screenWidth <= 600) {
     return 1; // Mobile: 1 column
-  } else if (info.deviceScreenType == DeviceScreenType.tablet) {
+  } else if (screenWidth > 600 && screenWidth <= 1300) {
     // Adjust breakpoint for medium screens
     return 2; // Medium: 2 columns
   } else {
@@ -136,25 +125,31 @@ int responsiveItemCount(BuildContext context, SizingInformation info) {
   }
 }
 
+// Decide by the hit and trail.
 double getAspectRatio(double screenWidth, SizingInformation info) {
   // double screenWidth = MediaQuery.of(context).size.width;
 
-  if (info.deviceScreenType == DeviceScreenType.tablet) {
-    if (screenWidth < 600) {
-      return 0.8;
-    } else if (screenWidth >= 600 && screenWidth <= 750) {
-      return 0.87;
+  if (info.deviceScreenType == DeviceScreenType.tablet ||
+      info.deviceScreenType == DeviceScreenType.mobile) {
+    // print("Here");
+    // print(info.deviceScreenType);
+    if (screenWidth < 650) {
+      return 0.84;
+    } else if (screenWidth >= 650 && screenWidth <= 750) {
+      return 0.86;
     } else if (screenWidth >= 750 && screenWidth < 900) {
       return 0.91;
     } else if (screenWidth > 900 && screenWidth < 1000) {
       return 1;
     } else if (screenWidth >= 1000 && screenWidth <= 1200) {
       return 1.05;
-    } else {
+    } else if (screenWidth <= 1300) {
       return 1.1;
+    } else {
+      return 0.85;
     }
   } else if (info.deviceScreenType == DeviceScreenType.desktop) {
     return 0.85;
   }
-  return 0.6;
+  return 0.84;
 }
