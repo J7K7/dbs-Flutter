@@ -80,8 +80,9 @@ class ProductModel {
       ? CachedNetworkImage(
           imageUrl: PRODUCT_IMAGE_PATH + images![0]['imagePath']!,
           errorWidget: (context, url, error) => errorIconWidget(size: 50),
-          placeholder: (context, url) =>
-              CircularProgressIndicator(), // Optional placeholder
+          placeholder: (context, url) => CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.red)), // Optional placeholder
           // Shows entire image content, might have padding
           fit: BoxFit.fill)
       : errorImageWidget();

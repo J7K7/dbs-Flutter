@@ -124,7 +124,9 @@ class ProductListController extends GetxController {
       "advanceBookingDuration": 7,
       "active_fromDate": "2024-02-28T18:30:00.000Z",
       "active_toDate": "2024-03-25T18:30:00.000Z",
-      "images": [],
+      "images": [
+        {"imageId": 1, "imagePath": "productImages-1709283914240-130614072.png"}
+      ],
       "features": [
         {
           "featureId": 5,
@@ -164,13 +166,15 @@ class ProductListController extends GetxController {
     },
     {
       "productId": 5,
-      "productName": "Economy Room for Khalasi",
+      "productName": "Economy Room ",
       "productDescription":
           "Affordable and comfortable rooms for budget travelers.",
       "advanceBookingDuration": 3,
       "active_fromDate": "2024-03-10T18:30:00.000Z",
       "active_toDate": "2024-03-31T18:30:00.000Z",
-      "images": [],
+      "images": [
+        {"imageId": 2, "imagePath": "productImages-1709284815726-587222272.png"}
+      ],
       "features": [
         {
           "featureName": "Basic Amenities",
@@ -239,18 +243,18 @@ class ProductListController extends GetxController {
         isLoading(false);
         print('API request failed: $data');
         showGetXBar(data["msg"]);
-        Get.to(HomeScreen());
+        // Get.to(HomeScreen());
       },
       error: (msg) {
         print(msg);
         print("error ");
         isLoading(false);
         showGetXBar(msg);
-        Get.to(HomeScreen());
+        // Get.to(HomeScreen());
       },
     );
-    // listOfProducts
-    //     .addAll(dummyProducts.map((data) => ProductModel.fromJson(data)));
+    listOfProducts
+        .addAll(dummyProducts.map((data) => ProductModel.fromJson(data)));
     // isLoading(false);
   }
 

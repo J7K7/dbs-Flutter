@@ -20,6 +20,14 @@ class AppTextStyles {
     color: text100,
   );
 
+  //medium heading Text
+  static const TextStyle mediumHeadingTextStyle = TextStyle(
+    fontFamily: fontPoppinsMedium,
+    fontWeight: FontWeight.bold,
+    fontSize: fsLarge,
+    color: text100,
+  );
+
   // Body text style
   static const TextStyle bodyTextStyle = TextStyle(
     fontFamily: fontPoppins,

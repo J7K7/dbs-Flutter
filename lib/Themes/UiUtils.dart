@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:flutter/material.dart';
@@ -39,15 +40,29 @@ SizedBox hSpace([double space = 8]) => SizedBox(width: space);
 Widget errorIconWidget({double size = 50}) {
   return Container(
     color: accent200, // Example background color
-    child: Icon(
-      Icons.error,
-      color: primary100, // Example error icon color
-      size: size, // Example error icon size
+    child: FittedBox(
+      fit: BoxFit.fill,
+      child: Icon(
+        Icons.error,
+        color: primary100, // Example error icon color
+        size: size,
+      ),
     ),
   );
 }
 
 Image errorImageWidget() => Image.asset(defaultErrorImageUrl, fit: BoxFit.fill);
+
+Widget getImageWidget(String imagePath) {
+  return CachedNetworkImage(
+    imageUrl: PRODUCT_IMAGE_PATH + imagePath,
+    errorWidget: (context, url, error) => errorIconWidget(size: 50),
+    placeholder: (context, url) => const CircularProgressIndicator(
+      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
+    ),
+    fit: BoxFit.fill, //fit:BoxFit.fill
+  );
+}
 
 // // Input Text Styles //
 // InputDecoration textInputDecoration(String hint, {Widget? trailing}) =>

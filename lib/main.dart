@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 // import 'package:ums_d/emo/Themes/AppTheme.dart';
-// Git Bhai No chnge
-
 void main() {
   runApp(const MyApp());
 }

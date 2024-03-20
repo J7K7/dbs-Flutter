@@ -75,58 +75,62 @@ class ProductCard extends StatelessWidget {
       color: bg200,
       shadowColor: accent200,
       margin: const EdgeInsets.symmetric(horizontal: 16),
-      child: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: screenWidth * 0.025, horizontal: screenHeight * 0.010),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: double.infinity,
-              // height: screenHeight * 0.30,
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child:
-                      product.imageWideget, // You can set a default image here
+      child: InkWell(
+        onTap: onPress,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+              vertical: screenWidth * 0.025, horizontal: screenHeight * 0.015),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: double.infinity,
+                // height: screenHeight * 0.30,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: product.images != null && product.images!.isNotEmpty
+                        ? getImageWidget(product.images![0]['imagePath']!)
+                        : errorImageWidget(), // You can set a default image here
+                  ),
                 ),
               ),
-            ),
-            vSpace(16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  product.productName ?? '',
-                  style: AppTextStyles.subheadingTextStyle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                vSpace(5),
-                Text(
-                  product.productDescription != null
-                      ? product.productDescription!
-                      : 'Description not available',
-                  style: AppTextStyles.bodyTextStyle,
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                vSpace(16),
-                screenWidth <= 600
-                    ? featuresWidget
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: featuresWidget,
-                      ),
-              ],
-            ),
-          ],
+              vSpace(16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    product.productName ?? '',
+                    style: AppTextStyles.subheadingTextStyle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  vSpace(5),
+                  Text(
+                    product.productDescription != null
+                        ? product.productDescription!
+                        : 'Description not available',
+                    style: AppTextStyles.bodyTextStyle,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  vSpace(16),
+                  screenWidth <= 600
+                      ? featuresWidget
+                      : SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: featuresWidget,
+                        ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

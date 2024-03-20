@@ -1,5 +1,6 @@
 // import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
+import 'package:dbs_frontend/pages/ProductDetails/screen.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/controller.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/productCard.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,11 @@ class ViewAllProducts extends StatelessWidget {
                                     // print(item.images![0]['imagePath']);
                                     return ProductCard(
                                       product: item,
-                                      onPress: () {},
+                                      onPress: () {
+                                        Get.to(ProductDetailsScreen(
+                                            product: item));
+                                        Transition.circularReveal;
+                                      },
                                     );
                                   },
                                 );
@@ -93,14 +98,17 @@ class ViewAllProducts extends StatelessWidget {
                                 childAspectRatio: getAspectRatio(
                                     screenWidth, sizingInformation),
 
-                                crossAxisSpacing: 4,
+                                crossAxisSpacing: screenWidth * 0.001,
                               ),
                               itemCount: _controller.listOfProducts.length,
                               itemBuilder: (context, index) {
                                 var item = _controller.listOfProducts[index];
                                 return ProductCard(
                                   product: item,
-                                  onPress: () {},
+                                  onPress: () {
+                                    Get.to(ProductDetailsScreen(product: item));
+                                    Transition.fade;
+                                  },
                                 );
                               },
                             ),
@@ -117,6 +125,8 @@ int responsiveItemCount(BuildContext context, SizingInformation info) {
   double screenWidth = MediaQuery.of(context).size.width;
   if (screenWidth <= 600) {
     return 1; // Mobile: 1 column
+  } else if (info.deviceScreenType == DeviceScreenType.desktop) {
+    return 3;
   } else if (screenWidth > 600 && screenWidth <= 1300) {
     // Adjust breakpoint for medium screens
     return 2; // Medium: 2 columns
@@ -149,7 +159,7 @@ double getAspectRatio(double screenWidth, SizingInformation info) {
       return 0.85;
     }
   } else if (info.deviceScreenType == DeviceScreenType.desktop) {
-    return 0.85;
+    return 0.95;
   }
   return 0.84;
 }
