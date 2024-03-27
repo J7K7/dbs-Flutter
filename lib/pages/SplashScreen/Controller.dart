@@ -4,6 +4,7 @@ import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
+import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
 import 'package:get/get.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -31,12 +32,14 @@ class SplashController extends GetxController {
 
   Future<void> initializePreferences() async {
     await SharedPrefs.init(); // Ensure _prefsInstance is initialized
+    String xyz = '2';
+    SharedPrefs.setString(CATEGORYID, xyz);
 
     Future.delayed(const Duration(seconds: 1), () {
       if (SharedPrefs.isContains(LOGINDATA)) {
-        Get.to(() => HomePage());
+        Get.to(() => HomeScreen());
       } else {
-        Get.to(() => HomePage());
+        Get.to(() => LandingScreen());
       }
     });
   }

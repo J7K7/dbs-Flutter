@@ -1,54 +1,117 @@
-import 'package:dbs_frontend/Themes/AppTextStyle.dart';
-import 'package:dbs_frontend/Themes/Buttons.dart';
-import 'package:dbs_frontend/Themes/UiUtils.dart';
-import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
-import 'package:dbs_frontend/pages/LandingPage/screen.dart';
-import 'package:dbs_frontend/pages/Login/screen.dart';
-import 'package:dbs_frontend/pages/SplashScreen/Controller.dart';
-import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
+import 'package:dbs_frontend/Themes/AppColors.dart';
+import 'package:dbs_frontend/Widgets/custom_animated_bottom_bar.dart';
+import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-// import 'package:ums_demo/pages/SplashScreen/Controller.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
-
-  // final _controller = Get.put(SplashController());
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Screen'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.logout,
-              size: 36,
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    var containerHeight = screenHeight * 0.9;
+
+    // Instantiate and bind controllers
+    final homeScreenController = Get.put(HomeScreenController());
+
+    return GetBuilder<HomeScreenController>(
+      builder: (controller) {
+        return Scaffold(
+          body: SafeArea(
+            child: IndexedStack(
+              index: controller.tabIndex,
+              children: [
+                HomePage(),
+                CartPage(), // Corrected to CartPage
+                OrdersPage(),
+                ProfilePage(),
+              ],
             ),
-            onPressed: () {
-              print("LOGOUT Button Is pressed");
-              SharedPrefs.clearLoginData();
-              Get.offAll(const LandingScreen());
-              // print();
-            },
-          )
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text(
-            'DBS Home Page',
-            style: AppTextStyles.subheadingTextStyle,
           ),
-          mainButton("View All Products", onPress: () {
-            Get.to(ViewAllProducts());
-          }),
-        ],
-      ),
+          bottomNavigationBar: CustomAnimatedBottomBar(
+            containerHeight: screenHeight * 0.09,
+            backgroundColor: bg100,
+            selectedIndex: controller.tabIndex,
+            showElevation: true,
+            itemCornerRadius: 8,
+            curve: Curves.decelerate,
+            onItemSelected: controller.changeTabIndex,
+            items: <BottomNavyBarItem>[
+              BottomNavyBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/home.svg',
+                  height: containerHeight * 0.045,
+                ),
+                activeColor: primary100,
+                // inactiveColor: _inactiveColor,
+              ),
+              BottomNavyBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/shopping-cart-(1).svg',
+                  height: containerHeight * 0.045,
+                ),
+                activeColor: primary100,
+                // inactiveColor: _inactiveColor,
+              ),
+              BottomNavyBarItem(
+                icon: Image.asset(
+                  'assets/icons/shopping-list.png',
+                  height: containerHeight * 0.045,
+                ),
+                activeColor: primary100,
+                // inactiveColor: _inactiveColor,
+              ),
+              BottomNavyBarItem(
+                icon: SvgPicture.asset(
+                  'assets/icons/user.svg',
+                  height: containerHeight * 0.045,
+                ),
+                activeColor: primary100,
+                // inactiveColor: _inactiveColor,
+              ),
+            ],
+          ),
+        );
+      },
     );
+  }
+}
+
+class HomeScreenController extends GetxController {
+  var tabIndex = 0;
+
+  void changeTabIndex(int index) {
+    tabIndex = index;
+    update();
+  }
+}
+
+class HomePageController extends GetxController {}
+
+class CartPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Cart Page'),
+    ); // Empty container for now
+  }
+}
+
+class OrdersPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Orders Page'),
+    ); // Empty container for now
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Profile Page'),
+    ); // Empty container for now
   }
 }

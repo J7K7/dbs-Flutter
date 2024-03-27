@@ -24,6 +24,7 @@ const LIVEURL = "";
 /*SharedPreferences Variables*/
 const ISAUTOLOGIN = "ISAUTOLOGIN";
 const LOGINDATA = "LOGINDATA";
+var CATEGORYID = "CATEGORYID";
 
 /* USER API */
 const API_USER = "user/";
