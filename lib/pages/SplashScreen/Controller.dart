@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
@@ -33,9 +34,9 @@ class SplashController extends GetxController {
 
     Future.delayed(const Duration(seconds: 1), () {
       if (SharedPrefs.isContains(LOGINDATA)) {
-        Get.to(() => HomeScreen());
+        Get.to(() => HomePage());
       } else {
-        Get.to(() => HomeScreen());
+        Get.to(() => HomePage());
       }
     });
   }

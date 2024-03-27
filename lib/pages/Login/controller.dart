@@ -2,6 +2,7 @@ import 'package:dbs_frontend/AppCommon/ApiService.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,7 +66,7 @@ class LoginController extends GetxController {
         txtPassword.clear();
         isLoading(false);
         // Get.offAll(() => NavigationDrawerShow());
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => HomePage());
         return;
       },
       failed: (data) {

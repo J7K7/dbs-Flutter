@@ -175,30 +175,7 @@ class ProductListController extends GetxController {
       "images": [
         {"imageId": 2, "imagePath": "productImages-1709284815726-587222272.png"}
       ],
-      "features": [
-        {
-          "featureName": "Basic Amenities",
-          "iconData": Icons.check,
-          "featureDescription":
-              "Includes essential amenities for a comfortable stay."
-        },
-        {
-          "featureName": "City View",
-          "iconData": Icons.location_city,
-          "featureDescription": "Enjoy stunning views of the city skyline."
-        },
-        {
-          "featureName": "24/7 Reception",
-          "iconData": Icons.access_time,
-          "featureDescription":
-              "Reception desk available round-the-clock for assistance."
-        },
-        {
-          "featureName": "Private Bathroom",
-          "iconData": Icons.bathtub,
-          "featureDescription": "Each room comes with a private bathroom."
-        }
-      ],
+      "features": [],
       "slots": []
     },
   ];

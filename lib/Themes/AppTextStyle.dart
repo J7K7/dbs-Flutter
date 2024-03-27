@@ -32,7 +32,7 @@ class AppTextStyles {
   static const TextStyle bodyTextStyle = TextStyle(
     fontFamily: fontPoppins,
     fontSize: fsNormal,
-    color: primary200,
+    color: text200,
   );
   // medium BodyText
   static const TextStyle mediumBodyTextStyle = TextStyle(

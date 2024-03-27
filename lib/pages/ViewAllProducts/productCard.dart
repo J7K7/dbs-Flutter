@@ -105,12 +105,38 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    product.productName ?? '',
-                    style: AppTextStyles.subheadingTextStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 6, // 70% of the available space
+                        child: Text(
+                          product.productName ?? '',
+                          style: AppTextStyles.subheadingTextStyle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      hSpace(screenHeight *
+                          0.01), // Add space between product name and price
+                      Expanded(
+                        flex: 3, // 30% of the available space
+                        child: Text(
+                          product.productId != null
+                              ? '₹${product.productId}'
+                              : '',
+                          textAlign: TextAlign.end,
+                          maxLines: 1,
+                          style: AppTextStyles.subheadingTextStyle,
+                        ),
+                      ),
+                    ],
                   ),
+                  // Text(
+                  //   product.productName ?? '',
+                  //   style: AppTextStyles.subheadingTextStyle,
+                  //   maxLines: 1,
+                  //   overflow: TextOverflow.ellipsis,
+                  // ),
                   vSpace(5),
                   Text(
                     product.productDescription != null

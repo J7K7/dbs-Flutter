@@ -44,27 +44,32 @@ class ProductDetailsScreen extends StatelessWidget {
                   builder: (BuildContext context) {
                     return Dialog(
                       child: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: CarouselSlider(
-                          items: product.images != null &&
-                                  product.images!.isNotEmpty
-                              ? product.images!.map((image) {
-                                  return ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child:
-                                          getImageWidget(image['imagePath']));
-                                }).toList()
-                              : [
-                                  ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: errorImageWidget()),
-                                ],
-                          options: CarouselOptions(
-                            autoPlay: false, // Stop auto-play in full view
-                            aspectRatio: 1.0, // Maintain aspect ratio
-                            enlargeCenterPage: false, // Disable enlargement
-                            viewportFraction: 1.0, // Full viewport
+                        width: orientation == Orientation.portrait
+                            ? double.infinity
+                            : screenWidth * 0.7,
+                        height: screenHeight * 0.6,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: CarouselSlider(
+                            items: product.images != null &&
+                                    product.images!.isNotEmpty
+                                ? product.images!.map((image) {
+                                    return ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child:
+                                            getImageWidget(image['imagePath']));
+                                  }).toList()
+                                : [
+                                    ClipRRect(
+                                        borderRadius: BorderRadius.circular(12),
+                                        child: errorImageWidget()),
+                                  ],
+                            options: CarouselOptions(
+                              autoPlay: false, // Stop auto-play in full view
+                              aspectRatio: aspectRatio, // Maintain aspect ratio
+                              enlargeCenterPage: false, // Disable enlargement
+                              viewportFraction: 1.0, // Full viewport
+                            ),
                           ),
                         ),
                       ),
@@ -96,7 +101,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            vSpace(16),
+            SizedBox(height: screenHeight * 0.02),
             // Product Name
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

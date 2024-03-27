@@ -55,13 +55,12 @@ Image errorImageWidget() => Image.asset(defaultErrorImageUrl, fit: BoxFit.fill);
 
 Widget getImageWidget(String imagePath) {
   return CachedNetworkImage(
-    imageUrl: PRODUCT_IMAGE_PATH + imagePath,
-    errorWidget: (context, url, error) => errorIconWidget(size: 50),
-    placeholder: (context, url) => const CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
-    ),
-    fit: BoxFit.fill, //fit:BoxFit.fill
-  );
+      imageUrl: PRODUCT_IMAGE_PATH + imagePath,
+      errorWidget: (context, url, error) => errorIconWidget(size: 50),
+      placeholder: (context, url) => const CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
+          ),
+      fit: BoxFit.fill);
 }
 
 // // Input Text Styles //
