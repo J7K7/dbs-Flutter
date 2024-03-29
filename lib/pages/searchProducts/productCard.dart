@@ -15,11 +15,13 @@ import 'package:dbs_frontend/Themes/UiUtils.dart';
 class ProductCard extends StatelessWidget {
   final ProductModel product;
   final Function() onPress;
+  var isFeatureDisplay;
 
-  const ProductCard({
+  ProductCard({
     Key? key,
     required this.product,
     required this.onPress,
+    this.isFeatureDisplay = true,
   }) : super(key: key);
 
   @override
@@ -39,9 +41,8 @@ class ProductCard extends StatelessWidget {
                   boxShadow: const [
                     BoxShadow(
                       color: accent200,
-                      spreadRadius: 1,
-                      blurRadius: 4,
-                      offset: Offset(0, 2),
+                      spreadRadius: 0.5,
+                      blurRadius: 1,
                     ),
                   ],
                   borderRadius: BorderRadius.circular(4),
@@ -72,16 +73,15 @@ class ProductCard extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Card(
-      color: bg200,
+      color: Colors.white,
       shadowColor: accent200,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
       child: InkWell(
         onTap: onPress,
         child: Container(
-          padding: EdgeInsets.symmetric(
-              vertical: screenHeight * 0.025, horizontal: screenWidth * 0.015),
+          padding: EdgeInsets.fromLTRB(6, 6, 6, 10),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,12 @@ class ProductCard extends StatelessWidget {
                 child: AspectRatio(
                   aspectRatio: 16 / 9,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                        bottomLeft: Radius.circular(5),
+                        bottomRight: Radius.circular(5)),
+
                     child: product.images != null && product.images!.isNotEmpty
                         ? getImageWidget(product.images![0]['imagePath']!)
                         : errorImageWidget(), // You can set a default image here
@@ -147,12 +152,14 @@ class ProductCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   vSpace(16),
-                  screenWidth <= 600
-                      ? featuresWidget
-                      : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: featuresWidget,
-                        ),
+                  isFeatureDisplay
+                      ? screenWidth <= 600
+                          ? featuresWidget
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: featuresWidget,
+                            )
+                      : vSpace(0),
                 ],
               ),
             ],

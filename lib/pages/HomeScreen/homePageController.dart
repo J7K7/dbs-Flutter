@@ -1,5 +1,6 @@
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/models/product_model.dart';
 import 'package:dbs_frontend/pages/searchProducts/controller.dart';
 import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 import 'package:flutter/material.dart';

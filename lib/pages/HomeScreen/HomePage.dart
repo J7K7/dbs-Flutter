@@ -4,6 +4,11 @@ import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/models/image_model.dart';
+import 'package:dbs_frontend/models/product_model.dart';
+import 'package:dbs_frontend/pages/ProductDetails/screen.dart';
+import 'package:dbs_frontend/pages/searchProducts/controller.dart';
+import 'package:dbs_frontend/pages/searchProducts/productCard.dart';
 import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
@@ -32,6 +37,8 @@ class HomePage extends StatelessWidget {
 
     // Controllers
     final homePageController = Get.put(HomePageController());
+    final _controller = Get.put(ProductListController());
+    // _controller.callAPISearchProducts();
 
     return Scaffold(
       body: Column(
@@ -45,16 +52,21 @@ class HomePage extends StatelessWidget {
                 // Black background with blur effect
                 Positioned(
                   width: screenWidth,
-                  height: screenHeight * 0.20,
+                  height: screenHeight * 0.22,
                   child: ClipRRect(
                     child: BackdropFilter(
                       filter: ui.ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                       child: Container(
                         width: screenWidth,
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
+                          // borderRadius: BorderRadius.only(
+                          //   bottomLeft: Radius.circular(25),
+                          //   bottomRight: Radius.circular(25),
+                          // ),
+                          image: DecorationImage(
+                            // image: AssetImage('assets/images/download.jpg'),
+                            image: AssetImage('assets/images/download.jpg'),
+                            fit: BoxFit.cover,
                           ),
                           gradient: LinearGradient(
                             begin: Alignment.center,
@@ -114,7 +126,12 @@ class HomePage extends StatelessWidget {
                                     ),
                                     child: Row(
                                       children: [
-                                        Icon(Icons.search),
+                                        // IconButton(
+                                        //     onPressed: () => {},
+                                        //     icon: Icon(Icons.search)),
+                                        InkWell(
+                                            onTap: () => {},
+                                            child: Icon(Icons.search)),
                                         SizedBox(width: 8),
                                         // Expanded(
                                         //   // child: Obx(() => TextField(
@@ -145,6 +162,13 @@ class HomePage extends StatelessWidget {
                                         horizontal: 12),
                                     child: Row(
                                       children: [
+                                        // IconButton(
+                                        //     padding: EdgeInsets.all(0),
+                                        //     onPressed: () async => {
+                                        //           await homePageController
+                                        //               .selectDate(context)
+                                        //         },
+                                        // icon: Icon(Icons.calendar_month)),
                                         Icon(Icons.calendar_month),
                                         SizedBox(width: 8),
                                         Expanded(
@@ -276,13 +300,70 @@ class HomePage extends StatelessWidget {
                                 backgroundColor: Colors.white,
                                 onSelected: (isSelected) {
                                   // Handle chip selection
-
-                                  homePageController.viewAll();
+                                  Get.to(ProductListScreen());
                                 },
                               ),
                             ),
                           ),
                       ],
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'LATEST',
+                          style: AppTextStyles.subheadingTextStyle,
+                        ),
+                        GestureDetector(
+                          onTap: () => {homePageController.viewAll()},
+                          child: Text(
+                            'VIEW ALL',
+                            style: AppTextStyles.bodyTextStyle,
+                          ),
+                        ),
+                      ]),
+                ),
+              ),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(10, (index) {
+                        // Create a dummy product for each iteration
+                        ProductModel dummyProduct = ProductModel(
+                          productId: index + 1,
+                          productName: 'Product ${index + 1}',
+                          productDescription:
+                              'Description of Product ${index + 1}',
+                          advanceBookingDuration: 0,
+                          activeFromDate: DateTime.now(),
+                          activeToDate: DateTime.now().add(Duration(days: 30)),
+                          images: [ImageModel(imagePath: 'room.jpg')],
+                          slots: [],
+                        );
+
+                        return Container(
+                          width: screenWidth * 0.5,
+                          // Set the width of each product card
+
+                          constraints: BoxConstraints(maxWidth: 280),
+                          child: ProductCard(
+                            product: dummyProduct,
+                            onPress: () {
+                              // Handle product card tap
+                              print('Product ${index + 1} tapped');
+                            },
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 ),
@@ -309,98 +390,95 @@ class HomePage extends StatelessWidget {
               ),
               Container(
                 child: Padding(
-                  padding: EdgeInsets.all(12),
-                  child: Row(children: [
-                    Container(
-                      height: screenHeight * 0.35,
-                      width: screenWidth * 0.5,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 6,
-                            offset: const Offset(0, 3),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(6),
-                              topRight: Radius.circular(6),
-                            ),
-                            child: Image(
-                              fit: BoxFit.cover,
-                              height: screenHeight * 0.25,
-                              width: screenWidth * 0.5,
-                              image: AssetImage('assets/images/room1.jpg'),
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(_controller.listOfProducts.length,
+                          (index) {
+                        return Container(
+                          width: screenWidth * 0.5,
+                          height: 300,
+                          // Set the width of each product card
+                          constraints: BoxConstraints(maxWidth: 280),
+                          child: SingleChildScrollView(
+                            child: ProductCard(
+                              product: _controller.listOfProducts[index],
+                              isFeatureDisplay: false,
+                              onPress: () {
+                                // Handle product card tap
+                                // print('Product ${index + 1} tapped');
+                                Get.to(ProductDetailsScreen(
+                                    product:
+                                        _controller.listOfProducts[index]));
+                                Transition.circularReveal;
+                              },
                             ),
                           ),
-
-                          vSpace(4),
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 6, // 80% of the width
-                                      child: Text(
-                                        'Product Name Product Name Product Name',
-                                        style: TextStyle(
-                                          color: text200,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    // Spacing between product name and price
-                                    hSpace(8),
-                                    Expanded(
-                                      flex: 2, // 20% of the width
-                                      child: Text(
-                                        '\$50.00', // Assuming price is $50.00
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                          color: text200,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                vSpace(5),
-                                Text(
-                                  'Product Description jnc hsbchjsdbjc hbsvhdsvbguvbgh bhscvuydgbivdhvbhscvuydgbivdhvbhscvuydgbivdhvbhscvuydgbivdhv',
-                                  style: TextStyle(
-                                    color: text200,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                              ],
-                            ),
-                          ),
-                          // ),
-                        ],
-                      ),
-                    )
-                  ]),
+                        );
+                      }),
+                    ),
+                  ),
                 ),
-              )
+              ),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'RECOMMENDED',
+                          style: AppTextStyles.subheadingTextStyle,
+                        ),
+                        GestureDetector(
+                          onTap: () => {homePageController.viewAll()},
+                          child: Text(
+                            'VIEW ALL',
+                            style: AppTextStyles.bodyTextStyle,
+                          ),
+                        ),
+                      ]),
+                ),
+              ),
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 6),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(10, (index) {
+                        // Create a dummy product for each iteration
+                        ProductModel dummyProduct = ProductModel(
+                          productId: index + 1,
+                          productName: 'Product ${index + 1}',
+                          productDescription:
+                              'Description of Product ${index + 1}',
+                          advanceBookingDuration: 0,
+                          activeFromDate: DateTime.now(),
+                          activeToDate: DateTime.now().add(Duration(days: 30)),
+                          images: [ImageModel(imagePath: 'room.jpg')],
+                          slots: [],
+                        );
+
+                        return Container(
+                          width: screenWidth * 0.5,
+                          // Set the width of each product card
+
+                          constraints: BoxConstraints(maxWidth: 280),
+                          child: ProductCard(
+                            product: dummyProduct,
+                            onPress: () {
+                              // Handle product card tap
+                              print('Product ${index + 1} tapped');
+                            },
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ),
+              ),
             ]),
           ))
         ],
