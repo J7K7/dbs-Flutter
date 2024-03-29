@@ -4,7 +4,7 @@ import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
-import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
+import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'package:get/get.dart';
@@ -210,6 +210,8 @@ class HomePage extends StatelessWidget {
                               print(homePageController.selectedDate);
                               print(homePageController.checkInDate);
                               print(homePageController.checkOutDate);
+                              homePageController.handleSearch();
+                              // Get.to(ProductListScreen());
                             },
                             color: primary100,
                             textColor: Colors.white,
@@ -274,7 +276,8 @@ class HomePage extends StatelessWidget {
                                 backgroundColor: Colors.white,
                                 onSelected: (isSelected) {
                                   // Handle chip selection
-                                  Get.to(ViewAllProducts());
+
+                                  homePageController.viewAll();
                                 },
                               ),
                             ),
@@ -295,7 +298,7 @@ class HomePage extends StatelessWidget {
                           style: AppTextStyles.subheadingTextStyle,
                         ),
                         GestureDetector(
-                          onTap: () => {Get.to(ViewAllProducts())},
+                          onTap: () => {homePageController.viewAll()},
                           child: Text(
                             'VIEW ALL',
                             style: AppTextStyles.bodyTextStyle,

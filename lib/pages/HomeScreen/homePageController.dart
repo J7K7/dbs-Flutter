@@ -1,5 +1,7 @@
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/searchProducts/controller.dart';
+import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -8,9 +10,11 @@ import 'package:dbs_frontend/Themes/AppColors.dart';
 class HomePageController extends GetxController {
   // Define textEditingController
   final TextEditingController textEditingController = TextEditingController();
+  final ProductListController productListController =
+      Get.put(ProductListController());
 
   /// Which holds the selected date
-  /// Defaults to today's date.
+  /// Defaults to null date.
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
   // Rx<DateTime> checkInDate = DateTime.now().obs;
@@ -132,5 +136,29 @@ class HomePageController extends GetxController {
 
   void setFromDate(DateTime? date) {
     fromDate.value = date;
+  }
+
+  void viewAll() {
+    productListController.callAPISearchProducts();
+    Get.to(ProductListScreen());
+  }
+
+  void handleSearch() {
+    // Get the instances of the necessary controllers
+
+    // Call the API with the search parameters
+    productListController.callAPISearchProducts(
+      q: searchQuery.value,
+      slotDate: selectedDate.value != null
+          ? DateFormat('yyyy-MM-dd').format(selectedDate.value!)
+          : null,
+      checkInDate: checkInDate.value != null
+          ? DateFormat('yyyy-MM-dd').format(checkInDate.value!)
+          : null,
+      checkOutDate: checkOutDate.value != null
+          ? DateFormat('yyyy-MM-dd').format(checkOutDate.value!)
+          : null,
+    );
+    Get.to(ProductListScreen());
   }
 }

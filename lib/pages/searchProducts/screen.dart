@@ -1,8 +1,8 @@
 // import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/pages/ProductDetails/screen.dart';
-import 'package:dbs_frontend/pages/ViewAllProducts/controller.dart';
-import 'package:dbs_frontend/pages/ViewAllProducts/productCard.dart';
+import 'package:dbs_frontend/pages/searchProducts/controller.dart';
+import 'package:dbs_frontend/pages/searchProducts/productCard.dart';
 import 'package:flutter/material.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:get/get.dart';
@@ -12,8 +12,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 // import 'package:ums_demo/Themes/UiUtils.dart';
 // import 'package:ums_demo/pages/SplashScreen/Controller.dart';
 
-class ViewAllProducts extends StatelessWidget {
-  ViewAllProducts({Key? key}) : super(key: key);
+class ProductListScreen extends StatelessWidget {
+  ProductListScreen({Key? key}) : super(key: key);
 
   final _controller = Get.put(ProductListController());
 
@@ -23,7 +23,7 @@ class ViewAllProducts extends StatelessWidget {
 
     double screenWidth = MediaQuery.of(context).size.width;
     // print(screenWidth);
-    _controller.callAPIGetProducts();
+    // _controller.callAPIGetProducts();
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
@@ -34,7 +34,7 @@ class ViewAllProducts extends StatelessWidget {
               Get.back();
             }),
         title: const Expanded(
-          child: Text('All Products', style: AppTextStyles.headingTextStyle),
+          child: Text('Products', style: AppTextStyles.headingTextStyle),
         ),
         actions: [
           IconButton(
@@ -60,62 +60,78 @@ class ViewAllProducts extends StatelessWidget {
       body: Obx(
         () => _controller.isLoading.value
             ? spinKitWidgetWaveSpinner()
-            : ResponsiveBuilder(
-                builder: (context, sizingInformation) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Expanded(
-                      child: screenWidth <= 600
-                          ? GetBuilder<ProductListController>(
-                              builder: (controller) {
-                                return ListView.separated(
+            : _controller.listOfProducts.isEmpty
+                ? Scaffold(
+                    body: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/Product_not_found.png'),
+                            fit: BoxFit.fill,
+                          ),
+                        )))
+                : ResponsiveBuilder(
+                    builder: (context, sizingInformation) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Expanded(
+                          child: screenWidth <= 600
+                              ? GetBuilder<ProductListController>(
+                                  builder: (controller) {
+                                    return ListView.separated(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      separatorBuilder: (c, i) => vSpace(),
+                                      itemCount:
+                                          controller.listOfProducts.length,
+                                      itemBuilder: (context, index) {
+                                        var item =
+                                            controller.listOfProducts[index];
+                                        // print(item.images![0]['imagePath']);
+                                        return ProductCard(
+                                          product: item,
+                                          onPress: () {
+                                            Get.to(ProductDetailsScreen(
+                                                product: item));
+                                            Transition.circularReveal;
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                )
+                              : GridView.builder(
                                   shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  separatorBuilder: (c, i) => vSpace(),
-                                  itemCount: controller.listOfProducts.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: responsiveItemCount(context,
+                                        sizingInformation), // Dynamic count
+                                    mainAxisSpacing: 16,
+                                    childAspectRatio: getAspectRatio(
+                                        screenWidth, sizingInformation),
+
+                                    crossAxisSpacing: screenWidth * 0.001,
+                                  ),
+                                  itemCount: _controller.listOfProducts.length,
                                   itemBuilder: (context, index) {
-                                    var item = controller.listOfProducts[index];
-                                    // print(item.images![0]['imagePath']);
+                                    var item =
+                                        _controller.listOfProducts[index];
                                     return ProductCard(
                                       product: item,
                                       onPress: () {
                                         Get.to(ProductDetailsScreen(
                                             product: item));
-                                        Transition.circularReveal;
+                                        Transition.fade;
                                       },
                                     );
                                   },
-                                );
-                              },
-                            )
-                          : GridView.builder(
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: responsiveItemCount(context,
-                                    sizingInformation), // Dynamic count
-                                mainAxisSpacing: 16,
-                                childAspectRatio: getAspectRatio(
-                                    screenWidth, sizingInformation),
-
-                                crossAxisSpacing: screenWidth * 0.001,
-                              ),
-                              itemCount: _controller.listOfProducts.length,
-                              itemBuilder: (context, index) {
-                                var item = _controller.listOfProducts[index];
-                                return ProductCard(
-                                  product: item,
-                                  onPress: () {
-                                    Get.to(ProductDetailsScreen(product: item));
-                                    Transition.fade;
-                                  },
-                                );
-                              },
-                            ),
-                    ),
-                  );
-                },
-              ),
+                                ),
+                        ),
+                      );
+                    },
+                  ),
       ),
     );
   }

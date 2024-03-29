@@ -204,13 +204,13 @@ class ProductListController extends GetxController {
   ];
   var isLoading = false.obs;
 
-  var isActive = false.obs;
+  // var isActive = false.obs;
   // var cnt = 0.obs;
   // var products = [].obs;
   // RxList<ProductModel> products = <ProductModel>[].obs;
   // var loginData = LoginModel().obs;
 
-  @override
+  // @override
   void onInit() {
     super.onInit();
     // print(cnt);
@@ -219,15 +219,28 @@ class ProductListController extends GetxController {
     //   isActive(true);
     // }
     // cnt += 1;
-    callAPIGetProducts();
+    callAPISearchProducts();
   }
 
-  void callAPIGetProducts() {
+  void callAPISearchProducts({
+    String? q,
+    String? slotDate,
+    String? checkInDate,
+    String? checkOutDate,
+  }) {
     print("Api call");
+    Map<String, dynamic> queryParams = {
+      if (q != null && q.isNotEmpty) 'q': q,
+      if (slotDate != null && slotDate.isNotEmpty) 'slotDate': slotDate,
+      if (checkInDate != null && checkInDate.isNotEmpty)
+        'checkInDate': checkInDate,
+      if (checkOutDate != null && checkOutDate.isNotEmpty)
+        'checkOutDate': checkOutDate,
+    };
     // print(cnt);
     isLoading(true);
     ApiService.get(
-      API_GETPRODUCTLIST,
+      API_SEARCHPRODUCTS,
       success: (data) async {
         print(data);
         if (data['productsData'] != null) {
@@ -243,14 +256,15 @@ class ProductListController extends GetxController {
         isLoading(false);
         print('API request failed: $data');
         showGetXBar(data["msg"]);
-        // Get.to(HomeScreen());
+        Get.to(HomeScreen());
       },
+      params: queryParams,
       error: (msg) {
         print(msg);
         print("error ");
         isLoading(false);
         showGetXBar(msg);
-        // Get.to(HomeScreen());
+        Get.to(HomeScreen());
       },
     );
     listOfProducts

@@ -5,7 +5,7 @@ import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:dbs_frontend/pages/Login/screen.dart';
-import 'package:dbs_frontend/pages/ViewAllProducts/screen.dart';
+// import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 import 'package:get/get.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 

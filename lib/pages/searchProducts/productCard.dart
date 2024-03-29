@@ -79,7 +79,7 @@ class ProductCard extends StatelessWidget {
         onTap: onPress,
         child: Container(
           padding: EdgeInsets.symmetric(
-              vertical: screenWidth * 0.025, horizontal: screenHeight * 0.015),
+              vertical: screenHeight * 0.025, horizontal: screenWidth * 0.015),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
           ),
