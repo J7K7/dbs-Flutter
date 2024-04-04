@@ -1,6 +1,14 @@
+// import 'dart:ffi';
+
 import 'package:dbs_frontend/Themes/AppStrings.dart';
+import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/appCommon/ApiService.dart';
+import 'package:dbs_frontend/models/category_model.dart';
 import 'package:dbs_frontend/models/product_model.dart';
+import 'package:dbs_frontend/pages/LandingPage/screen.dart';
+import 'package:dbs_frontend/pages/SplashScreen/Controller.dart';
+// import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';
 import 'package:dbs_frontend/pages/searchProducts/controller.dart';
 import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +16,20 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:dbs_frontend/Themes/AppColors.dart';
 
+SplashController splashController = Get.find<SplashController>();
+
 class HomePageController extends GetxController {
+  // final splashController = Get.put(SplashController());
+
+  var popularProducts =
+      List.generate(0, (index) => ProductModel(), growable: true).obs;
   // Define textEditingController
   final TextEditingController textEditingController = TextEditingController();
   final ProductListController productListController =
       Get.put(ProductListController());
+  Rx<bool> getLoadingState() {
+    return splashController.isHomePageLoading;
+  }
 
   /// Which holds the selected date
   /// Defaults to null date.
@@ -24,7 +41,27 @@ class HomePageController extends GetxController {
   // Rx<DateTime> checkOutDate = DateTime.now().obs;
   Rx<DateTime?> checkOutDate = Rx<DateTime?>(null);
 
+  // RxList<String> categories = <String>[].obs;
+  RxList<CategoryModel> categories = <CategoryModel>[].obs;
+
+// Correct initialization of Rx variable
+  Rx<int?> productCategoryId = Rx<int?>(-1);
+
+  // Parse the response data and store it in a list of ProductModel objects
+  List<ProductModel> productsByCategory = <ProductModel>[].obs;
+
   bool isDateRange = false;
+
+  var isLoading = false.obs;
+  Rx<bool> isCategoryDataLoading = false.obs;
+  Rx<bool> isPopularDataLoading = false.obs;
+  Rx<bool> isCategoryLoading = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // getAllProductsByCategories(-1);
+  }
 
   // Select Date or Date Range based on category
   Future<void> selectDate(BuildContext context) async {
@@ -161,5 +198,183 @@ class HomePageController extends GetxController {
           : null,
     );
     Get.to(ProductListScreen());
+  }
+
+  Future<void> getAllCategories() async {
+    int attempt = 0; // Initialize attempt counter
+
+    Future<void> fetchCategories() async {
+      isCategoryLoading(true);
+      ApiService.get(
+        API_GETALLCATEGORIES,
+        success: (data) async {
+          print("SUCCESS BHAI SUCCESS");
+          print(data);
+          categories.clear();
+          for (var category in data['categories']) {
+            print("Inside LOOPAM LOOP");
+            print(category);
+            // Create a CategoryModel instance and add it to the categories list
+            categories.add(CategoryModel(
+              productCategoryId: category["productCategoryId"],
+              categoryName: category["categoryName"],
+            ));
+          }
+          categories.refresh();
+
+          isCategoryLoading(false);
+          print("Value fo isLoading in fetchCategories API Call ");
+          print(isLoading);
+        },
+        failed: (data) async {
+          print("FAILED BAKA FAILED");
+          isCategoryLoading(false);
+          // print("Attempt number : ");
+          // print(attempt);
+          // if (attempt < 2) {
+          //   attempt++;
+          //   isLoading(true);
+          //   await fetchCategories(); // Retry fetching categories
+          // } else {
+          //   print("RESTART KAIRU APPLICATION");
+          //   // Restart the application after maximum tries
+          //   splashController.restartApplication();
+          // }
+        },
+        error: (msg) async {
+          print("MY GOD ERRORRRRR");
+          print("Error: $msg");
+          isCategoryLoading(false);
+          // if (attempt < 2) {
+          //   attempt++;
+          //   await fetchCategories(); // Retry fetching categories
+          // } else {
+          //   // Restart the application after maximum tries
+          //   splashController.restartApplication();
+          // }
+        },
+      );
+    }
+
+    await fetchCategories();
+
+    print("naya naya");
+    print(categories); // Initial call to fetch categories
+  }
+
+  Future<void> getAllProductsByCategories(int? productCategoryId) async {
+    int attempt = 0; // Initialize attempt counter
+
+    Future<void> fetchproductsOfSelectedCategory(int productCategoryId) async {
+      isCategoryDataLoading(true);
+      Map<String, dynamic> queryParams = {
+        if (productCategoryId != null && productCategoryId > 0)
+          'productCategoryId': productCategoryId,
+      };
+      ApiService.get(
+        API_GET_LATEST_PRODUCTS,
+        success: (data) async {
+          // productsByCategory.clear();
+
+          print("SUCCESS BHAI SUCCESS CATEGORY VADU");
+          // print(data);
+
+          // Parse the response data and store it in a list of ProductModel objects
+          List<ProductModel> fetchedProducts = parseProducts(data);
+
+          // Update productsByCategory list
+          productsByCategory.clear();
+          productsByCategory.addAll(fetchedProducts);
+
+          isCategoryDataLoading(false);
+        },
+        failed: (data) async {
+          print("FAILED BAKA FAILED CATEGORY VADU");
+          print(data);
+          isCategoryDataLoading(false);
+          if (attempt < 2) {
+            attempt++;
+            isCategoryDataLoading(true);
+            await fetchproductsOfSelectedCategory(productCategoryId);
+          } else {
+            print("RESTART KAIRU APPLICATION");
+            // Restart the application after maximum tries
+            splashController.restartApplication();
+          }
+        },
+        error: (msg) async {
+          print("MY GOD ERRORRRRR CATEGORY VADU");
+          print("Error: $msg");
+          isCategoryDataLoading(false);
+          if (attempt < 2) {
+            attempt++;
+            await fetchproductsOfSelectedCategory(productCategoryId);
+          } else {
+            // Restart the application after maximum tries
+            splashController.restartApplication();
+          }
+        },
+        params: queryParams,
+      );
+    }
+
+    await fetchproductsOfSelectedCategory(productCategoryId!);
+  }
+
+  Future<void> fetchPopularProducts() async {
+    print("Api call");
+
+    // print(cnt);
+    isPopularDataLoading(true);
+    ApiService.get(
+      API_POPULARPRODUCTS,
+      success: (data) async {
+        print(data);
+        if (data['productsData'] != null) {
+          popularProducts.clear();
+
+          data['productsData'].forEach((v) {
+            popularProducts.add(ProductModel.fromJson(v));
+          });
+        }
+        popularProducts.refresh();
+
+        isPopularDataLoading(false);
+      },
+      failed: (data) async {
+        isPopularDataLoading(false);
+        print('API request failed: $data');
+        showGetXBar(data["msg"]);
+        Get.to(LandingScreen());
+      },
+      error: (msg) {
+        print(msg);
+        print("error ");
+        isPopularDataLoading(false);
+        showGetXBar(msg);
+        Get.to(LandingScreen());
+      },
+    );
+
+    // isLoading(false);
+  }
+
+  List<ProductModel> parseProducts(dynamic data) {
+    List<ProductModel> products = [];
+
+    // Parse the response data and create ProductModel objects
+    if (data['Status'] == true && data['productsData'] != null) {
+      print("Avi gyu andar");
+      for (var productData in data['productsData']) {
+        print("Product no data che aa --- inside parseProducts");
+        print(productData);
+        products.add(ProductModel.fromJson(productData));
+      }
+    }
+
+    print("Products variable ma add thyu k nahi e jovanu");
+    print(products);
+
+    return products;
   }
 }

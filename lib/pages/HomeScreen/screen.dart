@@ -1,6 +1,9 @@
 import 'package:dbs_frontend/Themes/AppColors.dart';
+import 'package:dbs_frontend/Themes/Buttons.dart';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/Widgets/custom_animated_bottom_bar.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
+import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -44,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                   height: containerHeight * 0.045,
                 ),
                 activeColor: primary100,
-                // inactiveColor: _inactiveColor,
+                // inactiveColor: Colors.grey,
               ),
               BottomNavyBarItem(
                 icon: SvgPicture.asset(
@@ -52,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                   height: containerHeight * 0.045,
                 ),
                 activeColor: primary100,
-                // inactiveColor: _inactiveColor,
+                // inactiveColor: Colors.grey,
               ),
               BottomNavyBarItem(
                 icon: Image.asset(
@@ -60,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                   height: containerHeight * 0.045,
                 ),
                 activeColor: primary100,
-                // inactiveColor: _inactiveColor,
+                inactiveColor: Colors.grey,
               ),
               BottomNavyBarItem(
                 icon: SvgPicture.asset(
@@ -87,7 +90,7 @@ class HomeScreenController extends GetxController {
   }
 }
 
-class HomePageController extends GetxController {}
+// class HomePageController extends GetxController {}
 
 class CartPage extends StatelessWidget {
   @override
@@ -111,7 +114,16 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Profile Page'),
+      child: Container(
+        width: 300,
+        height: 100,
+        child: mainButton('Logout',
+            onPress: () => {
+                  SharedPrefs.clearAllData(),
+                  print("Me Call Hua"),
+                  Get.offAll(LandingScreen())
+                }),
+      ),
     ); // Empty container for now
   }
 }

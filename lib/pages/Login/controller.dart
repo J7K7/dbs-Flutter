@@ -4,6 +4,8 @@ import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
+import 'package:dbs_frontend/pages/SplashScreen/Controller.dart';
+import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +18,7 @@ class LoginController extends GetxController {
 
   final txtEmail = TextEditingController();
   final txtPassword = TextEditingController();
+  SplashController splashCtrl = Get.find();
 
   @override
   void onInit() {
@@ -52,7 +55,7 @@ class LoginController extends GetxController {
     }
   }
 
-  void callAPILoginUser(Map<String, dynamic> param) {
+  void callAPILoginUser(Map<String, dynamic> param) async {
     isLoading(true);
     ApiService.post(
       API_LOGIN,
@@ -64,9 +67,14 @@ class LoginController extends GetxController {
         print(SharedPrefs.getCustomObject(LOGINDATA));
         txtEmail.clear();
         txtPassword.clear();
-        isLoading(false);
         // Get.offAll(() => NavigationDrawerShow());
-        Get.offAll(() => HomePage());
+        // Get.offAll(() => HomeScreen());
+        await splashCtrl.fetchHomePageData();
+        // await Future.delayed(const Duration(seconds: 1));
+        isLoading(false);
+
+        Get.offAll(() => HomeScreen());
+
         return;
       },
       failed: (data) {

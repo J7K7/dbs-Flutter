@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
                     const Text('DBS', style: AppTextStyles.headingTextStyle)),
           ),
           const Text(
-            'DYNAMIC BOOKING SERVICE',
+            'DYNAMIC BOOKING SYSTEM',
             style: AppTextStyles.subheadingTextStyle,
           ),
           spinKitWidgetWaveSpinner(),

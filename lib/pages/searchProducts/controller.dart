@@ -219,7 +219,7 @@ class ProductListController extends GetxController {
     //   isActive(true);
     // }
     // cnt += 1;
-    callAPISearchProducts();
+    // callAPISearchProducts();
   }
 
   void callAPISearchProducts({

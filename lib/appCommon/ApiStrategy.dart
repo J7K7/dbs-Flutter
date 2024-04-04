@@ -345,6 +345,7 @@ class ApiStrategy {
           break;
         case 403:
           // _handError(errorCallBack);
+          print("LoginScreenn ki taraf");
           SharedPrefs.clearLoginData();
           getClass.Get.offAll(() => LoginScreen());
           _handError(errorCallBack, apiUnAuthorizeAccessMsg);

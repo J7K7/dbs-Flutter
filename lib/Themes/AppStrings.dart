@@ -36,8 +36,11 @@ const API_LOGIN = 'login';
 const PRODUCT_IMAGE_PATH = "http://10.20.0.111:3000/images/";
 const defaultErrorImageUrl = "assets/images/noImage.jpg";
 const API_PRODUCT = "product/";
-const API_GETPRODUCTLIST = API_PRODUCT + "getAllProductDetails/";
+const API_GET_ALL_PRODUCTS = API_PRODUCT + "getAllProductDetails/";
 const API_SEARCHPRODUCTS = API_PRODUCT + "searchProducts/";
+const API_POPULARPRODUCTS = API_PRODUCT + "popularProducts/";
+const API_GETALLCATEGORIES = API_PRODUCT + "getAllCategories";
+const API_GET_LATEST_PRODUCTS = API_PRODUCT + "latestProducts";
 
 /* Error Message Strings */
 const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";

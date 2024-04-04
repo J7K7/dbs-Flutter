@@ -4,7 +4,7 @@ import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:dbs_frontend/pages/Register/screen.dart';
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
@@ -82,19 +82,19 @@ class LandingScreen extends StatelessWidget {
                   ),
                   SizedBox(height: screenHeight * 0.03),
                   mainOutLinedButton('LOGIN', onPress: () {
-                    // Get.to(LoginScreen());
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
+                    Get.to(LoginScreen());
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => LoginScreen()),
+                    // );
                   }),
                   SizedBox(height: screenHeight * 0.01),
                   mainButton('REGISTER', onPress: () {
-                    // Get.to(RegisterScreen());
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterScreen()),
-                    );
+                    Get.to(RegisterScreen());
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => RegisterScreen()),
+                    // );
                   }),
                   SizedBox(height: screenHeight * 0.02),
                 ],
