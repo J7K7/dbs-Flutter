@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
     return GetBuilder<HomeScreenController>(
       builder: (controller) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: IndexedStack(
               index: controller.tabIndex,

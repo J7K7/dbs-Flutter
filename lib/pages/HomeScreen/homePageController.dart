@@ -56,6 +56,8 @@ class HomePageController extends GetxController {
   Rx<bool> isCategoryDataLoading = false.obs;
   Rx<bool> isPopularDataLoading = false.obs;
   Rx<bool> isCategoryLoading = false.obs;
+  RxString searchQuery = ''.obs;
+  Rx<DateTime?> fromDate = Rx<DateTime?>(null);
 
   @override
   void onInit() {
@@ -79,8 +81,10 @@ class HomePageController extends GetxController {
       final DateTime? picked = await showDatePicker(
         context: context,
         // initialDate: selectedDate.value,
-        firstDate: DateTime(2000), // Change to a specific date
-        lastDate: DateTime(2025),
+        firstDate: DateTime.now(),
+        lastDate: DateTime.now()
+            .add(Duration(days: 365)), // Add one year to the current date
+
         cancelText: 'Cancel',
         confirmText: 'Done',
         builder: (BuildContext context, Widget? child) {
@@ -91,10 +95,18 @@ class HomePageController extends GetxController {
               colorScheme: ColorScheme.light().copyWith(
                 primary: primary100, // Change the theme color as needed
               ),
+              // Customize the date picker background color
+              datePickerTheme: const DatePickerThemeData(
+                backgroundColor: Colors.white,
+                shape: BeveledRectangleBorder(
+                    borderRadius:
+                        BorderRadius.zero), // Disable editing of the date
+              ),
             ),
             child: child!,
           );
         },
+        keyboardType: TextInputType.datetime,
       );
 
       print("picked");
@@ -113,31 +125,33 @@ class HomePageController extends GetxController {
     } else {
       // Select Range of Date for Category 2
       final DateTimeRange? picked = await showDateRangePicker(
-        context: context,
-        firstDate: DateTime.now(), // Change to a specific date
-        lastDate: DateTime(2025),
-        // initialDateRange: DateTimeRange(
-        //   start: checkInDate.value,
-        //   end: checkOutDate.value,
-        // ),
-        cancelText: 'Cancel',
-        confirmText: 'Done',
-        builder: (BuildContext context, Widget? child) {
-          // Provide builder function
-          return Theme(
-            // Wrap the child with a Theme widget
-            data: ThemeData.light().copyWith(
-                colorScheme: ColorScheme.light().copyWith(
-                  primary: Colors.black, // Change the theme color as needed
-                ),
-                datePickerTheme: DatePickerThemeData(
-                  rangeSelectionBackgroundColor: primary100.withOpacity(
-                      0.13), // Change the color for the range between selected dates
-                )),
-            child: child!,
-          );
-        },
-      );
+          context: context,
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now()
+              .add(Duration(days: 365)), // Add one year to the current date
+
+          // initialDateRange: DateTimeRange(
+          //   start: checkInDate.value,
+          //   end: checkOutDate.value,
+          // ),
+          cancelText: 'Cancel',
+          confirmText: 'Done',
+          builder: (BuildContext context, Widget? child) {
+            // Provide builder function
+            return Theme(
+              // Wrap the child with a Theme widget
+              data: ThemeData.light().copyWith(
+                  colorScheme: ColorScheme.light().copyWith(
+                    primary: Colors.black, // Change the theme color as needed
+                  ),
+                  datePickerTheme: DatePickerThemeData(
+                    rangeSelectionBackgroundColor: primary100.withOpacity(
+                        0.13), // Change the color for the range between selected dates
+                  )),
+              child: child!,
+            );
+          },
+          keyboardType: TextInputType.datetime);
       if (picked != null) {
         // Update selectedDate using reactive state management
         checkInDate.value = picked.start;
@@ -164,8 +178,20 @@ class HomePageController extends GetxController {
     print(selectedDate);
   }
 
-  RxString searchQuery = ''.obs;
-  Rx<DateTime?> fromDate = Rx<DateTime?>(null);
+// Function to clear selected dates
+  void clearSelectedDates() {
+    if (!isDateRange) {
+      // Clear selected single date
+      selectedDate.value = null;
+    } else {
+      // Clear selected date range
+      checkInDate.value = null;
+      checkOutDate.value = null;
+    }
+
+    // Clear the text in the TextEditingController
+    textEditingController.clear();
+  }
 
   void setSearchQuery(String query) {
     print(query);
@@ -176,8 +202,8 @@ class HomePageController extends GetxController {
     fromDate.value = date;
   }
 
-  void viewAll() {
-    productListController.callAPISearchProducts();
+  void viewAllByCategory([int? productCategoryId]) {
+    productListController.fetchproductsOfSelectedCategory(productCategoryId);
     Get.to(ProductListScreen());
   }
 
@@ -262,10 +288,10 @@ class HomePageController extends GetxController {
     print(categories); // Initial call to fetch categories
   }
 
-  Future<void> getAllProductsByCategories(int? productCategoryId) async {
+  Future<void> getAllLatestProductsByCategories(int? productCategoryId) async {
     int attempt = 0; // Initialize attempt counter
 
-    Future<void> fetchproductsOfSelectedCategory(int productCategoryId) async {
+    Future<void> fetchproductsOfSelectedCategory(int? productCategoryId) async {
       isCategoryDataLoading(true);
       Map<String, dynamic> queryParams = {
         if (productCategoryId != null && productCategoryId > 0)
@@ -303,7 +329,6 @@ class HomePageController extends GetxController {
           }
         },
         error: (msg) async {
-          print("MY GOD ERRORRRRR CATEGORY VADU");
           print("Error: $msg");
           isCategoryDataLoading(false);
           if (attempt < 2) {
@@ -364,7 +389,7 @@ class HomePageController extends GetxController {
 
     // Parse the response data and create ProductModel objects
     if (data['Status'] == true && data['productsData'] != null) {
-      print("Avi gyu andar");
+      // print("Avi gyu andar");
       for (var productData in data['productsData']) {
         print("Product no data che aa --- inside parseProducts");
         print(productData);

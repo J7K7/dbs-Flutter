@@ -46,8 +46,8 @@ class SplashController extends GetxController {
   Future<void> initializePreferences() async {
     print("initializePreferences");
     await SharedPrefs.init(); // Ensure _prefsInstance is initialized
-    String xyz = '2';
-    SharedPrefs.setString(CATEGORYID, xyz);
+    String businessCategoryId = '1';
+    SharedPrefs.setString(CATEGORYID, businessCategoryId);
 
     // Initialize HomePageController before fetching data
     Get.put(HomePageController());
@@ -93,7 +93,7 @@ class SplashController extends GetxController {
   Future<void> fetchHomePageData() async {
     await Get.find<HomePageController>().getAllCategories();
     await Get.find<HomePageController>().fetchPopularProducts();
-    await Get.find<HomePageController>().getAllProductsByCategories(-1);
+    await Get.find<HomePageController>().getAllLatestProductsByCategories(-1);
     // await Future.delayed(const Duration(seconds: 1));
   }
 }

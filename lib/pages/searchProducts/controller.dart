@@ -272,6 +272,43 @@ class ProductListController extends GetxController {
     // isLoading(false);
   }
 
+  Future<void> fetchproductsOfSelectedCategory(int? productCategoryId) async {
+    isLoading(true);
+    Map<String, dynamic> queryParams = {
+      if (productCategoryId != null && productCategoryId > 0)
+        'productCategoryId': productCategoryId,
+    };
+    ApiService.get(
+      API_GET_ALL_PRODUCTS,
+      success: (data) async {
+        print(data);
+        if (data['productsData'] != null) {
+          listOfProducts.clear();
+
+          data['productsData'].forEach((v) {
+            listOfProducts.add(ProductModel.fromJson(v));
+          });
+        }
+        isLoading(false);
+      },
+      failed: (data) async {
+        print("FAILED BAKA FAILED CATEGORY VADU");
+        print(data);
+        isLoading(false);
+        print('API request failed: $data');
+        showGetXBar(data["msg"]);
+        Get.to(HomeScreen());
+      },
+      error: (msg) async {
+        print("Error: $msg");
+        isLoading(false);
+        print('API request failed: $msg');
+        showGetXBar(msg);
+        Get.to(HomeScreen());
+      },
+      params: queryParams,
+    );
+  }
   // void addNewProduct(Map<String, dynamic> productData) {
   //   // Create a new ProductModel instance from productData and add it to the list
   //   products.add(ProductModel.fromJson(productData));
