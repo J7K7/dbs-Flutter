@@ -4,7 +4,7 @@ import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/ErrorPage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePageController.dart';
-import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
+import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';

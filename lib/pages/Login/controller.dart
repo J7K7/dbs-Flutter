@@ -3,7 +3,7 @@ import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
-import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
+import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Controller.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';
 import 'package:flutter/material.dart';

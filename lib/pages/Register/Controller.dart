@@ -1,4 +1,4 @@
-import 'package:dbs_frontend/pages/HomeScreen/screen.dart';
+import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
