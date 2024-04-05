@@ -17,31 +17,35 @@ import 'dart:ui' as ui;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import './homePageController.dart';
+import 'dart:math';
 
 double calculateProductCardHeight(double screenWidth) {
   // Constants for font sizes and line spacing
-  const double nameFontSize = 16.0;
-  const double descriptionFontSize = 14.0;
-  const double lineSpacingMultiplier = 1.2;
+  // const double nameFontSize = 24.0;
+  // const double descriptionFontSize = 16.0;
+  // const double lineSpacingMultiplier = 1.2;
 
   // Assuming image width is 16:9 aspect ratio
+  double maxWidth = 280;
+  screenWidth = min(screenWidth, maxWidth);
   double imageWidth = screenWidth;
   double imageHeight = (imageWidth / 16) * 9;
 
-  // Calculate text heights
-  double nameTextHeight = lineSpacingMultiplier * nameFontSize;
-  double descriptionTextHeight = lineSpacingMultiplier *
-      descriptionFontSize *
-      3; // Assuming 3 lines for description
+  // // Calculate text heights
+  // double nameTextHeight = lineSpacingMultiplier * nameFontSize;
+  // double descriptionTextHeight = lineSpacingMultiplier *
+  //     descriptionFontSize *
+  //     3; // Assuming 3 lines for description
 
-  // Padding and margins
-  double paddingVertical = 10.0; // Example padding values, adjust as needed
+  // // Padding and margins
+  // double paddingVertical = 8.0; // Example padding values, adjust as needed
 
   // Calculate total card height
-  double cardHeight = imageHeight +
-      nameTextHeight +
-      descriptionTextHeight +
-      (paddingVertical * 2);
+
+  //Variable  to hold the calculated height
+  // The value 168 is very imp for maintaning the ui
+  // it is based upon the calculation of padding and etc.. and some trial
+  double cardHeight = imageHeight + 168;
 
   return cardHeight;
 }
@@ -58,6 +62,7 @@ class HomePage extends StatelessWidget {
     print("SCREENWIDTH");
     print(screenWidth);
     print(screenHeight);
+    print(calculateProductCardHeight(screenWidth * 0.5));
     final FocusNode textFieldFocusNode = FocusNode();
 
     return Scaffold(
@@ -411,9 +416,10 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       Obx(() => Container(
-                                          height: screenHeight * 0.5,
-                                          constraints:
-                                              BoxConstraints(maxHeight: 330),
+                                          height: calculateProductCardHeight(
+                                              screenWidth * 0.5),
+                                          // color: Colors.yellow,
+                                          // constraints:BoxConstraints(maxHeight: 350),
                                           child: homePageController
                                                       .isCategoryDataLoading ==
                                                   true
@@ -428,7 +434,7 @@ class HomePage extends StatelessWidget {
                                                     if (homePageController
                                                         .productsByCategory
                                                         .isEmpty)
-                                                      Center(
+                                                      const Center(
                                                         child: Text(
                                                           'No Products Found',
                                                           style: TextStyle(
@@ -461,7 +467,7 @@ class HomePage extends StatelessWidget {
                                                                         homePageController
                                                                             .productsByCategory
                                                                             .length
-                                                                    ? index <= 1
+                                                                    ? index <= 2
                                                                         ? vSpace(
                                                                             0)
                                                                         : GestureDetector(
@@ -490,7 +496,7 @@ class HomePage extends StatelessWidget {
                                                                                     style: AppTextStyles.bodyTextStyle,
                                                                                   ),
                                                                                   Text(
-                                                                                    i <= 0 ? 'hmm' : 'in ${homePageController.categories[i - 1].categoryName}',
+                                                                                    i <= 0 ? '' : 'in ${homePageController.categories[i - 1].categoryName}',
                                                                                     // style: TextStyle(fontWeight: FontWeight.bold, color: primary100, fontSize: 16),
                                                                                     style: AppTextStyles.bodyTextStyle,
                                                                                   ),
@@ -563,9 +569,9 @@ class HomePage extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  height: 300,
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 6),
+                                  height: calculateProductCardHeight(
+                                      screenWidth * 0.5),
+                                  padding: EdgeInsets.all(12),
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
@@ -577,28 +583,22 @@ class HomePage extends StatelessWidget {
                                                   .length, (index) {
                                               return Container(
                                                 width: screenWidth * 0.5,
-                                                height: 300,
-
-                                                // Set the width of each product card
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 280),
-                                                child: SingleChildScrollView(
-                                                  child: ProductCard(
-                                                    product: homePageController
-                                                        .popularProducts[index],
-                                                    isFeatureDisplay: false,
-                                                    onPress: () {
-                                                      // Handle product card tap
-                                                      // print('Product ${index + 1} tapped');
-                                                      Get.to(ProductDetailsScreen(
-                                                          product:
-                                                              homePageController
-                                                                      .popularProducts[
-                                                                  index]));
-                                                      Transition.circularReveal;
-                                                    },
-                                                  ),
+                                                constraints: BoxConstraints(
+                                                  maxWidth: 280,
+                                                ),
+                                                child: ProductCard(
+                                                  product: homePageController
+                                                      .popularProducts[index],
+                                                  isFeatureDisplay: false,
+                                                  onPress: () {
+                                                    // Handle product card tap
+                                                    // print('Product ${index + 1} tapped');
+                                                    Get.to(ProductDetailsScreen(
+                                                        product: homePageController
+                                                                .popularProducts[
+                                                            index]));
+                                                    Transition.circularReveal;
+                                                  },
                                                 ),
                                               );
                                             })

@@ -121,8 +121,7 @@ class ProductCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      hSpace(screenHeight *
-                          0.01), // Add space between product name and price
+                      hSpace(4), // Add space between product name and price
                       Expanded(
                         flex: 3, // 30% of the available space
                         child: Text(
