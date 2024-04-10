@@ -23,7 +23,7 @@ class AppTextStyles {
   //medium heading Text
   static const TextStyle mediumHeadingTextStyle = TextStyle(
     fontFamily: fontPoppinsMedium,
-    fontWeight: FontWeight.bold,
+    // fontWeight: FontWeight.bold,
     fontSize: fsLarge,
     color: text100,
   );

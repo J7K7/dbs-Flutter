@@ -67,7 +67,7 @@ class SplashController extends GetxController {
       print("aapdu Rhere else");
       // await Future.delayed(const Duration(seconds: 1));
 
-      Get.offAll(() => LandingScreen());
+      Get.offAll(() => HomeScreen());
     }
   }
 

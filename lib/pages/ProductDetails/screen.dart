@@ -4,6 +4,7 @@ import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
+import 'package:dbs_frontend/pages/OrderSelectionPage/slotSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dbs_frontend/models/product_model.dart';
@@ -129,7 +130,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   return ListTile(
                     leading: Icon(feature['iconData'] ?? Icons.check),
                     title: Text(feature.featureName ?? '',
-                        style: AppTextStyles.mediumHeadingTextStyle),
+                        style: AppTextStyles.mediumHeadingTextStyle
+                            .copyWith(fontWeight: FontWeight.bold)),
                     subtitle: Text(feature.featureDescription ?? '',
                         style: AppTextStyles.bodyTextStyle),
                   );
@@ -144,15 +146,21 @@ class ProductDetailsScreen extends StatelessWidget {
         elevation: 0, // Remove shadow
         // color: Colors.transparent, // Transparent background
         child: Center(
-          child: mainButton(
-            "Book Product",
-            onPress: () {
-              print(product.images);
-              print(screenWidth);
-              print(product.productId);
-              print(orientation);
-            },
-          ),
+          child: product.activeToDate!.isBefore(DateTime.now())
+              ? Text(
+                  "Product Unavailable at this moment!",
+                  style: TextStyle(color: Colors.red),
+                )
+              : mainButton(
+                  "Book Product",
+                  onPress: () {
+                    print(product.images);
+                    print(screenWidth);
+                    print(product.productId);
+                    print(orientation);
+                    Get.to(SlotSelectionPage(product: product));
+                  },
+                ),
         ),
       ),
     );

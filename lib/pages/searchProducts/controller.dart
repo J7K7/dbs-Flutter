@@ -16,7 +16,7 @@ class ProductListController extends GetxController {
       "productName": "Superrr Delux",
       "productDescription":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet eros ac lorem malesuada, sed scelerisque ipsum rutrum. Nulla facilisi. Nullam varius maximus lectus, a feugiat turpis commodo eu.",
-      "advanceBookingDuration": 5,
+      "advanceBookingDuration": 15,
       "active_fromDate": "2024-02-27T18:30:00.000Z",
       "active_toDate": "2024-03-19T18:30:00.000Z",
       "images": [],
@@ -59,7 +59,7 @@ class ProductListController extends GetxController {
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet eros ac lorem malesuada, sed scelerisque ipsum rutrum. Nulla facilisi. Nullam varius maximus lectus, a feugiat turpis commodo eu.",
       "advanceBookingDuration": 5,
       "active_fromDate": "2024-02-27T18:30:00.000Z",
-      "active_toDate": "2024-03-19T18:30:00.000Z",
+      "active_toDate": "2024-05-19T18:30:00.000Z",
       "images": [],
       "features": [
         {
@@ -97,9 +97,9 @@ class ProductListController extends GetxController {
       "productName": "Delux Room",
       "productDescription":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet eros ac lorem malesuada, sed scelerisque ipsum rutrum. Nulla facilisi. Nullam varius maximus lectus, a feugiat turpis commodo eu.",
-      "advanceBookingDuration": 5,
-      "active_fromDate": "2024-02-27T18:30:00.000Z",
-      "active_toDate": "2024-03-24T18:30:00.000Z",
+      "advanceBookingDuration": 12,
+      "active_fromDate": "2024-02-27",
+      "active_toDate": "2024-06-24",
       "images": [],
       "features": [
         {
@@ -121,9 +121,9 @@ class ProductListController extends GetxController {
       "productName": "Standard Room",
       "productDescription":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet eros ac lorem malesuada, sed scelerisque ipsum rutrum. Nulla facilisi. Nullam varius maximus lectus, a feugiat turpis commodo eu.",
-      "advanceBookingDuration": 7,
-      "active_fromDate": "2024-02-28T18:30:00.000Z",
-      "active_toDate": "2024-03-25T18:30:00.000Z",
+      "advanceBookingDuration": 1,
+      "active_fromDate": "2024-02-28",
+      "active_toDate": "2024-05-25",
       "images": [
         {"imageId": 1, "imagePath": "productImages-1709283914240-130614072.png"}
       ],
@@ -147,8 +147,8 @@ class ProductListController extends GetxController {
       "productDescription":
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet eros ac lorem malesuada, sed scelerisque ipsum rutrum. Nulla facilisi. Nullam varius maximus lectus, a feugiat turpis commodo eu.",
       "advanceBookingDuration": 10,
-      "active_fromDate": "2024-03-01T18:30:00.000Z",
-      "active_toDate": "2024-03-30T18:30:00.000Z",
+      "active_fromDate": "2024-03-10",
+      "active_toDate": "2024-06-10",
       "images": [],
       "features": [
         {
@@ -170,8 +170,8 @@ class ProductListController extends GetxController {
       "productDescription":
           "Affordable and comfortable rooms for budget travelers.",
       "advanceBookingDuration": 3,
-      "active_fromDate": "2024-03-10T18:30:00.000Z",
-      "active_toDate": "2024-03-31T18:30:00.000Z",
+      "active_fromDate": "2024-05-10",
+      "active_toDate": "2024-06-30",
       "images": [
         {"imageId": 2, "imagePath": "productImages-1709284815726-587222272.png"}
       ],
@@ -256,7 +256,7 @@ class ProductListController extends GetxController {
         isLoading(false);
         print('API request failed: $data');
         showGetXBar(data["msg"]);
-        Get.to(HomeScreen());
+        // Get.to(HomeScreen());
       },
       params: queryParams,
       error: (msg) {
@@ -264,7 +264,7 @@ class ProductListController extends GetxController {
         print("error ");
         isLoading(false);
         showGetXBar(msg);
-        Get.to(HomeScreen());
+        // Get.to(HomeScreen());
       },
     );
     listOfProducts

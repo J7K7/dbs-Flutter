@@ -106,3 +106,47 @@ Widget outlinedButton(String text,
         style: TextStyle(color: color),
       ),
     );
+
+// Widget mainButtonWithArrow(
+//   String text, {
+//   Color color = primary100,
+//   Color textColor = text300,
+//   required Function()? onPress,
+//   double radius = 4,
+//   double elevation = 1.8,
+//   FocusNode? focusNode,
+//   FontWeight fontWeight = FontWeight.w500,
+//   Size minSize = const Size(70, textButtonHeight),
+//   EdgeInsetsGeometry padding = const EdgeInsets.all(8.0),
+// }) {
+//   return ElevatedButton(
+//     onPressed: onPress,
+//     focusNode: focusNode,
+//     child: Row(
+//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//       children: [
+//         Icon(Icons.arrow_forward_ios_rounded,
+//             size: fsMedium, color: Colors.transparent),
+//         Text(
+//           text,
+//           textAlign: TextAlign.center,
+//           style: TextStyle(
+//             fontSize: fsXLarge,
+//             color: textColor,
+//             fontWeight: fontWeight,
+//           ),
+//         ),
+//         Icon(Icons.arrow_forward_ios_rounded,
+//             size: fsMedium, color: textColor), // Set icon color
+//       ],
+//     ),
+//     style: ElevatedButton.styleFrom(
+//       minimumSize: minSize,
+//       elevation: elevation,
+//       backgroundColor: color,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(radius),
+//       ),
+//     ),
+//   );
+// }
