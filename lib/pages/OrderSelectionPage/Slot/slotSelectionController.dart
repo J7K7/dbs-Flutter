@@ -203,10 +203,6 @@ class SlotSelectionController extends GetxController {
         print("SUCCESS");
         print(data);
 
-        isAddToCartRequestLoading(false);
-        showGetXBar("Succccccccessss");
-        // Get.to(() => CartPage());
-
         var message = data['msg'] != null ? data['msg'].toString() : '';
 
         // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
@@ -214,6 +210,7 @@ class SlotSelectionController extends GetxController {
 
         // Delay navigation to CartPage for 2 seconds using Future.delayed
         await Future.delayed(const Duration(seconds: 1));
+        isAddToCartRequestLoading(false);
         Get.find<HomeScreenController>().changeTabIndex(1);
         Get.to(HomeScreen(), transition: Transition.cupertino);
       },

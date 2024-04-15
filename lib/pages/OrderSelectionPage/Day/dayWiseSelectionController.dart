@@ -172,7 +172,7 @@ class DayWiseSelectionController extends GetxController {
         // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
         message != '' ? showSuccessToastMessage(context, '$message') : null;
 
-        // Delay navigation to CartPage for 2 seconds using Future.delayed
+        // Delay navigation to CartPage for 1 seconds using Future.delayed
         await Future.delayed(const Duration(seconds: 1));
         Get.find<HomeScreenController>().changeTabIndex(1);
         Get.to(HomeScreen(), transition: Transition.cupertino);

@@ -73,7 +73,7 @@ class SlotSelectionPage extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Get.to(ProductDetailsScreen(product: product)),
+          onPressed: () => Get.back(),
         ),
       ),
       body: Padding(

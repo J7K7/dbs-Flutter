@@ -112,7 +112,7 @@ Widget outlinedButton(String text,
       ),
     );
 
-Widget iconButton(
+Widget iconButtonWithArrow(
   String text, {
   Color color = primary100,
   Color textColor = text300,
@@ -123,7 +123,24 @@ Widget iconButton(
   FontWeight fontWeight = FontWeight.w500,
   Size minSize = const Size(70, textButtonHeight),
   EdgeInsetsGeometry padding = const EdgeInsets.all(8.0),
+  fontSize = 10,
+  iconSize = 5,
 }) {
+  // Calculate the maximum font size based on the desired limit
+  final double maxFontSize = 24.0; // Define your maximum font size here
+  double adjustedFontSize = fontSize;
+
+  if (adjustedFontSize > maxFontSize) {
+    adjustedFontSize = maxFontSize;
+  }
+
+  final double maxIconSize = 18.0; // Define your maximum font size here
+  double adjustedIconSize = iconSize;
+
+  if (adjustedIconSize > maxIconSize) {
+    adjustedIconSize = maxIconSize;
+  }
+
   return ElevatedButton(
     onPressed: onPress,
     focusNode: focusNode,
@@ -148,14 +165,14 @@ Widget iconButton(
             child: Icon(
               Icons.arrow_forward_ios_rounded,
               color: Colors.transparent,
-              size: 18.0,
+              size: adjustedIconSize,
             ),
           ),
           Text(
             text,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: fsXLarge,
+              fontSize: adjustedFontSize,
               color: textColor,
               fontWeight: fontWeight,
             ),
@@ -165,7 +182,7 @@ Widget iconButton(
             child: Icon(
               Icons.arrow_forward_ios_rounded,
               color: Colors.white,
-              size: 18.0,
+              size: adjustedIconSize,
             ),
           ),
         ],

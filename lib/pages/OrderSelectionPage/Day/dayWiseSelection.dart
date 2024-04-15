@@ -59,7 +59,7 @@ class DayWiseOrderSelectionPage extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () => Get.to(ProductDetailsScreen(product: product)),
+          onPressed: () => Get.back(),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -177,14 +177,17 @@ class DayWiseOrderSelectionPage extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: iconButton("CONTINUE", onPress: () {
+              child: iconButtonWithArrow("CONTINUE", onPress: () {
                 print(screenWidth);
                 print(product.productId);
 
                 print("JAY SHREE RAM");
                 dayWiseSelectionController.initializeAddToCartData(context);
                 // Get.to(SlotSelectionPage(product: product)); // Assuming your navigation logic
-              }, padding: EdgeInsets.fromLTRB(0, 12, 0, 12)),
+              },
+                  fontSize: screenWidth * 0.04,
+                  iconSize: screenWidth * 0.03,
+                  padding: EdgeInsets.fromLTRB(0, 12, 0, 12)),
               // child: mainButton(
               //   "CONTINUE",
               //   onPress: () {

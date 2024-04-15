@@ -158,16 +158,12 @@ class ProductDetailsScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.red),
                 )
               : mainButton(
-                  "Book Product",
+                  "BOOK PRODUCT",
                   onPress: () {
                     print(product.images);
                     print(screenWidth);
                     print(product.productId);
                     print(orientation);
-                    Get.to(SlotSelectionPage(product: product));
-                    Get.to(DayWiseOrderSelectionPage(product: product),
-                        arguments: [homeScreenController, context],
-                        transition: Transition.cupertino);
 
                     SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
                         ? Get.to(SlotSelectionPage(product: product),
