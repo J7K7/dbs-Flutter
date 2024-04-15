@@ -4,7 +4,8 @@ import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/models/product_model.dart';
 import 'package:dbs_frontend/models/slot_model.dart';
-import 'package:dbs_frontend/pages/OrderSelectionPage/slotSelectionController.dart';
+import 'package:dbs_frontend/pages/OrderSelectionPage/Slot/slotSelectionController.dart';
+import 'package:dbs_frontend/pages/ProductDetails/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
@@ -69,6 +70,10 @@ class SlotSelectionPage extends StatelessWidget {
         title: Text(
           'Select Date',
           style: TextStyle(fontSize: screenHeight * 0.02, color: primary100),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Get.to(ProductDetailsScreen(product: product)),
         ),
       ),
       body: Padding(
@@ -456,7 +461,8 @@ class SlotSelectionPage extends StatelessWidget {
                                 showGetXBar("Please select a slot first");
                                 return;
                               }
-                              await slotSelectionController.handleBooking();
+                              await slotSelectionController
+                                  .handleBooking(context);
                               print(slotSelectionController.selectedSlot.value);
                               print(product.productId);
                             },

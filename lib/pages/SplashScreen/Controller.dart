@@ -47,8 +47,8 @@ class SplashController extends GetxController {
   Future<void> initializePreferences() async {
     print("initializePreferences");
     await SharedPrefs.init(); // Ensure _prefsInstance is initialized
-    String businessCategoryId = '1';
-    SharedPrefs.setString(CATEGORYID, businessCategoryId);
+    String businessCategoryId = '2';
+    SharedPrefs.setString(BUSINESS_CATEGORYID, businessCategoryId);
 
     // Initialize HomePageController before fetching data
     Get.put(HomePageController());

@@ -101,7 +101,10 @@ class LoginScreen extends StatelessWidget {
                       ),
                       vSpace(screenHeight * 0.020),
                       _controller.isLoading.value
-                          ? const CircularProgressIndicator()
+                          ? const CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF1e2022)),
+                            )
                           : mainButton('LOGIN',
                               onPress: _controller.submitAndLogin,
                               focusNode: _controller.focusNodes[2],
@@ -125,7 +128,8 @@ class LoginScreen extends StatelessWidget {
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Get.to(RegisterScreen());
+                                  Get.to(RegisterScreen(),
+                                      transition: Transition.cupertino);
                                 },
                             ),
                           ],

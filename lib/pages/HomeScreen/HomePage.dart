@@ -73,7 +73,11 @@ class HomePage extends StatelessWidget {
           },
           child: Obx(
             () => homePageController.getLoadingState() == true
-                ? Center(child: CircularProgressIndicator())
+                ? Center(
+                    child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
+                  ))
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -231,7 +235,7 @@ class HomePage extends StatelessWidget {
 
                                                               hintText: SharedPrefs
                                                                           .isContains(
-                                                                              CATEGORYID) ==
+                                                                              BUSINESS_CATEGORYID) ==
                                                                       '1'
                                                                   ? homePageController
                                                                               .selectedDate
@@ -425,7 +429,13 @@ class HomePage extends StatelessWidget {
                                                     true
                                                 ? const Center(
                                                     child:
-                                                        CircularProgressIndicator(), // Show loading indicator
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Color(
+                                                                  0xFF1e2022)),
+                                                    ), // Show loading indicator
                                                   )
                                                 : TabBarView(
                                                     physics:

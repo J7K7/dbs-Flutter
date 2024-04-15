@@ -1,5 +1,6 @@
 // import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
+import 'package:dbs_frontend/pages/HomeScreen/homePageController.dart';
 import 'package:dbs_frontend/pages/ProductDetails/screen.dart';
 import 'package:dbs_frontend/pages/searchProducts/controller.dart';
 import 'package:dbs_frontend/pages/searchProducts/productCard.dart';
@@ -22,6 +23,7 @@ class ProductListScreen extends StatelessWidget {
     // double screenHeight = MediaQuery.of(context).size.height;
 
     double screenWidth = MediaQuery.of(context).size.width;
+    final homePageController = Get.put(HomePageController());
     // print(screenWidth);
     // _controller.callAPIGetProducts();
     return Scaffold(
@@ -31,6 +33,7 @@ class ProductListScreen extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_ios_sharp),
             onPressed: () {
               print("Back Button Is pressed");
+              homePageController.clearSelectedDates();
               Get.back();
             }),
         title: const Expanded(

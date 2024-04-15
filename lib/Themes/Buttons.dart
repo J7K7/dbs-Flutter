@@ -23,7 +23,10 @@ Widget mainButton(
         : null, //null, // Disable the button if isEnabled is false
     focusNode: focusNode,
     style: ElevatedButton.styleFrom(
+      // foregroundColor: bg200,
       minimumSize: minSize,
+      // disabledForegroundColor: primary300.withOpacity(0.38),
+      // disabledBackgroundColor: primary300.withOpacity(0.12),
       elevation: elevation,
       backgroundColor: color,
       shape: RoundedRectangleBorder(
@@ -109,46 +112,64 @@ Widget outlinedButton(String text,
       ),
     );
 
-// Widget mainButtonWithArrow(
-//   String text, {
-//   Color color = primary100,
-//   Color textColor = text300,
-//   required Function()? onPress,
-//   double radius = 4,
-//   double elevation = 1.8,
-//   FocusNode? focusNode,
-//   FontWeight fontWeight = FontWeight.w500,
-//   Size minSize = const Size(70, textButtonHeight),
-//   EdgeInsetsGeometry padding = const EdgeInsets.all(8.0),
-// }) {
-//   return ElevatedButton(
-//     onPressed: onPress,
-//     focusNode: focusNode,
-//     child: Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//       children: [
-//         Icon(Icons.arrow_forward_ios_rounded,
-//             size: fsMedium, color: Colors.transparent),
-//         Text(
-//           text,
-//           textAlign: TextAlign.center,
-//           style: TextStyle(
-//             fontSize: fsXLarge,
-//             color: textColor,
-//             fontWeight: fontWeight,
-//           ),
-//         ),
-//         Icon(Icons.arrow_forward_ios_rounded,
-//             size: fsMedium, color: textColor), // Set icon color
-//       ],
-//     ),
-//     style: ElevatedButton.styleFrom(
-//       minimumSize: minSize,
-//       elevation: elevation,
-//       backgroundColor: color,
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(radius),
-//       ),
-//     ),
-//   );
-// }
+Widget iconButton(
+  String text, {
+  Color color = primary100,
+  Color textColor = text300,
+  required Function()? onPress,
+  double radius = 13,
+  double elevation = 1.8,
+  FocusNode? focusNode,
+  FontWeight fontWeight = FontWeight.w500,
+  Size minSize = const Size(70, textButtonHeight),
+  EdgeInsetsGeometry padding = const EdgeInsets.all(8.0),
+}) {
+  return ElevatedButton(
+    onPressed: onPress,
+    focusNode: focusNode,
+    style: ElevatedButton.styleFrom(
+      foregroundColor: bg200,
+      minimumSize: minSize,
+      disabledForegroundColor: primary300.withOpacity(0.38),
+      disabledBackgroundColor: primary300.withOpacity(0.12),
+      elevation: elevation,
+      backgroundColor: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius),
+      ),
+    ),
+    child: Padding(
+      padding: padding,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Transform.scale(
+            scale: 1.5, // Adjust scale factor for desired thickness
+            child: Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.transparent,
+              size: 18.0,
+            ),
+          ),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: fsXLarge,
+              color: textColor,
+              fontWeight: fontWeight,
+            ),
+          ),
+          Transform.scale(
+            scale: 2.0, // Adjust scale factor for desired thickness
+            child: Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.white,
+              size: 18.0,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}

@@ -73,7 +73,7 @@ class LoginController extends GetxController {
         // await Future.delayed(const Duration(seconds: 1));
         isLoading(false);
 
-        Get.offAll(() => HomeScreen());
+        Get.offAll(() => HomeScreen(), transition: Transition.cupertino);
 
         return;
       },

@@ -68,12 +68,13 @@ class HomePageController extends GetxController {
   // Select Date or Date Range based on category
   Future<void> selectDate(BuildContext context) async {
     print("category Id");
-    print(SharedPrefs.getString(CATEGORYID));
+    print(SharedPrefs.getString(BUSINESS_CATEGORYID));
     print("Before Selected Dates : ");
     print(selectedDate);
 
-    if (SharedPrefs.isContains(CATEGORYID)) {
-      isDateRange = SharedPrefs.getString(CATEGORYID) == '1' ? false : true;
+    if (SharedPrefs.isContains(BUSINESS_CATEGORYID)) {
+      isDateRange =
+          SharedPrefs.getString(BUSINESS_CATEGORYID) == '1' ? false : true;
     }
 
     if (!isDateRange) {

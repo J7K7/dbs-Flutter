@@ -133,7 +133,7 @@ class SlotSelectionController extends GetxController {
     );
   }
 
-  Future<void> handleBooking() async {
+  Future<void> handleBooking(context) async {
     int? selectedSlotId = selectedSlot.value?.slotId;
     print(selectedSlotId);
     if (selectedSlotId == null) {
@@ -151,7 +151,7 @@ class SlotSelectionController extends GetxController {
       };
       print("not after");
       print(addToCartData);
-      await addToCartReq(addToCartData);
+      await addToCartReq(addToCartData, context);
       print("after");
     }
   }
@@ -194,7 +194,7 @@ class SlotSelectionController extends GetxController {
   //   );
   // }
 
-  Future<void> addToCartReq(Map<String, dynamic> addToCartData) async {
+  Future<void> addToCartReq(Map<String, dynamic> addToCartData, context) async {
     isAddToCartRequestLoading(true);
     ApiService.post(
       API_ADD_TO_CART,
@@ -205,7 +205,17 @@ class SlotSelectionController extends GetxController {
 
         isAddToCartRequestLoading(false);
         showGetXBar("Succccccccessss");
-        Get.to(() => CartPage());
+        // Get.to(() => CartPage());
+
+        var message = data['msg'] != null ? data['msg'].toString() : '';
+
+        // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
+        message != '' ? showSuccessToastMessage(context, '$message') : null;
+
+        // Delay navigation to CartPage for 2 seconds using Future.delayed
+        await Future.delayed(const Duration(seconds: 1));
+        Get.find<HomeScreenController>().changeTabIndex(1);
+        Get.to(HomeScreen(), transition: Transition.cupertino);
       },
       failed: (data) async {
         isAddToCartRequestLoading(false);
@@ -221,11 +231,22 @@ class SlotSelectionController extends GetxController {
               "At a Time Only products with the same date can be added. Proceeding will replace the existing product in your cart with the new selection",
               () {
             print("Proceeesss");
-            Get.off(ProfilePage());
+            Get.find<HomeScreenController>().changeTabIndex(1);
+            Get.to(HomeScreen(), transition: Transition.cupertino);
           }, () {
+            // showGetXBar(data["err"]);
+
             Get.back();
-            showGetXBar(data["err"]);
           });
+        } else {
+          var message = data['msg'] != null
+              ? data['msg'].toString()
+              : ''; // Handle missing 'msg' field
+          var error = data['err'] != null ? data['err'].toString() : '';
+
+          error == ''
+              ? showErrorToastMessage(context, '$message')
+              : showErrorToastMessage(context, '$error');
         }
 
         // showGetXBar(data["err"]);

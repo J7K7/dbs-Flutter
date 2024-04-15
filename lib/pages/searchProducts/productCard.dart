@@ -115,8 +115,9 @@ class ProductCard extends StatelessWidget {
                       Expanded(
                         flex: 6, // 70% of the available space
                         child: Text(
-                          product.productName ?? '',
-                          style: AppTextStyles.subheadingTextStyle,
+                          product.productName?.toUpperCase() ?? '',
+                          style: AppTextStyles.mediumHeadingTextStyle
+                              .copyWith(fontWeight: FontWeight.bold),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),

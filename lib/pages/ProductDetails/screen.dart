@@ -4,7 +4,10 @@ import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
-import 'package:dbs_frontend/pages/OrderSelectionPage/slotSelection.dart';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
+import 'package:dbs_frontend/pages/OrderSelectionPage/Day/dayWiseSelection.dart';
+import 'package:dbs_frontend/pages/OrderSelectionPage/Slot/slotSelection.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dbs_frontend/models/product_model.dart';
@@ -14,7 +17,8 @@ import 'package:get/get.dart';
 class ProductDetailsScreen extends StatelessWidget {
   final ProductModel product;
 
-  const ProductDetailsScreen({required this.product});
+  ProductDetailsScreen({super.key, required this.product});
+  final homeScreenController = Get.put(HomeScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,8 @@ class ProductDetailsScreen extends StatelessWidget {
     var orientation = MediaQuery.of(context).orientation;
     double viewportFraction = screenWidth >= 850 ? 0.5 : 0.8;
     double aspectRatio = orientation == Orientation.portrait ? 16 / 9 : 2.5;
+    print("BUSINESS_CATEGORYID");
+    print(SharedPrefs.getString(BUSINESS_CATEGORYID));
 
     return Scaffold(
       extendBodyBehindAppBar:
@@ -107,7 +113,7 @@ class ProductDetailsScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
-                product.productName ?? 'productName Unavailable',
+                product.productName?.toUpperCase() ?? 'productName Unavailable',
                 style: AppTextStyles.subheadingTextStyle,
               ),
             ),
@@ -159,6 +165,17 @@ class ProductDetailsScreen extends StatelessWidget {
                     print(product.productId);
                     print(orientation);
                     Get.to(SlotSelectionPage(product: product));
+                    Get.to(DayWiseOrderSelectionPage(product: product),
+                        arguments: [homeScreenController, context],
+                        transition: Transition.cupertino);
+
+                    SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
+                        ? Get.to(SlotSelectionPage(product: product),
+                            arguments: [homeScreenController, context],
+                            transition: Transition.cupertino)
+                        : Get.to(DayWiseOrderSelectionPage(product: product),
+                            arguments: [homeScreenController, context],
+                            transition: Transition.cupertino);
                   },
                 ),
         ),

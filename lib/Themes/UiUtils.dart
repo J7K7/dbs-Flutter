@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
+import 'package:delightful_toast/delight_toast.dart';
+import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -53,14 +55,31 @@ Widget errorIconWidget({double size = 50}) {
 
 Image errorImageWidget() => Image.asset(defaultErrorImageUrl, fit: BoxFit.fill);
 
+// Widget getImageWidget(String imagePath) {
+//   return CachedNetworkImage(
+//       imageUrl: PRODUCT_IMAGE_PATH + imagePath,
+//       errorWidget: (context, url, error) => errorIconWidget(size: 50),
+//       placeholder: (context, url) => const CircularProgressIndicator(
+//             valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
+//           ),
+//       fit: BoxFit.fill);
+// }
+
 Widget getImageWidget(String imagePath) {
   return CachedNetworkImage(
-      imageUrl: PRODUCT_IMAGE_PATH + imagePath,
-      errorWidget: (context, url, error) => errorIconWidget(size: 50),
-      placeholder: (context, url) => const CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
-          ),
-      fit: BoxFit.fill);
+    imageUrl: PRODUCT_IMAGE_PATH + imagePath,
+    errorWidget: (context, url, error) => errorIconWidget(size: 50),
+    placeholder: (context, url) => Center(
+      child: SizedBox(
+        width: 40, // Specify the desired width
+        height: 40, // Specify the desired height
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
+        ),
+      ),
+    ),
+    fit: BoxFit.fill,
+  );
 }
 
 // // Input Text Styles //
@@ -116,6 +135,58 @@ void showErrorDialog(String errorMessage, Function() confirmPress,
         ))),
     barrierDismissible: false,
   );
+}
+
+void showErrorToastMessage(BuildContext context, String message) {
+  DelightToastBar(
+    builder: (context) => Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+      child: ToastCard(
+        leading: Icon(
+          Icons.error_outline_outlined,
+          color: Color(0xFFDC143C),
+          size: 28,
+        ),
+        title: Text(
+          message,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Color(0xFFDC143C),
+            fontSize: 14,
+          ),
+        ),
+      ),
+    ),
+    snackbarDuration: Duration(seconds: 3),
+    autoDismiss: true,
+    animationCurve: Curves.easeOutCubic,
+  ).show(context);
+}
+
+void showSuccessToastMessage(BuildContext context, String message) {
+  DelightToastBar(
+    builder: (context) => Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+      child: ToastCard(
+        leading: Icon(
+          Icons.check,
+          color: Colors.green,
+          size: 28,
+        ),
+        title: Text(
+          message,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            color: Colors.green,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    ),
+    snackbarDuration: Duration(seconds: 3),
+    autoDismiss: true,
+    animationCurve: Curves.easeOutCubic,
+  ).show(context);
 }
 
 InputDecoration textInputDecoration(String hint, {Widget? trailing}) =>

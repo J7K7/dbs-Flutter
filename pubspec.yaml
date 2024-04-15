@@ -44,9 +44,12 @@ dependencies:
   connectivity_plus: ^5.0.2
   cached_network_image: ^3.3.1
   responsive_builder: ^0.7.0
+  calendar_date_picker2: ^0.5.5
   carousel_slider: ^4.2.1
   flutter_svg: ^0.22.0
   easy_date_timeline: ^1.0.6
+  delightful_toast: ^1.1.0
+
   
 
 dev_dependencies:

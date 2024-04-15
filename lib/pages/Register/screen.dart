@@ -173,7 +173,10 @@ class RegisterScreen extends StatelessWidget {
                     // ),
                     vSpace(screenHeight * 0.020),
                     _controller.isLoading.value
-                        ? const CircularProgressIndicator()
+                        ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                Color(0xFF1e2022)),
+                          )
                         : mainButton('REGISTER',
                             onPress: _controller.submitAndSignIn,
                             focusNode: _controller.focusNodes[6],
@@ -198,7 +201,8 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                Get.to(LoginScreen());
+                                Get.to(LoginScreen(),
+                                    transition: Transition.cupertino);
                               },
                           ),
                         ],

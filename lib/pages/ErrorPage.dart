@@ -4,6 +4,7 @@ import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:dbs_frontend/Themes/AppColors.dart';
 
 class ErrorPage extends StatelessWidget {
   @override
@@ -13,14 +14,15 @@ class ErrorPage extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Container(
-          width: screenWidth * 0.8,
-          height: screenHeight * 0.8,
-          padding: EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.grey[200], // Background color of the container
-            borderRadius: BorderRadius.circular(20), // Rounded corners
-          ),
+        child: SingleChildScrollView(
+          // child: Container(
+          //   width: screenWidth * 0.8,
+          //   height: screenHeight * 0.8,
+          //   padding: EdgeInsets.all(20),
+          //   decoration: BoxDecoration(
+          //     color: Colors.grey[200], // Background color of the container
+          //     borderRadius: BorderRadius.circular(20), // Rounded corners
+          //   ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -35,25 +37,34 @@ class ErrorPage extends StatelessWidget {
               // Display the GIF image
               Image.asset(
                 'assets/images/errorGif.gif', // Path to your GIF file
-                width: screenWidth * 0.7,
-                height: screenHeight * 0.5,
-                fit: BoxFit.cover,
+                width: screenWidth * 0.9,
+                height: screenHeight * 0.6,
+                fit: BoxFit.fill,
               ),
               // SizedBox(height: 20),
               Text(
-                'Oops, something went wrong!',
+                'Something Went Wrong !',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: screenWidth * 0.07,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: primary100,
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              SizedBox(height: screenHeight * 0.01),
+              Text(
+                'Sorry, An unexpected error occured, it will be resolved shortly !',
+                style: TextStyle(
+                  fontSize: screenWidth * 0.05,
+                  color: primary100,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: screenHeight * 0.01),
               Container(
                 width: screenWidth * 0.5,
                 child: mainOutLinedButton(
-                  'RETRY',
+                  'TRY AGAIN',
                   onPress: () {
                     // Clear the Login Data
                     SharedPrefs.clearAllData();
@@ -64,6 +75,7 @@ class ErrorPage extends StatelessWidget {
               ),
             ],
           ),
+          // ),
         ),
       ),
     );

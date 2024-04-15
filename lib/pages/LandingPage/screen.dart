@@ -82,7 +82,7 @@ class LandingScreen extends StatelessWidget {
                   ),
                   SizedBox(height: screenHeight * 0.03),
                   mainOutLinedButton('LOGIN', onPress: () {
-                    Get.to(LoginScreen());
+                    Get.to(LoginScreen(), transition: Transition.cupertino);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -90,7 +90,7 @@ class LandingScreen extends StatelessWidget {
                   }),
                   SizedBox(height: screenHeight * 0.01),
                   mainButton('REGISTER', onPress: () {
-                    Get.to(RegisterScreen());
+                    Get.to(RegisterScreen(), transition: Transition.cupertino);
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(builder: (context) => RegisterScreen()),

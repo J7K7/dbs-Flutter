@@ -125,7 +125,7 @@ class RegisterController extends GetxController {
       isLoading(false);
 
       // This will change ------------
-      Get.offAll(() => LoginScreen());
+      Get.offAll(() => LoginScreen(), transition: Transition.cupertino);
     }, failed: (data) {
       // print("Inside failed callback ");
       // print(data);

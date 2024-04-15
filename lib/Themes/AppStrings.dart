@@ -24,7 +24,7 @@ const LIVEURL = "";
 /*SharedPreferences Variables*/
 const ISAUTOLOGIN = "ISAUTOLOGIN";
 const LOGINDATA = "LOGINDATA";
-var CATEGORYID = "CATEGORYID";
+var BUSINESS_CATEGORYID = "BUSINESS_CATEGORYID";
 
 /* USER API */
 const API_USER = "user/";
@@ -42,13 +42,12 @@ const API_POPULARPRODUCTS = API_PRODUCT + "popularProducts/";
 const API_GETALLCATEGORIES = API_PRODUCT + "getAllCategories";
 const API_GET_LATEST_PRODUCTS = API_PRODUCT + "latestProducts";
 
-/* Slot's API */
-
+/**BOOKING : SLOT API's */
 const API_GET_SLOTS_BY_DATE = API_PRODUCT + "getSlotsByDateAndProductId";
 
-/**BOOKING API's */
+/**BOOKING : DAY API's */
 const API_BOOKING = "booking/";
-const API_ADD_TO_CART = API_BOOKING + "addToCart";
+var API_ADD_TO_CART = API_BOOKING + "addToCart";
 
 /* Error Message Strings */
 const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";
