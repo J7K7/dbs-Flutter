@@ -2,6 +2,7 @@ import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/Widgets/custom_animated_bottom_bar.dart';
+import 'package:dbs_frontend/pages/CartScreen/cartPage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:flutter/material.dart';
@@ -93,14 +94,14 @@ class HomeScreenController extends GetxController {
 
 // class HomePageController extends GetxController {}
 
-class CartPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Cart Page'),
-    ); // Empty container for now
-  }
-}
+// class CartPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('Cart Page'),
+//     ); // Empty container for now
+//   }
+// }
 
 class OrdersPage extends StatelessWidget {
   @override

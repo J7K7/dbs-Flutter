@@ -15,9 +15,12 @@ Widget mainButton(
   Size minSize = const Size(70, textButtonHeight),
   EdgeInsetsGeometry padding =
       const EdgeInsets.all(8.0), // New parameter for padding
+  bool isEnabled = true, // New parameter for button enable/disable
 }) {
   return ElevatedButton(
-    onPressed: onPress,
+    onPressed: isEnabled
+        ? onPress
+        : null, //null, // Disable the button if isEnabled is false
     focusNode: focusNode,
     style: ElevatedButton.styleFrom(
       minimumSize: minSize,
@@ -26,7 +29,6 @@ Widget mainButton(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
       ),
-
       onPrimary: bg200, // Text color when hovered
       onSurface: primary300, // Background color when hovered
     ),

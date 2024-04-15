@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/CartScreen/cartPage.dart';
 import 'package:dbs_frontend/pages/ErrorPage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePageController.dart';
@@ -67,7 +68,8 @@ class SplashController extends GetxController {
       print("aapdu Rhere else");
       // await Future.delayed(const Duration(seconds: 1));
 
-      Get.offAll(() => HomeScreen());
+      // Get.offAll(() => CartPage());
+      Get.offAll(() => LandingScreen());
     }
   }
 

@@ -2,12 +2,12 @@ class SlotModel {
   String? slotDate;
   String? slotFromDateTime;
   String? slotToDateTime;
-  String? slotPrice;
+  int? slotPrice;
   int? slotId;
 
   SlotModel({
     this.slotDate,
-    required this.slotFromDateTime,
+    this.slotFromDateTime,
     this.slotToDateTime,
     this.slotPrice,
     this.slotId,

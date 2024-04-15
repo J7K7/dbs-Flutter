@@ -72,13 +72,50 @@ void showGetXBar(String message) {
       duration: const Duration(seconds: 3),
       backgroundColor: primary200,
       // titleText: Center(
-      //   child: Text(title,
-      //       style: Get.textTheme.headlineMedium?.copyWith(color: bg200)),
+      //   child: Text(message,
+      //       style: AppTextStyles.snackBarTextStyle
+      //           .copyWith(fontWeight: FontWeight.bold)),
       // ),
       messageText: Center(
-        child: Text(message, style: AppTextStyles.snackBarTextStyle),
+        child: Text(message,
+            style: AppTextStyles.snackBarTextStyle
+                .copyWith(fontWeight: FontWeight.bold)),
       ),
       forwardAnimationCurve: ElasticInCurve(0.4));
+}
+
+void showErrorDialog(String errorMessage, Function() confirmPress,
+    Function() cancelPress) async {
+  Get.defaultDialog(
+    title: "Attention",
+    content: Column(
+      children: [
+        Text(
+          errorMessage,
+          style: AppTextStyles.mediumBodyTextStyle,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+    confirm: ElevatedButton(
+      onPressed: confirmPress,
+      child: Text("Proceed", style: AppTextStyles.buttonTextStyle),
+      style: ElevatedButton.styleFrom(
+          backgroundColor: primary100,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0),
+          )),
+    ),
+    cancel: ElevatedButton(
+        onPressed: cancelPress,
+        child: Text("Cancel", style: AppTextStyles.mediumBodyTextStyle),
+        style: ElevatedButton.styleFrom(
+            // backgroundColor: primary100,
+            shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4.0),
+        ))),
+    barrierDismissible: false,
+  );
 }
 
 InputDecoration textInputDecoration(String hint, {Widget? trailing}) =>

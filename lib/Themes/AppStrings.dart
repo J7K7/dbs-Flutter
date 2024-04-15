@@ -42,6 +42,14 @@ const API_POPULARPRODUCTS = API_PRODUCT + "popularProducts/";
 const API_GETALLCATEGORIES = API_PRODUCT + "getAllCategories";
 const API_GET_LATEST_PRODUCTS = API_PRODUCT + "latestProducts";
 
+/* Slot's API */
+
+const API_GET_SLOTS_BY_DATE = API_PRODUCT + "getSlotsByDateAndProductId";
+
+/**BOOKING API's */
+const API_BOOKING = "booking/";
+const API_ADD_TO_CART = API_BOOKING + "addToCart";
+
 /* Error Message Strings */
 const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";
 const String noInternetErrorMsg =
