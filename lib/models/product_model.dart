@@ -57,8 +57,10 @@ class ProductModel {
     data['productDescription'] =
         productDescription; // Include productDescription
     data['advanceBookingDuration'] = advanceBookingDuration;
-    data['active_fromDate'] = activeFromDate!.toIso8601String();
-    data['active_toDate'] = activeToDate!.toIso8601String();
+    data['active_fromDate'] = activeFromDate!.toString();
+    data['active_toDate'] = activeToDate!.toString();
+    // data['active_fromDate'] = activeFromDate!.toIso8601String();
+    // data['active_toDate'] = activeToDate!.toIso8601String();
     if (images != null) {
       data['images'] = images!.map((v) => v.toJson()).toList();
     }
