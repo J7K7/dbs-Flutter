@@ -24,16 +24,17 @@ Widget mainButton(
     focusNode: focusNode,
     style: ElevatedButton.styleFrom(
       // foregroundColor: bg200,
+      foregroundColor: bg200,
       minimumSize: minSize,
+      disabledForegroundColor: primary300.withOpacity(0.38),
+      disabledBackgroundColor: primary300.withOpacity(0.12),
       // disabledForegroundColor: primary300.withOpacity(0.38),
       // disabledBackgroundColor: primary300.withOpacity(0.12),
       elevation: elevation,
       backgroundColor: color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
-      ),
-      onPrimary: bg200, // Text color when hovered
-      onSurface: primary300, // Background color when hovered
+      ), // Background color when hovered
     ),
     child: Padding(
       padding: padding, // Use the provided padding

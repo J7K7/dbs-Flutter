@@ -126,6 +126,7 @@ class CartController extends GetxController {
 
   Future<void> updateCartReq(Map<String, dynamic> addToCartData,
       int oldQuantity, int index, context) async {
+    var screenHeight = MediaQuery.of(context).size.height;
     isCartUpdating(true);
     ApiService.post(
       API_ADD_TO_CART,
@@ -137,7 +138,10 @@ class CartController extends GetxController {
         var message = data['msg'] != null ? data['msg'].toString() : '';
 
         // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
-        message != '' ? showSuccessToastMessage(context, '$message') : null;
+        message != ''
+            ? showSuccessToastMessage(context, '$message',
+                bottomPadding: screenHeight * 0.1)
+            : null;
 
         // Delay navigation to CartPage for 2 seconds using Future.delayed
         await fetchCart();
@@ -156,8 +160,10 @@ class CartController extends GetxController {
         var error = data['err'] != null ? data['err'].toString() : '';
 
         error == ''
-            ? showErrorToastMessage(context, '$message')
-            : showErrorToastMessage(context, '$error');
+            ? showErrorToastMessage(context, '$message',
+                bottomPadding: screenHeight * 0.1)
+            : showErrorToastMessage(context, '$error',
+                bottomPadding: screenHeight * 0.1);
 
         // showGetXBar(data["err"]);
       },
@@ -167,7 +173,8 @@ class CartController extends GetxController {
         cartItems[index] = cartItems[index].updateQuantity(oldQuantity);
         cartItems.refresh();
         // isSlotLoading(false);
-        showErrorToastMessage(context, '$msg');
+        showErrorToastMessage(context, '$msg',
+            bottomPadding: screenHeight * 0.1);
       },
     );
   }
@@ -181,6 +188,7 @@ class CartController extends GetxController {
 
   Future<void> removeFromCartReq(
       Map<String, dynamic> removeFromCartData, context) async {
+    var screenHeight = MediaQuery.of(context).size.height;
     isCartUpdating(true);
     ApiService.post(
       API_REMOVE_FROM_CART,
@@ -192,7 +200,10 @@ class CartController extends GetxController {
         var message = data['msg'] != null ? data['msg'].toString() : '';
 
         // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
-        message != '' ? showSuccessToastMessage(context, '$message') : null;
+        message != ''
+            ? showSuccessToastMessage(context, '$message',
+                bottomPadding: screenHeight * 0.1)
+            : null;
 
         // Delay navigation to CartPage for 2 seconds using Future.delayed
         await fetchCart();
@@ -209,8 +220,10 @@ class CartController extends GetxController {
         var error = data['err'] != null ? data['err'].toString() : '';
 
         error == ''
-            ? showErrorToastMessage(context, '$message')
-            : showErrorToastMessage(context, '$error');
+            ? showErrorToastMessage(context, '$message',
+                bottomPadding: screenHeight * 0.1)
+            : showErrorToastMessage(context, '$error',
+                bottomPadding: screenHeight * 0.1);
 
         // showGetXBar(data["err"]);
       },
@@ -219,7 +232,8 @@ class CartController extends GetxController {
         isCartUpdating(false);
 
         // isSlotLoading(false);
-        showErrorToastMessage(context, '$msg');
+        showErrorToastMessage(context, '$msg',
+            bottomPadding: screenHeight * 0.1);
       },
     );
   }

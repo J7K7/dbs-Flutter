@@ -42,7 +42,8 @@ class SlotSelectionController extends GetxController {
     print(homePageController.selectedDate.value);
     print(selectedDate.value);
     print(product.activeFromDate);
-    print(startDate);
+    print("Controller Bhai:");
+    print(product.productId);
   }
   @override
   Future<void> onInit() async {
@@ -51,6 +52,7 @@ class SlotSelectionController extends GetxController {
     //   duration: Duration(milliseconds: 300),
     // );
     super.onInit();
+
     await fetchSlots(
         slotDate: DateFormat('yyyy-MM-dd').format(selectedDate.value),
         productId: product.productId.toString()!);
@@ -98,6 +100,7 @@ class SlotSelectionController extends GetxController {
       API_GET_SLOTS_BY_DATE,
       success: (data) async {
         print(data);
+
         if (data['slotsData'] != null) {
           availableSlots.clear();
 
@@ -114,12 +117,14 @@ class SlotSelectionController extends GetxController {
           // print("Data=");
           // print(data);
         }
+        selectedSlot.value = null;
         isSlotLoading(false);
       },
       failed: (data) async {
         isSlotLoading(false);
         print('API request failed: $data');
         showGetXBar(data["msg"]);
+
         // Get.to(HomeScreen());
       },
       params: queryParams,
@@ -152,6 +157,7 @@ class SlotSelectionController extends GetxController {
       print("not after");
       print(addToCartData);
       await addToCartReq(addToCartData, context);
+      selectedSlot.value = null;
       print("after");
     }
   }

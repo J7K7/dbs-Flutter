@@ -51,6 +51,8 @@ var API_ADD_TO_CART = API_BOOKING + "addToCart";
 const API_GET_CART = API_BOOKING + "cart";
 const API_REMOVE_FROM_CART = API_BOOKING + "removeFromCart";
 const API_CONFIRM_BOOKING = API_BOOKING + "confirmBooking";
+var API_GET_ALL_ORDERS = API_BOOKING + "orders";
+var API_CANCEL_ORDER_BY_USER = API_BOOKING + "cancelBooking";
 
 /* Error Message Strings */
 const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";

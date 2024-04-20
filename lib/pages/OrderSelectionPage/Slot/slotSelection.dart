@@ -20,10 +20,12 @@ class SlotSelectionPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-
+    print("Inside the slot sleection:");
+    print(product.productId);
     final SlotSelectionController slotSelectionController = Get.put(
       SlotSelectionController(product: product),
     );
+    // slotSelectionController.fetchSlots()
     // List<SlotModel> dummySlots = [
     //   SlotModel(
     //     slotDate: DateTime.now().toString(),

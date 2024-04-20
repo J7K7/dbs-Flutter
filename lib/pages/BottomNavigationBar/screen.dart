@@ -5,6 +5,7 @@ import 'package:dbs_frontend/Widgets/custom_animated_bottom_bar.dart';
 import 'package:dbs_frontend/pages/CartScreen/cartPage.dart';
 import 'package:dbs_frontend/pages/HomeScreen/homePage.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
+import 'package:dbs_frontend/pages/Orders/orderPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -103,14 +104,14 @@ class HomeScreenController extends GetxController {
 //   }
 // }
 
-class OrdersPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Orders Page'),
-    ); // Empty container for now
-  }
-}
+// class OrdersPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Text('Orders Page'),
+//     ); // Empty container for now
+//   }
+// }
 
 class ProfilePage extends StatelessWidget {
   @override

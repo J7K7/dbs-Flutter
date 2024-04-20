@@ -137,10 +137,11 @@ void showErrorDialog(String errorMessage, Function() confirmPress,
   );
 }
 
-void showErrorToastMessage(BuildContext context, String message) {
+void showErrorToastMessage(BuildContext context, String message,
+    {double bottomPadding = 15}) {
   DelightToastBar(
     builder: (context) => Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, bottomPadding),
       child: ToastCard(
         leading: Icon(
           Icons.error_outline_outlined,
@@ -163,10 +164,11 @@ void showErrorToastMessage(BuildContext context, String message) {
   ).show(context);
 }
 
-void showSuccessToastMessage(BuildContext context, String message) {
+void showSuccessToastMessage(BuildContext context, String message,
+    {double bottomPadding = 15}) {
   DelightToastBar(
     builder: (context) => Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, bottomPadding),
       child: ToastCard(
         leading: Icon(
           Icons.check,
