@@ -183,7 +183,7 @@ void showSuccessToastMessage(BuildContext context, String message) {
         ),
       ),
     ),
-    snackbarDuration: Duration(seconds: 3),
+    snackbarDuration: Duration(seconds: 2),
     autoDismiss: true,
     animationCurve: Curves.easeOutCubic,
   ).show(context);

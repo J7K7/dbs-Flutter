@@ -12,6 +12,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -23,9 +24,12 @@ class SplashScreen extends StatelessWidget {
                 child:
                     const Text('DBS', style: AppTextStyles.headingTextStyle)),
           ),
-          const Text(
-            'DYNAMIC BOOKING SYSTEM',
-            style: AppTextStyles.subheadingTextStyle,
+          Center(
+            child: Text(
+              'DYNAMIC BOOKING SYSTEM',
+              style: AppTextStyles.subheadingTextStyle
+                  .copyWith(fontSize: screenWidth * 0.05),
+            ),
           ),
           spinKitWidgetWaveSpinner(),
         ],

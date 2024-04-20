@@ -48,6 +48,9 @@ const API_GET_SLOTS_BY_DATE = API_PRODUCT + "getSlotsByDateAndProductId";
 /**BOOKING : DAY API's */
 const API_BOOKING = "booking/";
 var API_ADD_TO_CART = API_BOOKING + "addToCart";
+const API_GET_CART = API_BOOKING + "cart";
+const API_REMOVE_FROM_CART = API_BOOKING + "removeFromCart";
+const API_CONFIRM_BOOKING = API_BOOKING + "confirmBooking";
 
 /* Error Message Strings */
 const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";

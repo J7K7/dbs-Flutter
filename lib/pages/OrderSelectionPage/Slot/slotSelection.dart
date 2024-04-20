@@ -445,7 +445,8 @@ class SlotSelectionPage extends StatelessWidget {
                         child: Obx(
                           () => mainButton(
                             "Book Now",
-                            isEnabled:
+                            isEnabled: !slotSelectionController
+                                    .isAddToCartRequestLoading.value &&
                                 slotSelectionController.selectedSlot.value !=
                                     null,
                             // ignore: dead_code

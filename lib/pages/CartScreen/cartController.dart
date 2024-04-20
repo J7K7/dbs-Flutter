@@ -1,320 +1,274 @@
 import 'package:dbs_frontend/Themes/AppStrings.dart';
+import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/appCommon/ApiService.dart';
 import 'package:dbs_frontend/models/cartItem_model.dart';
+import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
+import 'package:dbs_frontend/pages/SuccessScreen/SuccessAnimation.dart';
+import 'package:dbs_frontend/pages/SuccessScreen/successController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  final cartItems = RxList<CartItem>([]);
+  var cartItems = List.generate(0, (index) => CartItem(), growable: true).obs;
+  RxBool isCartLoading = false.obs;
+  RxBool isCartUpdating = false.obs;
+  RxBool isConfirmingBooking = false.obs;
+  RxInt unavailableProductCnt = 0.obs;
+  final SuccessAnimationController bookingSuccessController =
+      Get.put(SuccessAnimationController());
   final businessCategoryId =
       int.tryParse(SharedPrefs.getString(BUSINESS_CATEGORYID)!) ??
           1; // Default 1
-
+  RxDouble grandTotal = 0.0.obs;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
-    addDummyData(); // Add dummy data on initialization
+    await fetchCart();
+    print(cartItems);
+    print("Error Count:");
+    print(unavailableProductCnt);
+    // addDummyData(); // Add dummy data on initialization
   }
 
-  void addDummyData() {
-    cartItems.add(
-      CartItem(
-        bookingId: 17355,
-        productName: "Movie Ticket (Slot-Wise)",
-        quantity: 2,
-        productId: 7,
-        slotId: 123, // Replace with actual slot ID if applicable
-        slotFromDateTime: "2024-04-16 14:00:00",
-        slotToDateTime: "2024-04-16 16:00:00",
-        checkInDate: "2024-04-29 10:00:00", // Not applicable for slot-wise
-        checkOutDate: "2024-04-30 08:00:00", // Not applicable for slot-wise
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 500, // Adjust based on your pricing
-        price: 250, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    cartItems.add(
-      CartItem(
-        bookingId: 17356,
-        productName: "Hotel Room (Day-Wise)",
-        quantity: 1,
-        productId: 8,
-        slotId: 522, // Not applicable for day-wise
-        slotFromDateTime: "2024-04-16 18:00:00", // Not applicable for day-wise
-        slotToDateTime: "2024-04-16 19:00:00", // Not applicable for day-wise
-        checkInDate: "2024-04-20 10:00:00",
-        checkOutDate: "2024-04-22 09:00:00",
-        ProductImage: "productImages-1709103738403-304830184.jpg",
-        grandTotal: 2000, // Adjust based on your pricing
-        price: 2000, // Adjust based on your pricing
-      ),
-    );
-    update(); // Inform GetX about changes (important for UI updates)
-  }
-
-  // Future<void> updateQuantity(int index, int newQuantity) async {
-  //   if (newQuantity <= 0) return; // Handle invalid quantities
-  //   final item = cartItems[index];
-  //   cartItems[index] = item.copyWith(quantity: RxInt(newQuantity)); // Update locally
-  //   update(); // Inform GetX about changes
-
-  //   // Implement your API call here (replace with your actual service)
-  //   final response = await YourApiService.updateCartItemQuantity(item.bookingId, newQuantity);
-  //   if (response.statusCode == 200) {
-  //     // Success
-  //   } else {
-  //     cartItems[index] = item.copyWith(quantity: item.quantity); // Revert to old value
-  //     update(); // Inform GetX about changes
-  //     Get.snackbar(
-  //       "Error",
-  //       "Failed to update quantity. ${response.reasonPhrase}",
-  //       snackPosition: SnackPosition.BOTTOM,
-  //     );
-  //   }
-  // }
-
-  void removeItemFromCart(CartItem item) {
-    cartItems.remove(item);
+  Future<void> updateQuantity(int index, int newQuantity, context) async {
+    // if (newQuantity <= 0) return; // Handle invalid quantities
+    final item = cartItems[index];
+    int oldQuantity = item.quantity!;
+    cartItems[index] = item.updateQuantity(newQuantity); // Update locally
     update(); // Inform GetX about changes
+    // print("cnt:");
+    // print(errorCnt == 0);
+
+    List<String> quantity = ['${newQuantity}'];
+    List<int> slotIds = [item.slotId!];
+    Map<String, dynamic> addToCartData = {
+      'bookingCategoryId': businessCategoryId,
+      'bookingFromDate': item.slotFromDateTime,
+      'bookingToDate': item.slotToDateTime,
+      'slotIds': slotIds,
+      'productId': item.productId,
+      'quantity': quantity, // Pass as an array
+    };
+    // if()
+    print("not after");
+    print(addToCartData);
+    await updateCartReq(addToCartData, oldQuantity, index, context);
+    print("after");
+    print("Error Count:");
+    print(unavailableProductCnt);
+  }
+
+  Future<void> removeItemFromCart(CartItem item, context) async {
+    // cartItems.remove(item);
+    Map<String, dynamic> removeFromCartData = {
+      'bookingCategoryId': businessCategoryId,
+      'productId': item.productId,
+    };
+
+    if (businessCategoryId == 1) {
+      removeFromCartData['slotId'] = item.slotId;
+    }
+    await removeFromCartReq(removeFromCartData, context);
+    if (item.productAvailable == 0) unavailableProductCnt -= 1;
+    update(); // Inform GetX about changes
+  }
+
+  Future<void> confirmBooking(context) async {
+    // cartItems.remove(item);
+    await confirmBookingReq(context);
+    update(); // Inform GetX about changes
+  }
+
+  Future<void> fetchCart() async {
+    print("Api call");
+    // print(cnt);
+    unavailableProductCnt.value = 0;
+    isCartLoading(true);
+    ApiService.get(
+      API_GET_CART,
+      success: (data) async {
+        print(data);
+        if (data['items'] != null) {
+          cartItems.clear();
+
+          data['items'].forEach((v) {
+            grandTotal.value = v['grandTotal'].toDouble();
+            if (!isBookingFromDateValid(v['slotFromDateTime'])) {
+              unavailableProductCnt += 1;
+              cartItems.add(
+                CartItem.fromJson(v).updateProductAvailability(0),
+              );
+            } else {
+              cartItems.add(CartItem.fromJson(v));
+            }
+          });
+          print("Data=");
+          // print(data);
+        }
+        isCartLoading(false);
+      },
+      failed: (data) async {
+        isCartLoading(false);
+        print('API request failed: $data');
+        showGetXBar(data["msg"]);
+        // Get.to(HomeScreen());
+      },
+      error: (msg) {
+        print(msg);
+        print("error ");
+        isCartLoading(false);
+        showGetXBar(msg);
+        // Get.to(HomeScreen());
+      },
+    );
+  }
+
+  Future<void> updateCartReq(Map<String, dynamic> addToCartData,
+      int oldQuantity, int index, context) async {
+    isCartUpdating(true);
+    ApiService.post(
+      API_ADD_TO_CART,
+      param: addToCartData,
+      success: (data) async {
+        print("SUCCESS");
+        print(data);
+
+        var message = data['msg'] != null ? data['msg'].toString() : '';
+
+        // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
+        message != '' ? showSuccessToastMessage(context, '$message') : null;
+
+        // Delay navigation to CartPage for 2 seconds using Future.delayed
+        await fetchCart();
+        isCartUpdating(false);
+      },
+      failed: (data) async {
+        cartItems[index] = cartItems[index].updateQuantity(oldQuantity);
+        cartItems.refresh();
+        // Here you need to call the animation box for showing error  messages
+        isCartUpdating(false);
+        print('API request failed: $data');
+
+        var message = data['msg'] != null
+            ? data['msg'].toString()
+            : ''; // Handle missing 'msg' field
+        var error = data['err'] != null ? data['err'].toString() : '';
+
+        error == ''
+            ? showErrorToastMessage(context, '$message')
+            : showErrorToastMessage(context, '$error');
+
+        // showGetXBar(data["err"]);
+      },
+      error: (msg) async {
+        print("Error: $msg");
+        isCartUpdating(false);
+        cartItems[index] = cartItems[index].updateQuantity(oldQuantity);
+        cartItems.refresh();
+        // isSlotLoading(false);
+        showErrorToastMessage(context, '$msg');
+      },
+    );
+  }
+
+  bool isBookingFromDateValid(String bookingFromDate) {
+    DateTime currentDateTime = DateTime.now();
+    DateTime bookingFromDateTime = DateTime.parse(bookingFromDate);
+    // bool ans =
+    return bookingFromDateTime.isAfter(currentDateTime);
+  }
+
+  Future<void> removeFromCartReq(
+      Map<String, dynamic> removeFromCartData, context) async {
+    isCartUpdating(true);
+    ApiService.post(
+      API_REMOVE_FROM_CART,
+      param: removeFromCartData,
+      success: (data) async {
+        print("SUCCESS");
+        print(data);
+
+        var message = data['msg'] != null ? data['msg'].toString() : '';
+
+        // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
+        message != '' ? showSuccessToastMessage(context, '$message') : null;
+
+        // Delay navigation to CartPage for 2 seconds using Future.delayed
+        await fetchCart();
+        isCartUpdating(false);
+      },
+      failed: (data) async {
+        // Here you need to call the animation box for showing error  messages
+        isCartUpdating(false);
+        print('API request failed: $data');
+
+        var message = data['msg'] != null
+            ? data['msg'].toString()
+            : ''; // Handle missing 'msg' field
+        var error = data['err'] != null ? data['err'].toString() : '';
+
+        error == ''
+            ? showErrorToastMessage(context, '$message')
+            : showErrorToastMessage(context, '$error');
+
+        // showGetXBar(data["err"]);
+      },
+      error: (msg) async {
+        print("Error: $msg");
+        isCartUpdating(false);
+
+        // isSlotLoading(false);
+        showErrorToastMessage(context, '$msg');
+      },
+    );
+  }
+
+  Future<void> confirmBookingReq(context) async {
+    isConfirmingBooking(true);
+    ApiService.post(
+      API_CONFIRM_BOOKING,
+      success: (data) async {
+        print("Booking Req:");
+        print(data);
+
+        var message =
+            data['msg'] != null ? data['msg'].toString() : 'Booking Confirmed!';
+
+        // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
+        // message != '' ? showSuccessToastMessage(context, '$message') : null;
+
+        // Delay navigation to CartPage for 2 seconds using Future.delayed
+        // Get.find<HomeScreenController>().changeTabIndex(2);
+
+        // Get.to(HomeScreen(), transition: Transition.cupertino);
+        bookingSuccessController.setSuccessMessage(message);
+        Get.to(SuccessAnimationPage());
+        isConfirmingBooking(false);
+      },
+      failed: (data) async {
+        // Here you need to call the animation box for showing error  messages
+        isConfirmingBooking(false);
+        print('API request failed: $data');
+
+        var message = data['msg'] != null
+            ? data['msg'].toString()
+            : ''; // Handle missing 'msg' field
+        var error = data['err'] != null ? data['err'].toString() : '';
+
+        error == ''
+            ? showErrorToastMessage(context, '$message')
+            : showErrorToastMessage(context, '$error');
+
+        // showGetXBar(data["err"]);
+      },
+      error: (msg) async {
+        print("Error: $msg");
+        isConfirmingBooking(false);
+
+        // isSlotLoading(false);
+        showErrorToastMessage(context, '$msg');
+      },
+    );
   }
 }

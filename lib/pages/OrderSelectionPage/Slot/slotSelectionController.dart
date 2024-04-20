@@ -212,6 +212,7 @@ class SlotSelectionController extends GetxController {
         await Future.delayed(const Duration(seconds: 1));
         isAddToCartRequestLoading(false);
         Get.find<HomeScreenController>().changeTabIndex(1);
+
         Get.to(HomeScreen(), transition: Transition.cupertino);
       },
       failed: (data) async {
@@ -229,7 +230,7 @@ class SlotSelectionController extends GetxController {
               () {
             print("Proceeesss");
             Get.find<HomeScreenController>().changeTabIndex(1);
-            Get.to(HomeScreen(), transition: Transition.cupertino);
+            Get.offAll(HomeScreen(), transition: Transition.cupertino);
           }, () {
             // showGetXBar(data["err"]);
 

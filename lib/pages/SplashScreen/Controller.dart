@@ -9,6 +9,7 @@ import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
 import 'package:dbs_frontend/pages/Login/screen.dart';
 import 'package:dbs_frontend/pages/SplashScreen/Screen.dart';
+import 'package:dbs_frontend/pages/SuccessScreen/SuccessAnimation.dart';
 import 'package:dbs_frontend/pages/searchProducts/screen.dart';
 // import '../HomeScreen/homePageController.dart';
 
@@ -64,6 +65,7 @@ class SplashController extends GetxController {
       // This delay is needed for fetching the products data
       print("aapdu here");
       // Get.offAll(() => CartPage());
+      // Get.offAll(() => SuccessAnimationPage());
 
       Get.offAll(() => HomeScreen());
     } else {
