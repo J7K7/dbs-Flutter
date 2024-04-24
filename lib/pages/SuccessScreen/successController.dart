@@ -1,3 +1,4 @@
+import 'package:dbs_frontend/pages/Orders/ordersController.dart';
 import 'package:get/get.dart';
 import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 
@@ -9,11 +10,13 @@ class SuccessAnimationController extends GetxController {
     successMessage.value = message;
   }
 
-  void navigateToOrdersPage() {
+  Future<void> navigateToOrdersPage() async {
+    final ordersController = Get.find<OrdersController>();
+    ordersController.updateSelectedStatusId(3);
+    await ordersController.fetchOrders();
+
     Get.find<HomeScreenController>().changeTabIndex(2);
 
-    Get.off(HomeScreen(),
-        transition: Transition
-            .cupertino); // Replace OrdersPage with your actual orders page
+    Get.off(HomeScreen(), transition: Transition.cupertino);
   }
 }

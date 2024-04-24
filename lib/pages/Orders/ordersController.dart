@@ -80,7 +80,7 @@ class OrdersController extends GetxController {
       // Delay navigation to CartPage for 1 seconds using Future.delayed
       await Future.delayed(const Duration(seconds: 1));
       // updateSelectedStatusId(5);
-      // await fetchOrders();
+      await fetchOrders();
       // Get.to(OrdersPage());
       // Update selectedStatusId to 5 (Canceled Orders) immediately
 

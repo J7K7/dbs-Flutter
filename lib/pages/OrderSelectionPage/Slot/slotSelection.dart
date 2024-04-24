@@ -13,18 +13,18 @@ import 'package:intl/intl.dart';
 
 class SlotSelectionPage extends StatelessWidget {
   final ProductModel product;
-
-  const SlotSelectionPage({super.key, required this.product});
-
+  late SlotSelectionController slotSelectionController;
+  SlotSelectionPage({super.key, required this.product}) {
+    slotSelectionController =
+        Get.put(SlotSelectionController(product: product));
+  }
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     print("Inside the slot sleection:");
     print(product.productId);
-    final SlotSelectionController slotSelectionController = Get.put(
-      SlotSelectionController(product: product),
-    );
+
     // slotSelectionController.fetchSlots()
     // List<SlotModel> dummySlots = [
     //   SlotModel(

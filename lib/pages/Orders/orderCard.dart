@@ -1,6 +1,9 @@
 import 'package:dbs_frontend/Themes/AppColors.dart';
+import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
+import 'package:dbs_frontend/pages/Orders/orderSummary.dart';
 import 'package:dbs_frontend/pages/Orders/ordersController.dart';
 import 'package:dbs_frontend/pages/Orders/statusIcons.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -21,8 +24,8 @@ class OrderCard extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     // Sort orders by booking date in descending order
-    orders.sort((a, b) => DateTime.parse(b['bookingDate'])
-        .compareTo(DateTime.parse(a['bookingDate'])));
+    orders.sort((a, b) => DateTime.parse(b['timestamp'])
+        .compareTo(DateTime.parse(a['timestamp'])));
 
     return FutureBuilder(
         future: Future.value(orders),
@@ -51,6 +54,9 @@ class OrderCard extends StatelessWidget {
                   final bookingData = orders[index];
                   final bookingId = bookingData['bookingId'].toString();
                   final bookingDate = bookingData['bookingDate'];
+                  final booking_fromDatetime =
+                      bookingData['booking_fromDatetime'];
+                  final booking_toDatetime = bookingData['booking_toDatetime'];
                   final status = getStatusText(bookingData['status']);
                   final grandTotal = bookingData['grandTotal'];
 
@@ -95,18 +101,55 @@ class OrderCard extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Order Date',
+                                      'Booking Date',
                                       style: const TextStyle(
                                         fontSize: 14.0,
                                         color: Colors.grey,
                                       ),
                                     ),
-                                    const SizedBox(height: 4.0),
-                                    Text(
-                                      DateFormat('MMMM d, y')
-                                          .format(DateTime.parse(bookingDate)),
-                                      style: const TextStyle(fontSize: 14.0),
-                                    ),
+
+                                    // Text(
+                                    //   DateFormat('MMMM d, y')
+                                    //       .format(DateTime.parse(bookingDate)),
+                                    //   style: const TextStyle(fontSize: 14.0),
+                                    // ),
+
+                                    // Displaying booking From date for SLOT
+                                    // Displaying CHECK IN & CHECK OUT DATES for DAY
+
+                                    SharedPrefs.getString(
+                                                BUSINESS_CATEGORYID) ==
+                                            '1'
+                                        ? Column(
+                                            children: [
+                                              const SizedBox(height: 4.0),
+                                              Text(
+                                                DateFormat('MMMM d, y').format(
+                                                    DateTime.parse(
+                                                        booking_fromDatetime)),
+                                                style: const TextStyle(
+                                                    fontSize: 14.0),
+                                              )
+                                            ],
+                                          )
+                                        : Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${DateFormat('MMMM d, y').format(DateTime.parse(booking_fromDatetime))} to ',
+                                                style: const TextStyle(
+                                                    fontSize: 14.0),
+                                              ),
+                                              Text(
+                                                DateFormat('MMMM d, y').format(
+                                                    DateTime.parse(
+                                                        booking_toDatetime)),
+                                                style: const TextStyle(
+                                                    fontSize: 14.0),
+                                              ),
+                                            ],
+                                          )
                                   ],
                                 ),
                                 Column(
@@ -240,11 +283,11 @@ class OrderCard extends StatelessWidget {
                                                               mainButton('YES',
                                                                   onPress:
                                                                       () async {
+                                                                Get.back();
                                                                 await ordersController
                                                                     .cancelOrder(
                                                                         bookingId,
                                                                         context);
-                                                                Get.back();
                                                               }),
                                                             ],
                                                           ),
@@ -271,7 +314,13 @@ class OrderCard extends StatelessWidget {
                                         padding: const EdgeInsets.fromLTRB(
                                             0, 8, 8, 8),
                                         child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            print(
+                                                "VIEW SUMMARY CLICKED ----- ");
+                                            Get.to(OrderDetailsPage(
+                                                orderId: int.parse(bookingId),
+                                                orderData: bookingData));
+                                          },
                                           child: Text(
                                             'VIEW SUMMARY',
                                             style: TextStyle(color: primary100),
@@ -289,7 +338,18 @@ class OrderCard extends StatelessWidget {
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 8, 8, 8),
                                           child: TextButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              print(
+                                                  "VIEW SUMMARY CLICKED ----- ");
+                                              print(
+                                                  "Type of orderData: ${bookingData.runtimeType}");
+                                              print(
+                                                  "Type of orderData: ${int.parse(bookingId)}.runtimeType}");
+                                              print(bookingData);
+                                              Get.to(OrderDetailsPage(
+                                                  orderId: int.parse(bookingId),
+                                                  orderData: bookingData));
+                                            },
                                             child: Text(
                                               'VIEW SUMMARY',
                                               style:
@@ -317,10 +377,13 @@ class OrderCard extends StatelessWidget {
         color = Color(0xFFf29229); // Example color for "Pending" status
         break;
       case 3:
-        color = Color(0xFF4e79b1); // Example color for "Confirmed" status
+        color = Color.fromARGB(
+            255, 19, 66, 207); // Royal blue color for "Confirmed" status
         break;
+
       case 4:
-        color = Colors.green; // Example color for "Completed" status
+        color = Color.fromARGB(
+            255, 47, 204, 52); // Example color for "Completed" status
         break;
       case 5:
         color = Colors.red; // Example color for "Cancelled" status

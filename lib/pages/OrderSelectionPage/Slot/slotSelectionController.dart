@@ -29,6 +29,14 @@ class SlotSelectionController extends GetxController {
     // Calculate the last date based on advance booking duration
     // lastDate =
     //     DateTime.now().add(Duration(days: product.advanceBookingDuration! - 1));
+  }
+  @override
+  Future<void> onInit() async {
+    // _animationController = AnimationController(
+    //   vsync: this,
+    //   duration: Duration(milliseconds: 300),
+    // );
+    super.onInit();
     startDate = DateTime.now().isBefore(product.activeFromDate!)
         ? product.activeFromDate!
         : DateTime.now();
@@ -44,14 +52,6 @@ class SlotSelectionController extends GetxController {
     print(product.activeFromDate);
     print("Controller Bhai:");
     print(product.productId);
-  }
-  @override
-  Future<void> onInit() async {
-    // _animationController = AnimationController(
-    //   vsync: this,
-    //   duration: Duration(milliseconds: 300),
-    // );
-    super.onInit();
 
     await fetchSlots(
         slotDate: DateFormat('yyyy-MM-dd').format(selectedDate.value),
