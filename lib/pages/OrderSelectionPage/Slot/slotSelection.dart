@@ -12,59 +12,17 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:intl/intl.dart';
 
 class SlotSelectionPage extends StatelessWidget {
-  final ProductModel product;
-  late SlotSelectionController slotSelectionController;
-  SlotSelectionPage({super.key, required this.product}) {
-    slotSelectionController =
-        Get.put(SlotSelectionController(product: product));
-  }
+  // final ProductModel product;
+  late SlotSelectionController slotSelectionController =
+      Get.find<SlotSelectionController>();
+  SlotSelectionPage({super.key}) {}
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
-    print("Inside the slot sleection:");
-    print(product.productId);
+    print("Inside the slot sleection build:");
+    // print(product.productId);
 
-    // slotSelectionController.fetchSlots()
-    // List<SlotModel> dummySlots = [
-    //   SlotModel(
-    //     slotDate: DateTime.now().toString(),
-    //     slotFromDateTime: '08:30:00',
-    //     slotToDateTime: '09:00:00',
-    //     slotPrice: '175',
-    //     slotId: 2621,
-    //   ),
-    //   SlotModel(
-    //     slotDate: DateTime.now().toString(),
-    //     slotFromDateTime: '09:00:00',
-    //     slotToDateTime: '09:30:00',
-    //     slotPrice: '2020',
-    //     slotId: 2622,
-    //   ),
-    //   SlotModel(
-    //     slotDate: DateTime.now().toString(),
-    //     slotFromDateTime: '09:00:00',
-    //     slotToDateTime: '10:00:00',
-    //     slotPrice: '2200',
-    //     slotId: 2622,
-    //   ),
-    //   SlotModel(
-    //     slotDate: DateTime.now().toString(),
-    //     slotFromDateTime: '09:00:00',
-    //     slotToDateTime: '10:45:00',
-    //     slotPrice: '2000',
-    //     slotId: 2622,
-    //   ),
-    //   SlotModel(
-    //     slotDate: DateTime.now().toString(),
-    //     slotFromDateTime: '12:00:00',
-    //     slotToDateTime: '13:30:00',
-    //     slotPrice: '500',
-    //     slotId: 2622,
-    //   ),
-    //   // Add more dummy slots as needed
-    // ];
-    // slotSelectionController.availableSlots.assignAll(dummySlots);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -467,7 +425,7 @@ class SlotSelectionPage extends StatelessWidget {
                               await slotSelectionController
                                   .handleBooking(context);
                               print(slotSelectionController.selectedSlot.value);
-                              print(product.productId);
+                              // print(product.productId);
                             },
                           ),
                         ),

@@ -41,16 +41,20 @@ class CartController extends GetxController {
     // print(errorCnt == 0);
 
     List<String> quantity = ['${newQuantity}'];
-    List<int> slotIds = [item.slotId!];
     Map<String, dynamic> addToCartData = {
       'bookingCategoryId': businessCategoryId,
-      'bookingFromDate': item.slotFromDateTime,
-      'bookingToDate': item.slotToDateTime,
-      'slotIds': slotIds,
+      'bookingFromDate':
+          businessCategoryId == 1 ? item.slotFromDateTime : item.checkInDate,
+      'bookingToDate': businessCategoryId == 1
+          ? item.slotToDateTime
+          : DateTime.parse(item.checkOutDate!).subtract(Duration(days: 1)),
       'productId': item.productId,
       'quantity': quantity, // Pass as an array
     };
-    // if()
+    if (businessCategoryId == 1) {
+      List<int> slotIds = [item.slotId!];
+      addToCartData['slotIds'] = slotIds;
+    }
     print("not after");
     print(addToCartData);
     await updateCartReq(addToCartData, oldQuantity, index, context);
@@ -82,6 +86,9 @@ class CartController extends GetxController {
 
   Future<void> fetchCart() async {
     print("Api call");
+    Map<String, dynamic> queryParams = {
+      'businessCategoryId': businessCategoryId,
+    };
     // print(cnt);
     unavailableProductCnt.value = 0;
     isCartLoading(true);
@@ -89,22 +96,47 @@ class CartController extends GetxController {
       API_GET_CART,
       success: (data) async {
         print(data);
-        if (data['items'] != null) {
-          cartItems.clear();
-
-          data['items'].forEach((v) {
-            grandTotal.value = v['grandTotal'].toDouble();
-            if (!isBookingFromDateValid(v['slotFromDateTime'])) {
-              unavailableProductCnt += 1;
-              cartItems.add(
-                CartItem.fromJson(v).updateProductAvailability(0),
-              );
-            } else {
-              cartItems.add(CartItem.fromJson(v));
+        cartItems.clear();
+        if (data['items']!.length != 0) {
+          if (businessCategoryId == 1) {
+            data['items'].forEach((v) {
+              grandTotal.value = v['grandTotal'].toDouble();
+              if (!isBookingFromDateValid(v['slotFromDateTime'])) {
+                unavailableProductCnt += 1;
+                cartItems.add(
+                  CartItem.fromJson(v).updateProductAvailability(0),
+                );
+              } else {
+                cartItems.add(CartItem.fromJson(v));
+              }
+            });
+            print("Data=");
+          } else if (businessCategoryId == 2) {
+            print("cart 2 ");
+            if (data['items'][0]['products'] != null) {
+              grandTotal.value = data['items'][0]['grandTotal'].toDouble();
+              print(data['items'][0]['products']);
+              data['items'][0]['products']?.forEach((json) {
+                Map<String, dynamic> modifiedJson = {
+                  ...json,
+                  'grandTotal': grandTotal.value,
+                  'checkInDate': data['items'][0]['checkInDate'],
+                  'checkOutDate': data['items'][0]['checkOutDate'],
+                };
+                if (!isBookingFromDateValid(modifiedJson['checkInDate'])) {
+                  unavailableProductCnt += 1;
+                  print(modifiedJson);
+                  cartItems.add(CartItem.fromJson(modifiedJson)
+                      .updateProductAvailability(0));
+                } else {
+                  print(modifiedJson);
+                  cartItems.add(CartItem.fromJson(modifiedJson));
+                }
+              });
+              print("Items Idhar he");
+              print(cartItems);
             }
-          });
-          print("Data=");
-          // print(data);
+          }
         }
         isCartLoading(false);
       },
@@ -121,6 +153,7 @@ class CartController extends GetxController {
         showGetXBar(msg);
         // Get.to(HomeScreen());
       },
+      params: queryParams,
     );
   }
 
@@ -257,7 +290,7 @@ class CartController extends GetxController {
 
         // Get.to(HomeScreen(), transition: Transition.cupertino);
         bookingSuccessController.setSuccessMessage(message);
-        Get.to(SuccessAnimationPage());
+        Get.off(SuccessAnimationPage());
         isConfirmingBooking(false);
       },
       failed: (data) async {

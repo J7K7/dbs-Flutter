@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const primary100 = Color(0xFF1e2022); // main button color
+// const primary100 = Color(0xFF17156); // main button color
 const primary200 = Color(0xFF343a40); // main patti (dark one step down)
 const primary300 = Color(0xFF495057); // small button color
 

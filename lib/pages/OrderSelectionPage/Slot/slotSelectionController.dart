@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class SlotSelectionController extends GetxController {
-  final ProductModel product;
+  ProductModel product;
   final HomePageController homePageController = Get.find();
   // RxList<SlotModel> availableSlots = RxList<SlotModel>([]);
   var availableSlots =
@@ -59,6 +59,31 @@ class SlotSelectionController extends GetxController {
     print(availableSlots);
   }
 
+  Future<void> selectProduct(ProductModel newProduct) async {
+    product = newProduct; // Update the product
+    availableSlots.clear(); // Clear slots for the previous product
+    selectedSlot.value = null; // Reset selected slot
+    startDate = DateTime.now().isBefore(product.activeFromDate!)
+        ? product.activeFromDate!
+        : DateTime.now();
+    lastDate = startDate
+            .add(Duration(days: product.advanceBookingDuration! - 1))
+            .isBefore(product.activeToDate!)
+        ? startDate.add(Duration(days: product.advanceBookingDuration! - 1))
+        : product.activeToDate!;
+    selectedDate.value = homePageController.selectedDate.value ?? startDate;
+
+    await fetchSlots(
+        slotDate: DateFormat('yyyy-MM-dd').format(selectedDate.value),
+        productId: product.productId.toString()!);
+  }
+
+  void clearData() {
+    selectedSlot.value = null; // Clear selected slot
+    availableSlots.clear(); // Clear available slots
+    // Clear other relevant data if needed
+  }
+
   Future<void> selectDate(DateTime date) async {
     selectedDate.value = date;
     print(selectedDate);
@@ -66,6 +91,8 @@ class SlotSelectionController extends GetxController {
     // update();
     // Perform any actions when a date is selected
     print("Changing Date");
+    print("Product iD INSIDE THE SELECT dATE:");
+    print(product.productId.toString()!);
     await fetchSlots(
         slotDate: DateFormat('yyyy-MM-dd').format(date),
         productId: product.productId.toString()!);
@@ -101,9 +128,8 @@ class SlotSelectionController extends GetxController {
       success: (data) async {
         print(data);
 
+        availableSlots.clear();
         if (data['slotsData'] != null) {
-          availableSlots.clear();
-
           data['slotsData'].forEach((v) {
             // DateTime currentTime = DateTime.now();
             String slotDateTimeStr = v['slotFromDateTime'];
@@ -156,8 +182,8 @@ class SlotSelectionController extends GetxController {
       };
       print("not after");
       print(addToCartData);
+
       await addToCartReq(addToCartData, context);
-      selectedSlot.value = null;
       print("after");
     }
   }
@@ -213,13 +239,14 @@ class SlotSelectionController extends GetxController {
 
         // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
         message != '' ? showSuccessToastMessage(context, '$message') : null;
+        clearData();
 
         // Delay navigation to CartPage for 2 seconds using Future.delayed
         await Future.delayed(const Duration(seconds: 1));
         isAddToCartRequestLoading(false);
-        Get.find<HomeScreenController>().changeTabIndex(1);
 
-        Get.to(HomeScreen(), transition: Transition.cupertino);
+        Get.find<HomeScreenController>().changeTabIndex(1);
+        Get.off(HomeScreen(), transition: Transition.cupertino);
       },
       failed: (data) async {
         isAddToCartRequestLoading(false);

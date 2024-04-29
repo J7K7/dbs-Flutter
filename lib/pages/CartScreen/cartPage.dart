@@ -1,72 +1,3 @@
-// import 'package:dbs_frontend/Themes/UiUtils.dart';
-// import 'package:dbs_frontend/pages/CartScreen/cartController.dart';
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-
-// class CartPage extends StatelessWidget {
-//   // final List<Map<String, dynamic>> items;
-//   CartPage({Key? key}) : super(key: key);
-//   final CartController cartController = Get.put(CartController());
-
-//   @override
-//   Widget build(BuildContext context) {
-//     var screenWidth = MediaQuery.of(context).size.width;
-//     var screenHeight = MediaQuery.of(context).size.height;
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Cart'),
-//         automaticallyImplyLeading: false,
-//       ),
-//       body: Obx(
-//         () => ListView.builder(
-//           itemCount: cartController.cartItems.length,
-//           itemBuilder: (context, index) {
-//             final item = cartController.cartItems[index];
-//             return ListTile(
-//               // contentPadding:
-//               // const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-//               leading: SizedBox(
-//                 width: screenWidth * 0.20,
-//                 child: ClipRRect(
-//                   borderRadius: BorderRadius.circular(2.0),
-//                   child: getImageWidget(item['productImage']!),
-//                 ),
-//               ),
-//               title: Text(item['productName']),
-//               subtitle: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text('Start Time: ${item['slotFromDateTime']}'),
-//                   Text('End Time: ${item['slotToDateTime']}'),
-//                   Row(
-//                     children: [
-//                       Text('Price: \$${item['price']}'),
-//                       const Spacer(),
-//                       IconButton(
-//                         icon: const Icon(Icons.remove),
-//                         onPressed: () {
-//                           if (item['quantity'] > 1) {
-//                             item['quantity']--;
-//                           }
-//                         },
-//                       ),
-//                       Text('${item['quantity']}'),
-//                       IconButton(
-//                         icon: const Icon(Icons.add),
-//                         onPressed: () => item['quantity']++,
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
@@ -108,7 +39,8 @@ class CartPage extends StatelessWidget {
           Expanded(
             child: Obx(
               () => cartController.isCartLoading.value
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(
+                      child: CircularProgressIndicator(color: primary100))
                   : cartController.cartItems.isEmpty
                       ?
                       // Center(
@@ -151,468 +83,903 @@ class CartPage extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12.0)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Column(
                                   children: [
-                                    Container(
-                                      width:
-                                          (screenWidth * 0.25).clamp(10, 170),
-                                      child: AspectRatio(
-                                        aspectRatio: 1,
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            child: item.productImage != null
-                                                ? getImageWidget(
-                                                    item.productImage!)
-                                                : errorImageWidget()),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 16.0),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Opacity(
-                                            opacity: item.productAvailable == 0
-                                                ? 0.5
-                                                : 1,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          width: (screenWidth * 0.25)
+                                              .clamp(10, 170),
+                                          child: AspectRatio(
+                                            aspectRatio: 1,
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: item.productImage != null
+                                                    ? getImageWidget(
+                                                        item.productImage!)
+                                                    : errorImageWidget()),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 16.0),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Opacity(
+                                                opacity:
+                                                    item.productAvailable == 0
+                                                        ? 0.5
+                                                        : 1,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Expanded(
-                                                      flex: 85,
-                                                      child: Text(
-                                                        item.productName!
-                                                            .toUpperCase(),
-                                                        style: AppTextStyles
-                                                            .mediumHeadingTextStyle
-                                                            .copyWith(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontSize:
-                                                                    (screenWidth *
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          flex: 85,
+                                                          child: Text(
+                                                            item.productName!
+                                                                .toUpperCase(),
+                                                            style: AppTextStyles
+                                                                .mediumHeadingTextStyle
+                                                                .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize: (screenWidth *
                                                                             0.035)
                                                                         .clamp(
                                                                             14,
                                                                             20)),
-                                                      ),
-                                                    ),
-                                                    // const Spacer(),
-                                                    Expanded(
-                                                        flex: 10,
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            // Call removeFromCart function here
-                                                            cartController
-                                                                .removeItemFromCart(
-                                                                    item,
-                                                                    context);
-                                                          },
-                                                          child: Icon(
-                                                            Icons.close,
-                                                            color: accent200,
-                                                            size: (screenWidth *
-                                                                    0.04)
-                                                                .clamp(14, 28),
                                                           ),
-                                                        )),
-                                                    hSpace()
-                                                  ],
-                                                ),
-                                                const SizedBox(height: 8.0),
-                                                if (SharedPrefs.getString(
-                                                        BUSINESS_CATEGORYID) ==
-                                                    '1')
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .calendar_today_outlined,
-                                                            size: (screenWidth *
-                                                                    0.025)
-                                                                .clamp(10, 18),
-                                                            color: text100,
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 4.0),
-                                                          Text(
-                                                              formatDate(DateTime
-                                                                  .parse(item
-                                                                      .slotFromDateTime!)),
-                                                              style: AppTextStyles
-                                                                  .mediumBodyTextStyle
-                                                                  .copyWith(
-                                                                      fontSize: (screenWidth *
-                                                                              0.025)
-                                                                          .clamp(
-                                                                              10,
-                                                                              18))),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 4.0),
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .access_time_outlined,
-                                                            size: (screenWidth *
-                                                                    0.025)
-                                                                .clamp(10, 18),
-                                                            color: text100,
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 4.0),
-                                                          Text(
-                                                              getTimeFromDateTime(item
-                                                                  .slotFromDateTime!),
-                                                              style: AppTextStyles
-                                                                  .mediumBodyTextStyle
-                                                                  .copyWith(
-                                                                      fontSize: (screenWidth *
-                                                                              0.025)
-                                                                          .clamp(
-                                                                              10,
-                                                                              18))),
-                                                          const SizedBox(
-                                                              width: 4.0),
-                                                          const Text(
-                                                            '-',
-                                                            style: AppTextStyles
-                                                                .mediumBodyTextStyle,
-                                                          ),
-                                                          const SizedBox(
-                                                              width: 4.0),
-                                                          Text(
-                                                            getTimeFromDateTime(
-                                                                item.slotToDateTime!),
-                                                            style: AppTextStyles
-                                                                .mediumBodyTextStyle
-                                                                .copyWith(
-                                                                    fontSize: (screenWidth *
-                                                                            0.025)
+                                                        ),
+                                                        // const Spacer(),
+                                                        Expanded(
+                                                            flex: 10,
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                // Call removeFromCart function here
+                                                                cartController
+                                                                    .removeItemFromCart(
+                                                                        item,
+                                                                        context);
+                                                              },
+                                                              child: Icon(
+                                                                Icons.close,
+                                                                color:
+                                                                    accent200,
+                                                                size:
+                                                                    (screenWidth *
+                                                                            0.04)
                                                                         .clamp(
+                                                                            14,
+                                                                            28),
+                                                              ),
+                                                            )),
+                                                        hSpace()
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 8.0),
+                                                    if (SharedPrefs.getString(
+                                                            BUSINESS_CATEGORYID) ==
+                                                        '1')
+                                                      Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .calendar_today_outlined,
+                                                                size: (screenWidth *
+                                                                        0.025)
+                                                                    .clamp(
+                                                                        10, 18),
+                                                                color: text100,
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 4.0),
+                                                              Text(
+                                                                  formatDate(DateTime
+                                                                      .parse(item
+                                                                          .slotFromDateTime!)),
+                                                                  style: AppTextStyles
+                                                                      .mediumBodyTextStyle
+                                                                      .copyWith(
+                                                                          fontSize: (screenWidth * 0.025).clamp(
+                                                                              10,
+                                                                              18))),
+                                                            ],
+                                                          ),
+                                                          const SizedBox(
+                                                              height: 4.0),
+                                                          Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .access_time_outlined,
+                                                                size: (screenWidth *
+                                                                        0.025)
+                                                                    .clamp(
+                                                                        10, 18),
+                                                                color: text100,
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 4.0),
+                                                              Text(
+                                                                  getTimeFromDateTime(item
+                                                                      .slotFromDateTime!),
+                                                                  style: AppTextStyles
+                                                                      .mediumBodyTextStyle
+                                                                      .copyWith(
+                                                                          fontSize: (screenWidth * 0.025).clamp(
+                                                                              10,
+                                                                              18))),
+                                                              const SizedBox(
+                                                                  width: 4.0),
+                                                              const Text(
+                                                                '-',
+                                                                style: AppTextStyles
+                                                                    .mediumBodyTextStyle,
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 4.0),
+                                                              Text(
+                                                                getTimeFromDateTime(
+                                                                    item.slotToDateTime!),
+                                                                style: AppTextStyles
+                                                                    .mediumBodyTextStyle
+                                                                    .copyWith(
+                                                                        fontSize: (screenWidth * 0.025).clamp(
                                                                             10,
                                                                             18)),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ],
+                                                      )
+                                                    else
+                                                      SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          children: [
+                                                            Column(
+                                                              children: [
+                                                                // const Column(
+                                                                //   crossAxisAlignment:
+                                                                //       CrossAxisAlignment.center,
+                                                                //   children: [
+                                                                //     Text("Check-In",
+                                                                //         style: TextStyle(
+                                                                //             color: text100,
+                                                                //             letterSpacing: 1.5)),
+                                                                //   ],
+                                                                // ),
+                                                                const SizedBox(
+                                                                    height:
+                                                                        4.0),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .calendar_today_outlined,
+                                                                          size: (screenWidth * 0.025).clamp(
+                                                                              10,
+                                                                              18),
+                                                                          color:
+                                                                              text100,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                4.0),
+                                                                        Text(
+                                                                            formatDate(DateTime.parse(item
+                                                                                .checkInDate!)),
+                                                                            style:
+                                                                                AppTextStyles.mediumBodyTextStyle.copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
+                                                                      ],
+                                                                    ),
+                                                                    const SizedBox(
+                                                                        height:
+                                                                            4.0),
+                                                                    Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .access_time_outlined,
+                                                                          size: (screenWidth * 0.025).clamp(
+                                                                              10,
+                                                                              18),
+                                                                          color:
+                                                                              text100,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                4.0),
+                                                                        Text(
+                                                                            getTimeFromDateTime(item
+                                                                                .checkInDate!),
+                                                                            style:
+                                                                                AppTextStyles.mediumBodyTextStyle.copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                                width: (screenWidth *
+                                                                        0.025)
+                                                                    .clamp(
+                                                                        4, 16)),
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_right_alt_sharp,
+                                                              size:
+                                                                  (screenWidth *
+                                                                          0.06)
+                                                                      .clamp(1,
+                                                                          32),
+                                                              color: text200,
+                                                            ),
+                                                            SizedBox(
+                                                                width: (screenWidth *
+                                                                        0.025)
+                                                                    .clamp(
+                                                                        4, 16)),
+                                                            Column(
+                                                              children: [
+                                                                // Column(
+                                                                //   crossAxisAlignment:
+                                                                //       CrossAxisAlignment.center,
+                                                                //   children: [
+                                                                //     Text("Check-out",
+                                                                //         style: TextStyle(
+                                                                //             color: text100,
+                                                                //             letterSpacing: 1.5)),
+                                                                //   ],
+                                                                // ),
+                                                                vSpace(4),
+                                                                Column(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .calendar_today_outlined,
+                                                                          size: (screenWidth * 0.025).clamp(
+                                                                              10,
+                                                                              18),
+                                                                          color:
+                                                                              text100,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                4.0),
+                                                                        Text(
+                                                                            formatDate(DateTime.parse(item
+                                                                                .checkOutDate!)),
+                                                                            style:
+                                                                                AppTextStyles.mediumBodyTextStyle.copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
+                                                                      ],
+                                                                    ),
+                                                                    const SizedBox(
+                                                                        height:
+                                                                            4.0),
+                                                                    Row(
+                                                                      children: [
+                                                                        Icon(
+                                                                          Icons
+                                                                              .access_time_outlined,
+                                                                          size: (screenWidth * 0.025).clamp(
+                                                                              10,
+                                                                              18),
+                                                                          color:
+                                                                              text100,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                            width:
+                                                                                4.0),
+                                                                        Text(
+                                                                            getTimeFromDateTime(item
+                                                                                .checkOutDate!),
+                                                                            style:
+                                                                                AppTextStyles.mediumBodyTextStyle.copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
+                                                                      ],
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    const SizedBox(height: 8.0),
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        if (cartController
+                                                                .businessCategoryId ==
+                                                            2) // Add condition here
+
+                                                          Visibility(
+                                                            visible:
+                                                                screenWidth >
+                                                                    650,
+                                                            child: Theme(
+                                                              data: Theme.of(
+                                                                      context)
+                                                                  .copyWith(
+                                                                dividerColor: Colors
+                                                                    .transparent,
+                                                              ),
+                                                              child: Expanded(
+                                                                child:
+                                                                    ExpansionTile(
+                                                                  tilePadding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  title: Row(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .bed, // Choose an appropriate icon
+                                                                        color:
+                                                                            primary100, // Customize the icon color
+                                                                        size: (screenWidth * 0.05).clamp(
+                                                                            8,
+                                                                            28), // Adjust the icon size as needed
+                                                                      ),
+                                                                      SizedBox(
+                                                                          width:
+                                                                              8), // Add spacing between the icon and text
+                                                                      Text(
+                                                                        '${item.slots!.length + 1} Days & ${item.slots!.length} Nights',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              primary100,
+                                                                          fontSize: (screenWidth * 0.03).clamp(
+                                                                              6,
+                                                                              18),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  children: [
+                                                                    // Slot Details
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: [
+                                                                        Expanded(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              'Date',
+                                                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: (screenWidth * 0.025).clamp(6, 20)),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              'Price',
+                                                                              style: TextStyle(fontSize: (screenWidth * 0.025).clamp(6, 20), fontWeight: FontWeight.bold),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              'Qty',
+                                                                              style: TextStyle(fontSize: (screenWidth * 0.025).clamp(6, 20), fontWeight: FontWeight.bold),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                        Expanded(
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              'Total',
+                                                                              style: TextStyle(fontSize: (screenWidth * 0.025).clamp(6, 20), fontWeight: FontWeight.bold),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    ...item
+                                                                        .slots!
+                                                                        .map<Widget>(
+                                                                            (slot) {
+                                                                      final total =
+                                                                          slot.slotPrice! *
+                                                                              item.quantity!;
+                                                                      return ListTile(
+                                                                        title:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: Text(DateFormat('EEE, dd MMM yyyy').format(DateTime.parse(slot.slotFromDateTime!)), style: TextStyle(fontSize: (screenWidth * 0.03).clamp(6, 18))),
+                                                                              ),
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: Text('₹ ${slot.slotPrice}', style: TextStyle(fontSize: (screenWidth * 0.03).clamp(6, 18))),
+                                                                              ),
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: Text('x${item.quantity}', style: TextStyle(fontSize: (screenWidth * 0.03).clamp(6, 18))),
+                                                                              ),
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: Text('₹ $total', style: TextStyle(fontSize: (screenWidth * 0.03).clamp(6, 18))),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      );
+                                                                    }).toList(),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.symmetric(
+                                                                          vertical:
+                                                                              8.0,
+                                                                          horizontal:
+                                                                              screenWidth * 0.025),
+                                                                      child:
+                                                                          const Divider(),
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: EdgeInsets.fromLTRB(
+                                                                          screenWidth *
+                                                                              0.025,
+                                                                          0,
+                                                                          screenWidth *
+                                                                              0.025,
+                                                                          8.0),
+                                                                      child:
+                                                                          Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.end,
+                                                                        children: [
+                                                                          Flexible(
+                                                                            child:
+                                                                                Text(
+                                                                              'Product Total ₹${item.grandTotal?.toStringAsFixed(2)}',
+                                                                              style: TextStyle(fontSize: screenWidth * 0.025, fontWeight: FontWeight.bold),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          )
+                                                        else
+                                                          Center(
+                                                            child: Text(
+                                                              '₹${item.price}',
+                                                              style: TextStyle(
+                                                                  fontSize: (screenWidth *
+                                                                          0.035)
+                                                                      .clamp(10,
+                                                                          24),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        if (cartController
+                                                                    .businessCategoryId ==
+                                                                1 ||
+                                                            screenWidth <= 650)
+                                                          const Spacer()
+                                                        else
+                                                          hSpace(),
+                                                        Padding(
+                                                          padding: screenWidth >
+                                                                  650
+                                                              ? const EdgeInsets
+                                                                  .fromLTRB(
+                                                                  0, 16, 0, 0)
+                                                              : EdgeInsets.all(
+                                                                  0.0),
+                                                          child: Row(
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  if (item.quantity! >=
+                                                                      1) {
+                                                                    int newQuantity =
+                                                                        item.quantity! -
+                                                                            1;
+                                                                    cartController.updateQuantity(
+                                                                        index,
+                                                                        newQuantity,
+                                                                        context); // _controller.decrementQuantity();
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  width: (screenWidth *
+                                                                          0.04)
+                                                                      .clamp(10,
+                                                                          28),
+                                                                  height: (screenWidth *
+                                                                          0.04)
+                                                                      .clamp(10,
+                                                                          28),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        primary100, // Use your app's color scheme
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            4.0),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Icon(
+                                                                      Icons
+                                                                          .remove,
+                                                                      size: (screenWidth *
+                                                                              0.035)
+                                                                          .clamp(
+                                                                              6,
+                                                                              24),
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 8.0),
+                                                              Text(
+                                                                item.quantity
+                                                                    .toString(),
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: (screenWidth *
+                                                                          0.035)
+                                                                      .clamp(8,
+                                                                          24),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  width: 8.0),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  int newQuantity =
+                                                                      item.quantity! +
+                                                                          1;
+                                                                  cartController
+                                                                      .updateQuantity(
+                                                                          index,
+                                                                          newQuantity,
+                                                                          context);
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  width: (screenWidth *
+                                                                          0.04)
+                                                                      .clamp(10,
+                                                                          28),
+                                                                  height: (screenWidth *
+                                                                          0.04)
+                                                                      .clamp(10,
+                                                                          28),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color:
+                                                                        primary100, // Use your app's color scheme
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            4.0),
+                                                                  ),
+                                                                  child: Center(
+                                                                    child: Icon(
+                                                                      Icons.add,
+                                                                      size: (screenWidth *
+                                                                              0.035)
+                                                                          .clamp(
+                                                                              6,
+                                                                              24),
+                                                                      color: Colors
+                                                                          .white,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        hSpace(16)
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              if (item.productAvailable == 0 &&
+                                                  screenWidth > 650)
+                                                // vSpace(),
+                                                Opacity(
+                                                  opacity: 1,
+                                                  child: Text(
+                                                    "Product Unavailable Please Remove From Cart",
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: (screenWidth *
+                                                                0.030)
+                                                            .clamp(10, 18)),
+                                                  ),
+                                                )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    if (cartController.businessCategoryId ==
+                                            2 &&
+                                        screenWidth <=
+                                            650) // Add condition here
+
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 12),
+                                        child: Row(
+                                          children: [
+                                            Theme(
+                                              data: Theme.of(context).copyWith(
+                                                dividerColor:
+                                                    Colors.transparent,
+                                              ),
+                                              child: Expanded(
+                                                child: ExpansionTile(
+                                                  tilePadding: EdgeInsets.zero,
+                                                  title: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons
+                                                            .bed, // Choose an appropriate icon
+                                                        color:
+                                                            primary100, // Customize the icon color
+                                                        size: (screenWidth *
+                                                                0.05)
+                                                            .clamp(8,
+                                                                28), // Adjust the icon size as needed
+                                                      ),
+                                                      SizedBox(
+                                                          width:
+                                                              8), // Add spacing between the icon and text
+                                                      Text(
+                                                        '${item.slots!.length + 1} Days & ${item.slots!.length} Nights',
+                                                        style: TextStyle(
+                                                          color: primary100,
+                                                          fontSize:
+                                                              (screenWidth *
+                                                                      0.03)
+                                                                  .clamp(6, 18),
+                                                        ),
                                                       ),
                                                     ],
-                                                  )
-                                                else
-                                                  SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    child: Row(
+                                                  ),
+                                                  children: [
+                                                    // Slot Details
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
                                                       children: [
-                                                        Column(
-                                                          children: [
-                                                            // const Column(
-                                                            //   crossAxisAlignment:
-                                                            //       CrossAxisAlignment.center,
-                                                            //   children: [
-                                                            //     Text("Check-In",
-                                                            //         style: TextStyle(
-                                                            //             color: text100,
-                                                            //             letterSpacing: 1.5)),
-                                                            //   ],
-                                                            // ),
-                                                            const SizedBox(
-                                                                height: 4.0),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .calendar_today_outlined,
-                                                                      size: (screenWidth *
-                                                                              0.025)
-                                                                          .clamp(
-                                                                              10,
-                                                                              18),
-                                                                      color:
-                                                                          text100,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        width:
-                                                                            4.0),
-                                                                    Text(
-                                                                        formatDate(DateTime.parse(item
-                                                                            .checkInDate!)),
-                                                                        style: AppTextStyles
-                                                                            .mediumBodyTextStyle
-                                                                            .copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
-                                                                  ],
-                                                                ),
-                                                                const SizedBox(
-                                                                    height:
-                                                                        4.0),
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .access_time_outlined,
-                                                                      size: (screenWidth *
-                                                                              0.025)
-                                                                          .clamp(
-                                                                              10,
-                                                                              18),
-                                                                      color:
-                                                                          text100,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        width:
-                                                                            4.0),
-                                                                    Text(
-                                                                        getTimeFromDateTime(item
-                                                                            .checkInDate!),
-                                                                        style: AppTextStyles
-                                                                            .mediumBodyTextStyle
-                                                                            .copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Date',
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: (screenWidth *
+                                                                          0.025)
+                                                                      .clamp(6,
+                                                                          20)),
                                                             ),
-                                                          ],
+                                                          ),
                                                         ),
-                                                        SizedBox(
-                                                            width:
-                                                                (screenWidth *
-                                                                        0.025)
-                                                                    .clamp(
-                                                                        4, 16)),
-                                                        Icon(
-                                                          Icons
-                                                              .arrow_right_alt_sharp,
-                                                          size: (screenWidth *
-                                                                  0.06)
-                                                              .clamp(1, 32),
-                                                          color: text200,
-                                                        ),
-                                                        SizedBox(
-                                                            width:
-                                                                (screenWidth *
-                                                                        0.025)
-                                                                    .clamp(
-                                                                        4, 16)),
-                                                        Column(
-                                                          children: [
-                                                            // Column(
-                                                            //   crossAxisAlignment:
-                                                            //       CrossAxisAlignment.center,
-                                                            //   children: [
-                                                            //     Text("Check-out",
-                                                            //         style: TextStyle(
-                                                            //             color: text100,
-                                                            //             letterSpacing: 1.5)),
-                                                            //   ],
-                                                            // ),
-                                                            vSpace(4),
-                                                            Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .calendar_today_outlined,
-                                                                      size: (screenWidth *
-                                                                              0.025)
-                                                                          .clamp(
-                                                                              10,
-                                                                              18),
-                                                                      color:
-                                                                          text100,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        width:
-                                                                            4.0),
-                                                                    Text(
-                                                                        formatDate(DateTime.parse(item
-                                                                            .checkOutDate!)),
-                                                                        style: AppTextStyles
-                                                                            .mediumBodyTextStyle
-                                                                            .copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
-                                                                  ],
-                                                                ),
-                                                                const SizedBox(
-                                                                    height:
-                                                                        4.0),
-                                                                Row(
-                                                                  children: [
-                                                                    Icon(
-                                                                      Icons
-                                                                          .access_time_outlined,
-                                                                      size: (screenWidth *
-                                                                              0.025)
-                                                                          .clamp(
-                                                                              10,
-                                                                              18),
-                                                                      color:
-                                                                          text100,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                        width:
-                                                                            4.0),
-                                                                    Text(
-                                                                        getTimeFromDateTime(item
-                                                                            .checkOutDate!),
-                                                                        style: AppTextStyles
-                                                                            .mediumBodyTextStyle
-                                                                            .copyWith(fontSize: (screenWidth * 0.025).clamp(10, 18))),
-                                                                  ],
-                                                                ),
-                                                              ],
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Price',
+                                                              style: TextStyle(
+                                                                  fontSize: (screenWidth *
+                                                                          0.025)
+                                                                      .clamp(6,
+                                                                          20),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
                                                             ),
-                                                          ],
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Qty',
+                                                              style: TextStyle(
+                                                                  fontSize: (screenWidth *
+                                                                          0.025)
+                                                                      .clamp(6,
+                                                                          20),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Expanded(
+                                                          child: Center(
+                                                            child: Text(
+                                                              'Total',
+                                                              style: TextStyle(
+                                                                  fontSize: (screenWidth *
+                                                                          0.025)
+                                                                      .clamp(6,
+                                                                          20),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
-                                                  ),
-                                                const SizedBox(height: 8.0),
-                                                Row(
-                                                  // mainAxisAlignment:
-                                                  //     MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Center(
-                                                      child: Text(
-                                                        '₹${item.price}',
-                                                        style: TextStyle(
-                                                            fontSize:
-                                                                (screenWidth *
-                                                                        0.035)
-                                                                    .clamp(
-                                                                        10, 24),
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                    ...item.slots!
+                                                        .map<Widget>((slot) {
+                                                      final total =
+                                                          slot.slotPrice! *
+                                                              item.quantity!;
+                                                      return ListTile(
+                                                        title: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Expanded(
+                                                              child: Center(
+                                                                child: Text(
+                                                                    DateFormat(
+                                                                            'EEE, dd MMM yyyy')
+                                                                        .format(DateTime.parse(slot
+                                                                            .slotFromDateTime!)),
+                                                                    style: TextStyle(
+                                                                        fontSize: (screenWidth * 0.025).clamp(
+                                                                            6,
+                                                                            18))),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Center(
+                                                                child: Text(
+                                                                    '₹ ${slot.slotPrice}',
+                                                                    style: TextStyle(
+                                                                        fontSize: (screenWidth * 0.025).clamp(
+                                                                            6,
+                                                                            18))),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Center(
+                                                                child: Text(
+                                                                    'x${item.quantity}',
+                                                                    style: TextStyle(
+                                                                        fontSize: (screenWidth * 0.025).clamp(
+                                                                            6,
+                                                                            18))),
+                                                              ),
+                                                            ),
+                                                            Expanded(
+                                                              child: Center(
+                                                                child: Text(
+                                                                    '₹ $total',
+                                                                    style: TextStyle(
+                                                                        fontSize: (screenWidth * 0.025).clamp(
+                                                                            6,
+                                                                            18))),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              vertical: 8.0,
+                                                              horizontal:
+                                                                  screenWidth *
+                                                                      0.025),
+                                                      child: const Divider(),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              screenWidth *
+                                                                  0.025,
+                                                              0,
+                                                              screenWidth *
+                                                                  0.025,
+                                                              8.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Flexible(
+                                                            child: Text(
+                                                              'Product Total ₹${item.grandTotal?.toStringAsFixed(2)}',
+                                                              style: TextStyle(
+                                                                  fontSize:
+                                                                      screenWidth *
+                                                                          0.025,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold),
+                                                            ),
+                                                          )
+                                                        ],
                                                       ),
                                                     ),
-                                                    const Spacer(),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        if (item.quantity! >=
-                                                            1) {
-                                                          int newQuantity =
-                                                              item.quantity! -
-                                                                  1;
-                                                          cartController
-                                                              .updateQuantity(
-                                                                  index,
-                                                                  newQuantity,
-                                                                  context); // _controller.decrementQuantity();
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        width:
-                                                            (screenWidth * 0.04)
-                                                                .clamp(10, 28),
-                                                        height:
-                                                            (screenWidth * 0.04)
-                                                                .clamp(10, 28),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              primary100, // Use your app's color scheme
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      4.0),
-                                                        ),
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons.remove,
-                                                            size: (screenWidth *
-                                                                    0.035)
-                                                                .clamp(6, 24),
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 8.0),
-                                                    Text(
-                                                      item.quantity.toString(),
-                                                      style: TextStyle(
-                                                        fontSize: (screenWidth *
-                                                                0.035)
-                                                            .clamp(8, 24),
-                                                      ),
-                                                    ),
-                                                    const SizedBox(width: 8.0),
-                                                    InkWell(
-                                                      onTap: () {
-                                                        int newQuantity =
-                                                            item.quantity! + 1;
-                                                        cartController
-                                                            .updateQuantity(
-                                                                index,
-                                                                newQuantity,
-                                                                context);
-                                                      },
-                                                      child: Container(
-                                                        width:
-                                                            (screenWidth * 0.04)
-                                                                .clamp(10, 28),
-                                                        height:
-                                                            (screenWidth * 0.04)
-                                                                .clamp(10, 28),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              primary100, // Use your app's color scheme
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      4.0),
-                                                        ),
-                                                        child: Center(
-                                                          child: Icon(
-                                                            Icons.add,
-                                                            size: (screenWidth *
-                                                                    0.035)
-                                                                .clamp(6, 24),
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    hSpace(16)
                                                   ],
                                                 ),
-                                              ],
-                                            ),
-                                          ),
-                                          if (item.productAvailable == 0)
-                                            // vSpace(),
-                                            const Opacity(
-                                              opacity: 1,
-                                              child: Text(
-                                                "Product Unavailable Please Remove From Cart",
-                                                style: TextStyle(
-                                                    color: Colors.red),
                                               ),
-                                            )
-                                        ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
+                                    if (item.productAvailable == 0 &&
+                                        screenWidth < 650)
+                                      // vSpace(),
+                                      Opacity(
+                                        opacity: 1,
+                                        child: Text(
+                                          "Product Unavailable Please Remove From Cart",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: (screenWidth * 0.030)
+                                                  .clamp(10, 18)),
+                                        ),
+                                      )
                                   ],
                                 ),
                               ),

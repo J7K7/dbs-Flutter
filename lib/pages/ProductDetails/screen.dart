@@ -8,6 +8,7 @@ import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 import 'package:dbs_frontend/pages/OrderSelectionPage/Day/dayWiseSelection.dart';
 import 'package:dbs_frontend/pages/OrderSelectionPage/Slot/slotSelection.dart';
+import 'package:dbs_frontend/pages/OrderSelectionPage/Slot/slotSelectionController.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dbs_frontend/models/product_model.dart';
@@ -19,7 +20,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   ProductDetailsScreen({super.key, required this.product});
   final homeScreenController = Get.put(HomeScreenController());
-
+  // final SlotSelectionController slotSelectionController=Get.put(SlotSelectionController(product: product));
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -160,18 +161,31 @@ class ProductDetailsScreen extends StatelessWidget {
               : mainButton(
                   "BOOK PRODUCT",
                   onPress: () {
-                    print(product.images);
-                    print(screenWidth);
-                    print(product.productId);
-                    print(orientation);
+                    // print(product.images);
+                    print("Before it sending to the slot selection page");
 
-                    SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
-                        ? Get.to(SlotSelectionPage(product: product),
-                            arguments: [homeScreenController, context],
-                            transition: Transition.cupertino)
-                        : Get.to(DayWiseOrderSelectionPage(product: product),
-                            arguments: [homeScreenController, context],
-                            transition: Transition.cupertino);
+                    // print(orientation);
+                    if (SharedPrefs.getString(BUSINESS_CATEGORYID) == '1') {
+                      SlotSelectionController controller =
+                          Get.put<SlotSelectionController>(
+                        SlotSelectionController(product: product),
+                      );
+                      controller.selectProduct(product);
+
+                      Get.to(SlotSelectionPage(),
+                          transition: Transition.cupertino);
+                      // print(product.productId);
+                    } else {
+                      Get.to(DayWiseOrderSelectionPage(product: product),
+                          arguments: [homeScreenController, context],
+                          transition: Transition.cupertino);
+                    }
+                    // SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
+                    //     ? Get.to(SlotSelectionPage(product: product),
+                    //         transition: Transition.cupertino)
+                    //     : Get.to(DayWiseOrderSelectionPage(product: product),
+                    //         arguments: [homeScreenController, context],
+                    //         transition: Transition.cupertino);
                   },
                 ),
         ),
