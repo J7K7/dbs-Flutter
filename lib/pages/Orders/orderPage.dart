@@ -32,7 +32,8 @@ class OrdersPage extends StatelessWidget {
               title: Text(
                 'BOOKINGS',
                 style: TextStyle(
-                    fontSize: screenWidth * 0.035, letterSpacing: 1.5),
+                    fontSize: (screenWidth * 0.035).clamp(10, 20),
+                    letterSpacing: 1.5),
               ),
               backgroundColor: Colors.transparent,
               elevation: 0,

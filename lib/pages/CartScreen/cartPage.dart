@@ -1,4 +1,3 @@
-
 import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
@@ -29,7 +28,12 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       // extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('CART'),
+        title: Text(
+          'CART',
+          style: TextStyle(
+              fontSize: (screenWidth * 0.035).clamp(10, 20),
+              letterSpacing: 1.5),
+        ),
         elevation: 0,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false, // Example color

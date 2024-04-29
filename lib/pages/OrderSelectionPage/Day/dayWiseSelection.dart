@@ -52,7 +52,8 @@ class DayWiseOrderSelectionPage extends StatelessWidget {
         title: Text(
           'SELECT DATE',
           style: TextStyle(
-            fontSize: screenHeight * 0.02,
+            fontSize: (screenWidth * 0.035).clamp(10, 20),
+            letterSpacing: 1.5,
             fontFamily: 'Poppins',
             color: primary100,
           ),

@@ -29,7 +29,10 @@ class SlotSelectionPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         title: Text(
           'Select Date',
-          style: TextStyle(fontSize: screenHeight * 0.02, color: primary100),
+          style: TextStyle(
+              fontSize: (screenWidth * 0.035).clamp(10, 20),
+              letterSpacing: 1.5,
+              color: primary100),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

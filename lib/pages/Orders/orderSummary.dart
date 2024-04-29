@@ -71,7 +71,7 @@ class OrderDetailsPage extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(screenWidth * 0.02),
+        padding: EdgeInsets.all(screenWidth * 0.035),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -82,13 +82,14 @@ class OrderDetailsPage extends StatelessWidget {
                   children: [
                     Text(
                       'ORDER ID',
-                      style: TextStyle(fontSize: screenWidth * 0.03),
+                      style: TextStyle(
+                          fontSize: (screenWidth * 0.035).clamp(10, 20)),
                     ),
                     hSpace(10),
                     Text(
                       '#${orderId.toString()}',
                       style: TextStyle(
-                          fontSize: screenWidth * 0.04,
+                          fontSize: (screenWidth * 0.04).clamp(10, 24),
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -102,7 +103,7 @@ class OrderDetailsPage extends StatelessWidget {
                     Text(
                       '${DateFormat('dd MMMM yyyy').format(DateTime.parse(orderData['bookingDate']))}',
                       style: TextStyle(
-                          fontSize: screenWidth * 0.03,
+                          fontSize: (screenWidth * 0.04).clamp(10, 24),
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -127,7 +128,7 @@ class OrderDetailsPage extends StatelessWidget {
             Text(
               'ORDER ITEMS',
               style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: (screenWidth * 0.04).clamp(10, 18),
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.5),
             ),
@@ -153,7 +154,7 @@ class OrderDetailsPage extends StatelessWidget {
             Text(
               'USER DETAILS',
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: (screenWidth * 0.04).clamp(10, 18),
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -170,11 +171,15 @@ class OrderDetailsPage extends StatelessWidget {
                     children: [
                       Text(
                         'Name',
-                        style: TextStyle(letterSpacing: 1),
+                        style: TextStyle(
+                            letterSpacing: 1,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                       Text(
                         '${orderData['user']['firstName']}${orderData['user']['lastName']}',
-                        style: TextStyle(letterSpacing: 1),
+                        style: TextStyle(
+                            letterSpacing: 1,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                     ],
                   ),
@@ -184,10 +189,14 @@ class OrderDetailsPage extends StatelessWidget {
                     children: [
                       Text(
                         'Email',
-                        style: TextStyle(letterSpacing: 1),
+                        style: TextStyle(
+                            letterSpacing: 1,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                       Text('${orderData['user']['email']}',
-                          style: TextStyle(letterSpacing: 1)),
+                          style: TextStyle(
+                              letterSpacing: 1,
+                              fontSize: (screenWidth * 0.03).clamp(10, 14))),
                     ],
                   ),
                   SizedBox(height: 6.0),
@@ -196,10 +205,14 @@ class OrderDetailsPage extends StatelessWidget {
                     children: [
                       Text(
                         'Phone',
-                        style: TextStyle(letterSpacing: 1),
+                        style: TextStyle(
+                            letterSpacing: 1,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                       Text('+91 ${orderData['user']['phoneNumber']}',
-                          style: TextStyle(letterSpacing: 1)),
+                          style: TextStyle(
+                              letterSpacing: 1,
+                              fontSize: (screenWidth * 0.03).clamp(10, 14))),
                     ],
                   ),
                   SizedBox(height: 6.0),
@@ -211,7 +224,7 @@ class OrderDetailsPage extends StatelessWidget {
             Text(
               'ORDER SUMMARY',
               style: TextStyle(
-                fontSize: 18.0,
+                fontSize: (screenWidth * 0.04).clamp(10, 18),
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.5,
               ),
@@ -227,11 +240,16 @@ class OrderDetailsPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Order Date'),
                       Text(
-                        DateFormat('dd MMMM yyyy')
-                            .format(DateTime.parse(orderData['bookingDate'])),
+                        'Order Date',
+                        style: TextStyle(
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
+                      Text(
+                          DateFormat('dd MMMM yyyy')
+                              .format(DateTime.parse(orderData['bookingDate'])),
+                          style: TextStyle(
+                              fontSize: (screenWidth * 0.03).clamp(10, 14))),
                     ],
                   ),
                   const SizedBox(height: 8.0),
@@ -239,11 +257,17 @@ class OrderDetailsPage extends StatelessWidget {
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Booking Date'),
+                            Text('Booking Date',
+                                style: TextStyle(
+                                    fontSize:
+                                        (screenWidth * 0.03).clamp(10, 14))),
                             Text(
-                              DateFormat('dd MMMM yyyy').format(DateTime.parse(
-                                  orderData['booking_fromDatetime'])),
-                            ),
+                                DateFormat('dd MMMM yyyy').format(
+                                    DateTime.parse(
+                                        orderData['booking_fromDatetime'])),
+                                style: TextStyle(
+                                    fontSize:
+                                        (screenWidth * 0.03).clamp(10, 14))),
                           ],
                         )
                       : Column(
@@ -252,24 +276,34 @@ class OrderDetailsPage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Check-In Date'),
+                                Text('Check-In Date',
+                                    style: TextStyle(
+                                        fontSize: (screenWidth * 0.03)
+                                            .clamp(10, 14))),
                                 Text(
-                                  DateFormat('dd MMMM yyyy HH:mm').format(
-                                      DateTime.parse(
-                                          orderData['booking_fromDatetime'])),
-                                ),
+                                    DateFormat('dd MMMM yyyy HH:mm').format(
+                                        DateTime.parse(
+                                            orderData['booking_fromDatetime'])),
+                                    style: TextStyle(
+                                        fontSize: (screenWidth * 0.03)
+                                            .clamp(10, 14))),
                               ],
                             ),
                             const SizedBox(height: 8.0),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Check-Out Date'),
+                                Text('Check-Out Date',
+                                    style: TextStyle(
+                                        fontSize: (screenWidth * 0.03)
+                                            .clamp(10, 14))),
                                 Text(
-                                  DateFormat('dd MMMM yyyy HH:mm').format(
-                                      DateTime.parse(
-                                          orderData['booking_toDatetime'])),
-                                ),
+                                    DateFormat('dd MMMM yyyy HH:mm').format(
+                                        DateTime.parse(
+                                            orderData['booking_toDatetime'])),
+                                    style: TextStyle(
+                                        fontSize: (screenWidth * 0.03)
+                                            .clamp(10, 14))),
                               ],
                             ),
                           ],
@@ -278,14 +312,16 @@ class OrderDetailsPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Status'),
+                      Text('Status',
+                          style: TextStyle(
+                              fontSize: (screenWidth * 0.03).clamp(10, 14))),
                       Text(
                         getStatusText(orderData['status']).toUpperCase(),
                         style: TextStyle(
-                          color: getStatusCircle(orderData['status']),
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
+                            color: getStatusCircle(orderData['status']),
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                     ],
                   ),
@@ -293,20 +329,19 @@ class OrderDetailsPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'ORDER TOTAL',
-                        // style: TextStyle(
-                        //   fontSize: 16,
-                        //   fontWeight: FontWeight.bold,
-                        // ),
-                      ),
+                      Text('ORDER TOTAL',
+                          // style: TextStyle(
+                          //   fontSize: 16,
+                          //   fontWeight: FontWeight.bold,
+                          // ),
+                          style: TextStyle(
+                              fontSize: (screenWidth * 0.03).clamp(10, 14))),
                       Text(
                         '₹ ${orderData['grandTotal'].toStringAsFixed(2)}',
                         style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 16,
-                        ),
+                            // fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                     ],
                   ),
@@ -315,13 +350,15 @@ class OrderDetailsPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('GST (18%)'),
+                      Text('GST (18%)',
+                          style: TextStyle(
+                              fontSize: (screenWidth * 0.03).clamp(10, 14))),
                       Text(
                         '₹ ${(orderData['grandTotal'] * GST_RATE).toStringAsFixed(2)}',
                         style: TextStyle(
-                          // fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                        ),
+                            // fontWeight: FontWeight.bold,
+                            letterSpacing: 1.5,
+                            fontSize: (screenWidth * 0.03).clamp(10, 14)),
                       ),
                     ],
                   ),
@@ -342,7 +379,7 @@ class OrderDetailsPage extends StatelessWidget {
                       Text(
                         'GRAND TOTAL',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: (screenWidth * 0.035).clamp(10, 18),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -350,7 +387,7 @@ class OrderDetailsPage extends StatelessWidget {
                         '₹ ${(orderData['grandTotal'] + (orderData['grandTotal'] * GST_RATE)).toStringAsFixed(2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: (screenWidth * 0.035).clamp(10, 18),
                           letterSpacing: 1.5,
                         ),
                       ),
@@ -447,231 +484,441 @@ class OrderItemWidget extends StatelessWidget {
       //   // color: Colors.white12,
       // ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Product Image
-            // ClipRRect(
-            //   borderRadius:
-            //       BorderRadius.circular(10), // Adjust the radius as needed
-            //   child: Image.asset(
-            //     '/${product['productImagePath']}',
-            //     width: 100, // Adjust width as needed
-            //     height: 100, // Adjust height as needed
-            //     fit: BoxFit.cover, // Adjust image fit as needed
-            //   ),
-            // ),
-
-            Container(
-              width: 100,
-              height: 100,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: CachedNetworkImage(
-                  imageUrl:
-                      PRODUCT_IMAGE_PATH + '${product['productImagePath']}',
-                  errorWidget: (context, url, error) =>
-                      errorIconWidget(size: 40),
-                  placeholder: (context, url) => Center(
-                    child: SizedBox(
-                      width: 40, // Specify the desired width
-                      height: 40, // Specify the desired height
-                      child: CircularProgressIndicator(
-                        valueColor:
-                            AlwaysStoppedAnimation<Color>(Color(0xFF1e2022)),
-                      ),
-                    ),
-                  ),
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: Column(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Product Name
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        product['productName'],
-                        style: const TextStyle(
-                            fontSize: 18.0,
-                            color: primary100,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      // Price
-                      Text(
-                        '₹$grandTotalPrice.00',
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: primary100),
-                      ),
-                    ],
-                  ),
-                  // Quantity
+                  // Product Image
+                  // ClipRRect(
+                  //   borderRadius:
+                  //       BorderRadius.circular(10), // Adjust the radius as needed
+                  //   child: Image.asset(
+                  //     '/${product['productImagePath']}',
+                  //     width: 100, // Adjust width as needed
+                  //     height: 100, // Adjust height as needed
+                  //     fit: BoxFit.cover, // Adjust image fit as needed
+                  //   ),
+                  // ),
 
                   Container(
-                      child: SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
-                          ? null
-                          : Column(
-                              children: [
-                                vSpace(10),
-                                Text(
-                                  'Qty ${product['quantity']}',
-                                  style: const TextStyle(
-                                      fontSize: 14.0, color: primary100),
-                                ),
-                              ],
-                            )),
-                  // Expansion Tile
-                  Theme(
-                    data: Theme.of(context).copyWith(
-                      dividerColor: Colors.transparent,
-                    ),
-                    child: ExpansionTile(
-                      tilePadding: EdgeInsets.zero,
-                      title: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
-                              ? Text(
-                                  DateFormat.yMMMMd().format(DateTime.parse(
-                                      orderData['booking_fromDatetime'])),
-                                  overflow: TextOverflow
-                                      .ellipsis, // Ensures the text doesn't exceed one line
-                                )
-                              : Text(
-                                  '${DateFormat.yMMMMd().format(DateTime.parse(orderData['booking_fromDatetime']))} - ${DateFormat.yMMMMd().format(DateTime.parse(orderData['booking_toDatetime']))}',
-                                  overflow: TextOverflow
-                                      .ellipsis, // Ensures the text doesn't exceed one line
-                                ),
-                          const SizedBox(
-                              height: 4.0), // Added SizedBox for spacing
-                        ],
+                    width: (screenWidth * 0.25).clamp(30, 120),
+                    height: (screenWidth * 0.25).clamp(30, 120),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: CachedNetworkImage(
+                        imageUrl: PRODUCT_IMAGE_PATH +
+                            '${product['productImagePath']}',
+                        errorWidget: (context, url, error) =>
+                            errorIconWidget(size: 40),
+                        placeholder: (context, url) => Center(
+                          child: SizedBox(
+                            width: 40, // Specify the desired width
+                            height: 40, // Specify the desired height
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Color(0xFF1e2022)),
+                            ),
+                          ),
+                        ),
+                        fit: BoxFit.fill,
                       ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Slot Details
+                        // Product Name
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: Center(
-                                child: SharedPrefs.getString(
-                                            BUSINESS_CATEGORYID) ==
-                                        '1'
-                                    ? const Text(
-                                        'Slots',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                                    : const Text(
-                                        'Date',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                              ),
+                            Text(
+                              product['productName'],
+                              style: TextStyle(
+                                  fontSize: (screenWidth * 0.04).clamp(10, 22),
+                                  color: primary100,
+                                  fontWeight: FontWeight.bold),
                             ),
-                            const Expanded(
-                              child: Center(
-                                child: Text(
-                                  'Price',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  'Qty',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  'Total',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                              ),
+                            // Price
+                            Text(
+                              '₹${grandTotalPrice.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                  fontSize: (screenWidth * 0.04).clamp(10, 22),
+                                  fontWeight: FontWeight.bold,
+                                  color: primary100),
                             ),
                           ],
                         ),
-                        ...product['slots'].map<Widget>((slot) {
-                          final dayPrice = slot['price'] * product['quantity'];
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: SharedPrefs.getString(
-                                                BUSINESS_CATEGORYID) ==
-                                            '1'
-                                        ? Text(
-                                            '${DateFormat('HH:mm').format(DateTime.parse(slot['slotFromDateTime']))} - ${DateFormat('HH:mm').format(DateTime.parse(slot['slotToDateTime']))}',
-                                          )
-                                        : Text(
-                                            '${DateFormat('EEE, dd MMM yyyy').format(DateTime.parse(slot['slotFromDateTime']))}',
+                        // Quantity
+
+                        Container(
+                            child: SharedPrefs.getString(BUSINESS_CATEGORYID) ==
+                                    '1'
+                                ? null
+                                : Column(
+                                    children: [
+                                      vSpace(10),
+                                      Text(
+                                        'Qty ${product['quantity']}',
+                                        style: TextStyle(
+                                            fontSize: (screenWidth * 0.035)
+                                                .clamp(8, 20),
+                                            color: primary100),
+                                      ),
+                                    ],
+                                  )),
+                        // Expansion Tile
+                        screenWidth >= 650
+                            ? Theme(
+                                data: Theme.of(context).copyWith(
+                                  dividerColor: Colors.transparent,
+                                ),
+                                child: ExpansionTile(
+                                  tilePadding: EdgeInsets.zero,
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SharedPrefs.getString(
+                                                  BUSINESS_CATEGORYID) ==
+                                              '1'
+                                          ? Text(
+                                              DateFormat.yMMMMd().format(
+                                                  DateTime.parse(orderData[
+                                                      'booking_fromDatetime'])),
+
+                                              overflow: TextOverflow
+                                                  .ellipsis, // Ensures the text doesn't exceed one line
+                                            )
+                                          : Text(
+                                              '${DateFormat.yMMMMd().format(DateTime.parse(orderData['booking_fromDatetime']))} - ${DateFormat.yMMMMd().format(DateTime.parse(orderData['booking_toDatetime']))}',
+
+                                              overflow: TextOverflow
+                                                  .ellipsis, // Ensures the text doesn't exceed one line
+                                            ),
+                                      const SizedBox(
+                                          height:
+                                              4.0), // Added SizedBox for spacing
+                                    ],
+                                  ),
+                                  children: [
+                                    // Slot Details
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Center(
+                                            child: SharedPrefs.getString(
+                                                        BUSINESS_CATEGORYID) ==
+                                                    '1'
+                                                ? const Text(
+                                                    'Slots',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  )
+                                                : const Text(
+                                                    'Date',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                           ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text('₹ ${slot['price']}.00'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text('x${product['quantity']}'),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Center(
-                                    child: Text('₹ $dayPrice.00'),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }).toList(),
+                                        ),
+                                        const Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              'Price',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              'Qty',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                              'Total',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    ...product['slots'].map<Widget>((slot) {
+                                      final dayPrice =
+                                          slot['price'] * product['quantity'];
+                                      return ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: Center(
+                                                child: SharedPrefs.getString(
+                                                            BUSINESS_CATEGORYID) ==
+                                                        '1'
+                                                    ? Text(
+                                                        '${DateFormat('HH:mm').format(DateTime.parse(slot['slotFromDateTime']))} - ${DateFormat('HH:mm').format(DateTime.parse(slot['slotToDateTime']))}',
+                                                      )
+                                                    : Text(
+                                                        '${DateFormat('EEE, dd MMM yyyy').format(DateTime.parse(slot['slotFromDateTime']))}',
+                                                      ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                    '₹ ${slot['price'].toStringAsFixed(2)}'),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                    'x${product['quantity']}'),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Center(
+                                                child: Text(
+                                                    '₹ ${dayPrice.toStringAsFixed(2)}'),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 50),
-                          child: const Divider(),
-                        ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 50),
+                                      child: const Divider(),
+                                    ),
 
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 50),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Product Total   ₹$grandTotalPrice.00',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0, horizontal: 50),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            'Product Total   ₹${grandTotalPrice.toStringAsFixed(2)}',
+                                            style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : vSpace(0),
                       ],
                     ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
+              vSpace(8),
+              Row(
+                children: [
+                  screenWidth < 650
+                      ? Expanded(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              dividerColor: Colors.transparent,
+                            ),
+                            child: ExpansionTile(
+                              tilePadding: EdgeInsets.zero,
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SharedPrefs.getString(BUSINESS_CATEGORYID) ==
+                                          '1'
+                                      ? Text(
+                                          DateFormat.yMMMMd().format(
+                                              DateTime.parse(orderData[
+                                                  'booking_fromDatetime'])),
+                                          style: TextStyle(
+                                            fontSize: (screenWidth * 0.035)
+                                                .clamp(10, 20),
+                                          ),
+                                          overflow: TextOverflow
+                                              .ellipsis, // Ensures the text doesn't exceed one line
+                                        )
+                                      : Text(
+                                          '${DateFormat.yMMMMd().format(DateTime.parse(orderData['booking_fromDatetime']))} - ${DateFormat.yMMMMd().format(DateTime.parse(orderData['booking_toDatetime']))}',
+                                          style: TextStyle(
+                                              fontSize: (screenWidth * 0.035)
+                                                  .clamp(10, 20)),
+                                          overflow: TextOverflow
+                                              .ellipsis, // Ensures the text doesn't exceed one line
+                                        ),
+                                  const SizedBox(
+                                      height:
+                                          4.0), // Added SizedBox for spacing
+                                ],
+                              ),
+                              children: [
+                                // Slot Details
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Center(
+                                        child: SharedPrefs.getString(
+                                                    BUSINESS_CATEGORYID) ==
+                                                '1'
+                                            ? const Text(
+                                                'Slots',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            : const Text(
+                                                'Date',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                      ),
+                                    ),
+                                    const Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          'Price',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          'Qty',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Center(
+                                        child: Text(
+                                          'Total',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                ...product['slots'].map<Widget>((slot) {
+                                  final dayPrice =
+                                      slot['price'] * product['quantity'];
+                                  return ListTile(
+                                    contentPadding: EdgeInsets.zero,
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Center(
+                                            child: SharedPrefs.getString(
+                                                        BUSINESS_CATEGORYID) ==
+                                                    '1'
+                                                ? Text(
+                                                    '${DateFormat('HH:mm').format(DateTime.parse(slot['slotFromDateTime']))} - ${DateFormat('HH:mm').format(DateTime.parse(slot['slotToDateTime']))}',
+                                                    style: TextStyle(
+                                                        fontSize:
+                                                            screenWidth * 0.03),
+                                                  )
+                                                : Text(
+                                                    '${DateFormat('EEE, dd MMM yyyy').format(DateTime.parse(slot['slotFromDateTime']))}',
+                                                    style: TextStyle(
+                                                        fontSize: screenWidth *
+                                                            0.03)),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                                '₹ ${slot['price'].toStringAsFixed(2)}',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.03)),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                                'x${product['quantity']}',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.03)),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: Text(
+                                                '₹ ${dayPrice.toStringAsFixed(2)}',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        screenWidth * 0.03)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8.0,
+                                      horizontal: screenWidth * 0.03),
+                                  child: const Divider(),
+                                ),
+
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 8.0,
+                                      horizontal: screenWidth * 0.03),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Product Total   ₹${grandTotalPrice.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                            fontSize: screenWidth * 0.035,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : vSpace(0)
+                ],
+              )
+            ],
+          )),
     );
   }
 }

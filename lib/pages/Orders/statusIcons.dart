@@ -18,12 +18,14 @@ StatusInfo getStatusInfo(int statusCode) {
       );
     case 3:
       return StatusInfo(
-        color: Color(0xFF4e79b1), // Example color for "Confirmed" status
+        color: Color.fromARGB(
+            255, 19, 66, 207), // Example color for "Confirmed" status
         icon: Icons.check_circle, // Example icon for "Confirmed" status
       );
     case 4:
       return StatusInfo(
-        color: Colors.green, // Example color for "Completed" status
+        color: Color.fromARGB(
+            255, 47, 204, 52), // Example color for "Completed" status
         icon: Icons.done_all_rounded, // Example icon for "Completed" status
       );
     case 5:
