@@ -15,7 +15,7 @@ class SlotSelectionPage extends StatelessWidget {
   // final ProductModel product;
   late SlotSelectionController slotSelectionController =
       Get.find<SlotSelectionController>();
-  SlotSelectionPage({super.key}) {}
+  SlotSelectionPage({super.key});
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;

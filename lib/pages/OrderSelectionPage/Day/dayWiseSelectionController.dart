@@ -10,31 +10,47 @@ import 'package:get/get.dart';
 
 // import 'package:timezone/timezone.dart' as tz;
 class DayWiseSelectionController extends GetxController {
-  late final HomePageController homePageController;
-  late final RxList<DateTime> selectedDates;
-  final RxInt selectedQuantity = 1.obs;
+  final HomePageController homePageController = Get.find<HomePageController>();
+  late RxList<DateTime> selectedDates;
+  late RxInt selectedQuantity = 1.obs;
   Rx<bool> isAddToCartRequestLoading = false.obs;
 
-  late final ProductModel product;
+  ProductModel product;
   DayWiseSelectionController({required this.product});
 
   @override
   void onInit() {
     super.onInit();
-    homePageController = Get.find<HomePageController>();
+    // homePageController = Get.find<HomePageController>();
 
-    print("homePageController.checkInDate");
-    print(homePageController.checkInDate);
-    print(homePageController.checkOutDate);
+    // print("homePageController.checkInDate");
+    // print(homePageController.checkInDate);
+    // print(homePageController.checkOutDate);
 
-    print("PRODUCT ACTIVE FROM DATE");
-    print(product.activeFromDate);
-    print(product.activeToDate);
+    // print("PRODUCT ACTIVE FROM DATE");
+    // print(product.activeFromDate);
+    // print(product.activeToDate);
 
-    // Calculate default dates with condition
+    // // Calculate default dates with condition
+    // final defaultStartDate = calculateDefaultStartDate();
+    // final defaultEndDate =
+    //     calculateDefaultEndDate(); // Adjust duration as needed
+
+    // selectedDates = (homePageController.checkInDate.value != null &&
+    //         homePageController.checkOutDate.value != null)
+    //     ? [
+    //         homePageController.checkInDate.value!,
+    //         homePageController.checkOutDate.value!
+    //       ].obs
+    //     : [defaultStartDate, defaultEndDate].obs;
+    selectProduct(product);
+  }
+
+  void selectProduct(ProductModel newProduct) {
+    product = newProduct;
+
     final defaultStartDate = calculateDefaultStartDate();
-    final defaultEndDate =
-        calculateDefaultEndDate(); // Adjust duration as needed
+    final defaultEndDate = calculateDefaultEndDate();
 
     selectedDates = (homePageController.checkInDate.value != null &&
             homePageController.checkOutDate.value != null)

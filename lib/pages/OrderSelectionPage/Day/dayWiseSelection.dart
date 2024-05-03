@@ -24,15 +24,17 @@ class DayWiseOrderSelectionPage extends StatelessWidget {
   // final dayWiseSelectionController =
   //     Get.put(DayWiseSelectionController(product: product));
 
-  late final dayWiseSelectionController;
-
-  DayWiseOrderSelectionPage({Key? key, required this.product})
-      : super(key: key) {
-    final ProductModel localProduct =
-        this.product; // Assign received product to a local variable
-    dayWiseSelectionController =
-        Get.put(DayWiseSelectionController(product: localProduct));
-  }
+  // late dayWiseSelectionController;
+  late DayWiseSelectionController dayWiseSelectionController =
+      Get.find<DayWiseSelectionController>();
+  DayWiseOrderSelectionPage({super.key, required this.product});
+  // DayWiseOrderSelectionPage({Key? key, required this.product})
+  //     : super(key: key) {
+  //   final ProductModel localProduct =
+  //       this.product; // Assign received product to a local variable
+  //   dayWiseSelectionController =
+  //       Get.put(DayWiseSelectionController(product: localProduct));
+  // }
 
   @override
   Widget build(BuildContext context) {

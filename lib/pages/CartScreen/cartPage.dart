@@ -525,6 +525,8 @@ class CartPage extends StatelessWidget {
                                                                           slot.slotPrice! *
                                                                               item.quantity!;
                                                                       return ListTile(
+                                                                        contentPadding:
+                                                                            EdgeInsets.zero,
                                                                         title:
                                                                             Row(
                                                                           mainAxisAlignment:
@@ -579,7 +581,7 @@ class CartPage extends StatelessWidget {
                                                                           Flexible(
                                                                             child:
                                                                                 Text(
-                                                                              'Product Total ₹${item.grandTotal?.toStringAsFixed(2)}',
+                                                                              'Product Total ₹${item.slots!.fold<double>(0, (previousValue, slot) => previousValue + slot.slotPrice! * item.quantity!)}',
                                                                               style: TextStyle(fontSize: screenWidth * 0.025, fontWeight: FontWeight.bold),
                                                                             ),
                                                                           )
@@ -874,6 +876,8 @@ class CartPage extends StatelessWidget {
                                                           slot.slotPrice! *
                                                               item.quantity!;
                                                       return ListTile(
+                                                        contentPadding:
+                                                            EdgeInsets.zero,
                                                         title: Row(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
@@ -951,7 +955,7 @@ class CartPage extends StatelessWidget {
                                                         children: [
                                                           Flexible(
                                                             child: Text(
-                                                              'Product Total ₹${item.grandTotal?.toStringAsFixed(2)}',
+                                                              'Product Total ₹${item.slots!.fold<double>(0, (previousValue, slot) => previousValue + slot.slotPrice! * item.quantity!)}',
                                                               style: TextStyle(
                                                                   fontSize:
                                                                       screenWidth *

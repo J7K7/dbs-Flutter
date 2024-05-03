@@ -7,6 +7,7 @@ import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/BottomNavigationBar/screen.dart';
 import 'package:dbs_frontend/pages/OrderSelectionPage/Day/dayWiseSelection.dart';
+import 'package:dbs_frontend/pages/OrderSelectionPage/Day/dayWiseSelectionController.dart';
 import 'package:dbs_frontend/pages/OrderSelectionPage/Slot/slotSelection.dart';
 import 'package:dbs_frontend/pages/OrderSelectionPage/Slot/slotSelectionController.dart';
 import 'package:flutter/material.dart';
@@ -176,8 +177,12 @@ class ProductDetailsScreen extends StatelessWidget {
                           transition: Transition.cupertino);
                       // print(product.productId);
                     } else {
+                      DayWiseSelectionController controller =
+                          Get.put<DayWiseSelectionController>(
+                        DayWiseSelectionController(product: product),
+                      );
+                      controller.selectProduct(product);
                       Get.to(DayWiseOrderSelectionPage(product: product),
-                          arguments: [homeScreenController, context],
                           transition: Transition.cupertino);
                     }
                     // SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'

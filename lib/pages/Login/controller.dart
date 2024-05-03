@@ -57,6 +57,7 @@ class LoginController extends GetxController {
 
   void callAPILoginUser(Map<String, dynamic> param) async {
     isLoading(true);
+    print(param);
     ApiService.post(
       API_LOGIN,
       param: param,
