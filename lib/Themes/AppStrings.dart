@@ -30,6 +30,8 @@ var BUSINESS_CATEGORYID = "BUSINESS_CATEGORYID";
 const API_USER = "user/";
 const API_REGISTER = "user/register";
 const API_LOGIN = 'login';
+const API_GETPROFILE = API_USER + '/getProfile';
+const USER_IMAGE_PATH = "http://10.20.0.111:3000/userImages/";
 
 /* product API's */
 
@@ -53,6 +55,7 @@ const API_REMOVE_FROM_CART = API_BOOKING + "removeFromCart";
 const API_CONFIRM_BOOKING = API_BOOKING + "confirmBooking";
 var API_GET_ALL_ORDERS = API_BOOKING + "orders";
 var API_CANCEL_ORDER_BY_USER = API_BOOKING + "cancelBooking";
+var API_CLEAR_CART = API_BOOKING + "clearCart"; 
 
 /* Error Message Strings */
 const String apiGeneralErrorMsg = "Unable to connect. Please try again later.";

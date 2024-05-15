@@ -51,7 +51,7 @@ class DayWiseSelectionController extends GetxController {
 
     final defaultStartDate = calculateDefaultStartDate();
     final defaultEndDate = calculateDefaultEndDate();
-
+    selectedQuantity.value = 1;
     selectedDates = (homePageController.checkInDate.value != null &&
             homePageController.checkOutDate.value != null)
         ? [
@@ -184,7 +184,9 @@ class DayWiseSelectionController extends GetxController {
 
         isAddToCartRequestLoading(false);
         var message = data['msg'] != null ? data['msg'].toString() : '';
-
+        homePageController.checkInDate.value = null;
+        homePageController.checkOutDate.value = null;
+        selectedQuantity.value = 1;
         // NAVIGATE TO CART PAGE WHICH IS AT INDEX 1S
         message != '' ? showSuccessToastMessage(context, '$message') : null;
 

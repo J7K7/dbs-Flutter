@@ -11,6 +11,7 @@ class UserModel {
   String? firstName;
   String? lastName;
   String? phoneNumber;
+  String? profilePic;
 
   UserModel({
     this.userId,
@@ -19,6 +20,7 @@ class UserModel {
     this.firstName,
     this.lastName,
     this.phoneNumber,
+    this.profilePic,
   });
 
   UserModel.fromJson(Map<String, dynamic> data) {
@@ -28,6 +30,7 @@ class UserModel {
     firstName = data['firstName'];
     lastName = data['lastName'];
     phoneNumber = data['phoneNumber'];
+    profilePic = data['profilePic'];
   }
 
   Map<String, dynamic> toJson() {
@@ -39,6 +42,7 @@ class UserModel {
     data['firstName'] = firstName;
     data['lastName'] = lastName;
     data['phoneNumber'] = phoneNumber;
+    data['profilePic'] = profilePic;
 
     return data;
   }

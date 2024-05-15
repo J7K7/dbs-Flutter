@@ -462,15 +462,20 @@ class OrderItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Product isammm iss : ");
+    print(product);
+    print("orderData isammm iss : ");
+    print(orderData);
+
     var screenWidth = MediaQuery.of(context).size.width;
     // Calculate total price of all slots
     int totalPrice = 0;
     for (var slot in product['slots']) {
-      totalPrice += slot['price'] as int;
+      totalPrice += slot['price'] * slot['quantity'] as int;
     }
 
     // Calculate grand total price
-    num grandTotalPrice = totalPrice * product['quantity'];
+    num grandTotalPrice = totalPrice;
 
     print("Product dates : ");
     print(product);
@@ -535,20 +540,29 @@ class OrderItemWidget extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              product['productName'],
-                              style: TextStyle(
-                                  fontSize: (screenWidth * 0.04).clamp(10, 22),
-                                  color: primary100,
-                                  fontWeight: FontWeight.bold),
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                product['productName'],
+                                style: TextStyle(
+                                    fontSize:
+                                        (screenWidth * 0.04).clamp(10, 22),
+                                    color: primary100,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                             // Price
-                            Text(
-                              '₹${grandTotalPrice.toStringAsFixed(2)}',
-                              style: TextStyle(
-                                  fontSize: (screenWidth * 0.04).clamp(10, 22),
-                                  fontWeight: FontWeight.bold,
-                                  color: primary100),
+                            Spacer(),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                '₹${grandTotalPrice.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                    fontSize:
+                                        (screenWidth * 0.04).clamp(10, 22),
+                                    fontWeight: FontWeight.bold,
+                                    color: primary100),
+                              ),
                             ),
                           ],
                         ),
@@ -660,7 +674,7 @@ class OrderItemWidget extends StatelessWidget {
                                     ),
                                     ...product['slots'].map<Widget>((slot) {
                                       final dayPrice =
-                                          slot['price'] * product['quantity'];
+                                          slot['price'] * slot['quantity'];
                                       return ListTile(
                                         contentPadding: EdgeInsets.zero,
                                         title: Row(
@@ -689,7 +703,7 @@ class OrderItemWidget extends StatelessWidget {
                                             Expanded(
                                               child: Center(
                                                 child: Text(
-                                                    'x${product['quantity']}'),
+                                                    'x${slot['quantity']}'),
                                               ),
                                             ),
                                             Expanded(

@@ -22,8 +22,13 @@ class CartPage extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     var size = screenWidth < screenHeight ? screenWidth : screenHeight;
-    cartController.fetchCart();
-    // print("Halni");
+    print("Me size hu:");
+    print(size);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      cartController.fetchCart();
+    });
+    // cartController.fetchCart();
+
     // print(screenWidth * 0.25);
     return Scaffold(
       // extendBodyBehindAppBar: true,
@@ -59,8 +64,16 @@ class CartPage extends StatelessWidget {
                           children: [
                             Lottie.asset(
                               'assets/Animations/cart.json', // Replace with your animation asset
-                              width: size * 0.7, // Adjust the width as needed
-                              height: size * 0.7, // Adjust the height as needed
+                              width: size < 650
+                                  ? size < 300
+                                      ? size * 0.2
+                                      : size * 0.35
+                                  : size * 0.7, // Adjust the width as needed
+                              height: size < 650
+                                  ? size < 300
+                                      ? size * 0.2
+                                      : size * 0.35
+                                  : size * 0.7, // Adjust the height as needed
                               repeat:
                                   true, // Adjust animation properties as needed
                               reverse: false,
@@ -68,10 +81,14 @@ class CartPage extends StatelessWidget {
                             ),
                             Text(
                               'YOUR CART IS EMPTY', // Your success message
-                              style: AppTextStyles.mediumHeadingTextStyle
-                                  .copyWith(
+                              style:
+                                  AppTextStyles.mediumHeadingTextStyle.copyWith(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: screenWidth * 0.04),
+                                      fontSize: size < 650
+                                          ? size < 300
+                                              ? size * 0.02
+                                              : size * 0.03
+                                          : size * 0.04),
                             ),
                           ],
                         )

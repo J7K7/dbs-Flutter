@@ -65,9 +65,16 @@ Image errorImageWidget() => Image.asset(defaultErrorImageUrl, fit: BoxFit.fill);
 //       fit: BoxFit.fill);
 // }
 
-Widget getImageWidget(String imagePath) {
+Widget getImageWidget(String? imagePath, {bool isUser = false}) {
+  if (imagePath == null) {
+    return errorImageWidget();
+  }
+
+  print("Inside image widget  : ");
+  print(imagePath);
+
   return CachedNetworkImage(
-    imageUrl: PRODUCT_IMAGE_PATH + imagePath,
+    imageUrl: (isUser ? USER_IMAGE_PATH : PRODUCT_IMAGE_PATH) + imagePath,
     errorWidget: (context, url, error) => errorIconWidget(size: 50),
     placeholder: (context, url) => Center(
       child: SizedBox(
@@ -118,6 +125,10 @@ void showErrorDialog(String errorMessage, Function() confirmPress,
     ),
     confirm: ElevatedButton(
       onPressed: confirmPress,
+      // onPressed: () async {
+      //   Get.back(); // Close the dialog immediately
+      //   await confirmPress(); // Execute the confirmPress function
+      // },
       child: Text("Proceed", style: AppTextStyles.buttonTextStyle),
       style: ElevatedButton.styleFrom(
           backgroundColor: primary100,

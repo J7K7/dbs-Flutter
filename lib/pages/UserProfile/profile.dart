@@ -1,40 +1,13 @@
 import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/Buttons.dart';
+import 'package:dbs_frontend/Themes/UiUtils.dart';
 import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/pages/LandingPage/screen.dart';
+import 'package:dbs_frontend/pages/UserProfile/profileController.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-
-class ProfileController extends GetxController {
-  // Text editing controllers for form fields
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-
-  // Reactive variable to track if form data is edited
-  var isFormEdited = false.obs;
-
-  @override
-  void onInit() {
-    // Set default values for the form fields
-    firstNameController.text = 'Champaklal'; // Example default value
-    lastNameController.text = 'Gada'; // Example default value
-    emailController.text = 'champaklal@example.com'; // Example default value
-    phoneController.text = '1234567890'; // Example default value
-    super.onInit();
-  }
-
-  // Function to handle update button press
-  void handleUpdate() {
-    // Perform update action here
-    print('Updating profile...');
-    // Clear the form edited flag after updating
-    isFormEdited.value = false;
-  }
-}
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -42,8 +15,10 @@ class ProfilePage extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    // Get instance of ProfileController
-    final ProfileController profileController = Get.put(ProfileController());
+    final profileController = Get.put(ProfileController());
+    // final user = profileController.userData;
+    print("user : ");
+    print(profileController.userData.value?.profilePic);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,26 +32,63 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, screenHeight * 0.07, 0, 0),
+              child: Stack(
                 children: [
-                  CircleAvatar(
-                    radius: (screenWidth * 0.15).clamp(10, 100),
-                    backgroundImage: AssetImage('assets/images/champaklal.jpg'),
+                  // CircleAvatar(
+                  //   radius: (screenWidth * 0.15).clamp(10, 100),
+                  //   // // backgroundImage: AssetImage('assets/images/champaklal.jpg'),
+                  //   backgroundImage:
+                  //       AssetImage('assets/images/profileCheAA.png'),
+                  // ),
+
+                  // CircleAvatar(
+                  //   radius: (screenWidth * 0.15).clamp(10, 100),
+                  //   backgroundImage: () {
+                  //     final user = profileController.userData.value;
+                  //     if (user != null && user.profilePic != null) {
+                  //       return NetworkImage(user.profilePic.toString());
+                  //     } else {
+                  //       return AssetImage('assets/images/error_image.png');
+                  //     }
+                  //   }(),
+                  // ),
+                  Container(
+                    width: (screenWidth * 0.3)
+                        .clamp(50, 150), // Adjust width as needed
+                    height: (screenWidth * 0.3)
+                        .clamp(50, 150), // Adjust height as needed
+                    child: ClipOval(
+                      child: CircleAvatar(
+                        radius: (screenWidth * 0.3).clamp(50, 150) /
+                            2, // Radius is half of width or height
+                        backgroundColor: Colors
+                            .transparent, // Transparent background to prevent white border
+                        child: profileController.userData.value?.profilePic !=
+                                null
+                            ? getImageWidget(
+                                profileController.userData.value?.profilePic,
+                                isUser: true)
+                            : errorImageWidget(),
+                      ),
+                    ),
                   ),
+
                   Positioned(
-                    bottom: 5.0, // Adjust positioning as needed
-                    right: 5.0, // Adjust positioning as needed
+                    bottom: 3.0, // Adjust positioning as needed
+                    right: 3.0, // Adjust positioning as needed
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white, // White background for icon
                         shape: BoxShape.circle, // Make it a circle
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(2.0), // Padding for icon
+                        padding: EdgeInsets.all(4.0), // Padding for icon
                         child: Icon(
                           Icons.edit,
                           size: 18.0, // Adjust icon size as needed
@@ -87,176 +99,79 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
 
-              SizedBox(height: 20),
-              Text(
-                'CHAMPAKLAL JAYANTILAL GADA',
-                style: TextStyle(
-                  fontSize: (screenWidth * 0.035).clamp(10, 24),
-                  fontWeight: FontWeight.bold,
-                ),
+            SizedBox(height: 20),
+            Text(
+              '${profileController.userData.value?.firstName ?? ''} ${profileController.userData.value?.lastName ?? ''}',
+              style: TextStyle(
+                fontSize: (screenWidth * 0.035).clamp(10, 24),
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 20),
-              // Form
-              Container(
-                width: screenWidth * 0.8,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            // width: double.infinity, // Occupy full available width
-                            height: 50.0, // Set desired height
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Rounded corners
-                              color: Colors.white, // White background
-                              border: Border.all(
-                                  color: Colors.grey.shade200,
-                                  width: 1.0), // Light grey border
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15.0), // Padding for text
-                              child: TextField(
-                                controller:
-                                    profileController.firstNameController,
-                                onChanged: (_) =>
-                                    profileController.isFormEdited.value = true,
-                                decoration: InputDecoration(
-                                  border:
-                                      InputBorder.none, // Hide default border
-                                  hintText: 'First Name', // Display hint text
-                                  hintStyle: TextStyle(
-                                      color: Colors
-                                          .grey.shade400), // Hint text color
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Container(
-                            // width: double.infinity, // Occupy full available width
-                            height: 50.0, // Set desired height
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  10.0), // Rounded corners
-                              color: Colors.white, // White background
-                              border: Border.all(
-                                  color: Colors.grey.shade200,
-                                  width: 1.0), // Light grey border
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 15.0), // Padding for text
-                              child: TextField(
-                                controller:
-                                    profileController.lastNameController,
-                                onChanged: (_) =>
-                                    profileController.isFormEdited.value = true,
-                                decoration: InputDecoration(
-                                  border:
-                                      InputBorder.none, // Hide default border
-                                  hintText: 'Last Name', // Display hint text
-                                  hintStyle: TextStyle(
-                                      color: Colors
-                                          .grey.shade400), // Hint text color
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+            ),
+            SizedBox(height: 20),
+            // Personal Information Section
+            Center(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(screenWidth * 0.15, 0, 0, 0),
+                    child: ListTile(
+                      leading: Icon(Icons.person),
+                      title: Text('Name'),
+                      subtitle: Obx(() {
+                        final user = profileController.userData.value;
+                        print("AYA ");
+                        print(user);
+                        return Text(
+                            '${user?.firstName ?? ''} ${user?.lastName ?? ''}');
+                      }),
                     ),
-
-                    SizedBox(height: 10),
-                    Container(
-                      width: double.infinity, // Occupy full available width
-                      height: 50.0, // Set desired height
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Rounded corners
-                        color: Colors.white, // White background
-                        border: Border.all(
-                            color: Colors.grey.shade200,
-                            width: 1.0), // Light grey border
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.0), // Padding for text
-                        child: TextField(
-                          controller: profileController.emailController,
-                          onChanged: (_) =>
-                              profileController.isFormEdited.value = true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none, // Hide default border
-                            hintText: 'Email', // Display hint text
-                            hintStyle: TextStyle(
-                                color: Colors.grey.shade400), // Hint text color
-                          ),
-                        ),
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(screenWidth * 0.15, 0, 0, 0),
+                    child: ListTile(
+                      leading: Icon(Icons.email),
+                      title: Text('Email'),
+                      subtitle: Obx(() {
+                        final user = profileController.userData.value;
+                        return Text('${user?.email ?? ''}');
+                      }),
                     ),
-
-                    SizedBox(height: 10),
-                    Container(
-                      width: double.infinity, // Occupy full available width
-                      height: 50.0, // Set desired height
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            BorderRadius.circular(10.0), // Rounded corners
-                        color: Colors.white, // White background
-                        border: Border.all(
-                            color: Colors.grey.shade200,
-                            width: 1.0), // Light grey border
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.0), // Padding for text
-                        child: TextField(
-                          controller: profileController.phoneController,
-                          onChanged: (_) =>
-                              profileController.isFormEdited.value = true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none, // Hide default border
-                            hintText: 'Phone Number', // Display hint text
-                            hintStyle: TextStyle(
-                                color: Colors.grey.shade400), // Hint text color
-                          ),
-                        ),
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(screenWidth * 0.15, 0, 0, 0),
+                    child: ListTile(
+                      leading: Icon(Icons.phone),
+                      title: Text('Phone'),
+                      subtitle: Obx(() {
+                        final user = profileController.userData.value;
+                        return Text('+91 ${user?.phoneNumber ?? ''}');
+                      }),
                     ),
-
-                    SizedBox(height: 20),
-                    // Update Button
-                    Obx(() => mainButton(
-                          'UPDATE PROFILE',
-                          onPress: profileController.isFormEdited.value
-                              ? profileController.handleUpdate
-                              : null,
-                        )),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SizedBox(height: 10),
-              // Logout Button
-              Container(
-                width: screenWidth * 0.8,
-                child: mainButton(
-                  'LOGOUT',
-                  onPress: () {
-                    SharedPrefs.clearAllData();
-                    print("Logout");
-                    Get.offAll(LandingScreen());
-                  },
-                ),
+            ),
+            SizedBox(height: 20),
+
+            Container(
+              width: screenWidth * 0.55,
+              child: mainButton(
+                'LOGOUT',
+                onPress: () {
+                  SharedPrefs.clearAllData();
+                  print("Logout");
+                  Get.offAll(LandingScreen());
+                },
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 40),
+          ],
         ),
       ),
     );

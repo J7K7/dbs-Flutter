@@ -12,6 +12,7 @@ class SuccessAnimationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
+    print(screenWidth);
     var screenHeight = MediaQuery.of(context).size.height;
     var size = screenWidth < screenHeight ? screenWidth : screenHeight;
     return Scaffold(
@@ -20,7 +21,10 @@ class SuccessAnimationPage extends StatelessWidget {
       // ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+          padding:
+              // screenWidth < 300
+              //     ? const EdgeInsets.fromLTRB(0, 0, 0, 0):
+              const EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

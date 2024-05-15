@@ -40,24 +40,24 @@ class ProductListScreen extends StatelessWidget {
           child: Text('Products', style: AppTextStyles.headingTextStyle),
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.filter_list), // You can also use Icons.filter_alt
-            onPressed: () {
-              // Implement your filter logic here
-              // This onPressed callback will be triggered when the icon is pressed
-              print('Filter button pressed');
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.shopping_cart,
-            ),
-            onPressed: () {
-              print("Shopping Button Is pressed");
+          // IconButton(
+          //   icon: Icon(Icons.filter_list), // You can also use Icons.filter_alt
+          //   onPressed: () {
+          //     // Implement your filter logic here
+          //     // This onPressed callback will be triggered when the icon is pressed
+          //     print('Filter button pressed');
+          //   },
+          // ),
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.shopping_cart,
+          //   ),
+          //   onPressed: () {
+          //     print("Shopping Button Is pressed");
 
-              print(screenWidth);
-            },
-          )
+          //     print(screenWidth);
+          //   },
+          // )
         ],
       ),
       body: Obx(

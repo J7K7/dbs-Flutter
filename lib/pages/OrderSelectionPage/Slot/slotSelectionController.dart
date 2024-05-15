@@ -2,6 +2,7 @@ import 'package:dbs_frontend/Themes/AppColors.dart';
 import 'package:dbs_frontend/Themes/AppStrings.dart';
 import 'package:dbs_frontend/Themes/AppTextStyle.dart';
 import 'package:dbs_frontend/Themes/UiUtils.dart';
+import 'package:dbs_frontend/Utilities/SharedPreferences.dart';
 import 'package:dbs_frontend/appCommon/ApiService.dart';
 import 'package:dbs_frontend/models/product_model.dart';
 import 'package:dbs_frontend/models/slot_model.dart';
@@ -23,8 +24,10 @@ class SlotSelectionController extends GetxController {
   late Rx<DateTime> selectedDate = DateTime.now().obs;
   RxBool isSlotLoading = false.obs;
   RxBool isAddToCartRequestLoading = false.obs;
+  int isCartClearingSuccess = -1.obs;
   // late AnimationController _animationController;
-
+  final businessCategoryId =
+      int.tryParse(SharedPrefs.getString(BUSINESS_CATEGORYID));
   SlotSelectionController({required this.product}) {
     // Calculate the last date based on advance booking duration
     // lastDate =
@@ -242,16 +245,15 @@ class SlotSelectionController extends GetxController {
         clearData();
 
         // Delay navigation to CartPage for 2 seconds using Future.delayed
-        await Future.delayed(const Duration(seconds: 1));
+        // await Future.delayed(const Duration(seconds: 1));
         isAddToCartRequestLoading(false);
 
         Get.find<HomeScreenController>().changeTabIndex(1);
         Get.off(HomeScreen(), transition: Transition.cupertino);
       },
       failed: (data) async {
-        isAddToCartRequestLoading(false);
         // Here you need to call the animation box for showing error  messages
-        print('API request failed: $data');
+        print('API request failed: $data["err"]');
         // showErrorDialog("Me hu na error");
         // Check if the error message is "At a time, you can book products with the same Date."
         // If user Want to replace the product or not that quetion  will be asked here.
@@ -261,15 +263,32 @@ class SlotSelectionController extends GetxController {
           showErrorDialog(
               "At a Time Only products with the same date can be added. Proceeding will replace the existing product in your cart with the new selection",
               () {
-            print("Proceeesss");
-            Get.find<HomeScreenController>().changeTabIndex(1);
-            Get.offAll(HomeScreen(), transition: Transition.cupertino);
+            print("Proceeesss Starts");
+            // First we clear the cart and than add the new product to cart
+            // var ans = await clearCart(context);
+            // print("Cart Bhai Khatam");
+            // print(ans);
+            // await addToCartReq(addToCartData, context);
+            clearAndAddProduct(addToCartData, context);
+            // isAddToCartRequestLoading(false);
+            Get.back();
+            return;
+            // isAddToCartRequestLoading(false);
+            // print("Inside if and after:");
+            // print(isAddToCartRequestLoading);
+            // navigation to CartPage
+            // NAVIGATE TO CART PAGE WHICH IS AT INDEX 2
+
+            // Get.find<HomeScreenController>().changeTabIndex(1);
+            // Get.off(HomeScreen(), transition: Transition.cupertino);
           }, () {
             // showGetXBar(data["err"]);
-
+            isAddToCartRequestLoading(false);
             Get.back();
+            return;
           });
         } else {
+          isAddToCartRequestLoading(false);
           var message = data['msg'] != null
               ? data['msg'].toString()
               : ''; // Handle missing 'msg' field
@@ -289,5 +308,81 @@ class SlotSelectionController extends GetxController {
         showGetXBar(msg);
       },
     );
+  }
+
+  Future<void> clearCart(context) async {
+    print("Clearing Cart");
+    isCartClearingSuccess = -1;
+    ApiService.post(
+      API_CLEAR_CART, // Assuming API_CLEAR_CART is your endpoint for clearing the cart
+      param: {'bookingCategoryId': businessCategoryId},
+      success: (data) async {
+        // isAddToCartRequestLoading(false);
+        isCartClearingSuccess = 1;
+        print("Cart Cleared");
+
+        // return true;
+      },
+      failed: (data) async {
+        // isAddToCartRequestLoading(false);
+        isCartClearingSuccess = 0;
+        print('API request failed while clearing cart: $data');
+        var message = data['msg'] != null
+            ? data['msg'].toString()
+            : ''; // Handle missing 'msg' field
+        var error = data['err'] != null ? data['err'].toString() : '';
+
+        error == ''
+            ? showErrorToastMessage(context, '$message')
+            : showErrorToastMessage(context, '$error');
+        // return false;
+      },
+      error: (msg) async {
+        // isCartClearing(false);
+        isCartClearingSuccess = -2;
+        print("Error while clearing cart: $msg");
+        // isAddToCartRequestLoading(false);
+        showGetXBar(msg);
+
+        // return false;
+      },
+    );
+  }
+
+  Future<void> clearAndAddProduct(
+      Map<String, dynamic> addToCartData, context) async {
+    // First clear the cart
+    isAddToCartRequestLoading(true);
+    // bool clearCartSuccess = false;
+    print("clearAndAddProduct1");
+    await clearCart(context);
+    await Future.delayed(const Duration(
+        milliseconds:
+            500)); // This Delay is required for giving some delay beetween clear cart and add to cart.
+    print(isCartClearingSuccess);
+
+    print("clearAndAddProduct2");
+    // If Clear Cart is success Than try to add same product into the cart.
+    if (isCartClearingSuccess == 1) {
+      await addToCartReq(addToCartData, context);
+    }
+    print("clearAndAddProduct3");
+    isAddToCartRequestLoading(false);
+    //   print(clearCartSuccess);
+    //   print(isCartClearing);
+    //   Future.delayed(1000 as Duration);
+    //   if (clearCartSuccess) {
+    //     // Clearing cart successful, now add the new product
+    //     print("Adding the product in cart");
+    //     print(addToCartData);
+    //     print(isAddToCartRequestLoading);
+    //   } else {
+    //     // Handle failure to clear cart
+    //     isAddToCartRequestLoading(false);
+    //     print("Inside else");
+    //     print(clearCartSuccess);
+    //     print(isCartClearing);
+    //     showErrorToastMessage(context, 'Failed to clear cart');
+    //   }
   }
 }

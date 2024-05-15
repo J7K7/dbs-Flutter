@@ -350,6 +350,9 @@ class ApiStrategy {
           getClass.Get.offAll(() => LoginScreen());
           _handError(errorCallBack, apiUnAuthorizeAccessMsg);
           break;
+        case 404:
+          callBack(response.data);
+          break;
         case 409:
           callBack(response.data);
           // print(response.data);

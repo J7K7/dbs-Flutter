@@ -2,7 +2,7 @@ class SlotModel {
   String? slotDate;
   String? slotFromDateTime;
   String? slotToDateTime;
-  int? slotPrice;
+  double? slotPrice;
   int? slotId;
 
   SlotModel({
@@ -17,7 +17,7 @@ class SlotModel {
     slotDate = json['slotDate'];
     slotFromDateTime = json['slotFromDateTime'];
     slotToDateTime = json['slotToDateTime'];
-    slotPrice = json['slotPrice'];
+    slotPrice = json['slotPrice'] != null ? json['slotPrice']!.toDouble() : 0.0;
     slotId = json['slotId'];
   }
 

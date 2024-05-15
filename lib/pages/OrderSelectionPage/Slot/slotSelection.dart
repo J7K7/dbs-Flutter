@@ -406,30 +406,37 @@ class SlotSelectionPage extends StatelessWidget {
                         // Wraps button in 2/3rd space
                         flex: 2,
                         child: Obx(
-                          () => mainButton(
-                            "Book Now",
-                            isEnabled: !slotSelectionController
-                                    .isAddToCartRequestLoading.value &&
-                                slotSelectionController.selectedSlot.value !=
-                                    null,
-                            // ignore: dead_code
-                            onPress: () async {
-                              // return showErrorDialog("Me Error Hu", () {
-                              //   print("Proceeesss");
-                              //   Get.back();
-                              // }, () {
-                              //   Get.back();
-                              // });
-                              if (slotSelectionController.selectedSlot.value ==
-                                  null) {
-                                showGetXBar("Please select a slot first");
-                                return;
-                              }
-                              await slotSelectionController
-                                  .handleBooking(context);
-                              print(slotSelectionController.selectedSlot.value);
-                              // print(product.productId);
-                            },
+                          () => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Loading indicator
+                              if (slotSelectionController
+                                  .isAddToCartRequestLoading.value)
+                                CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Color(0xFF1e2022))),
+                              // Main button
+                              mainButton(
+                                "Book Now",
+                                isEnabled: !slotSelectionController
+                                        .isAddToCartRequestLoading.value &&
+                                    slotSelectionController
+                                            .selectedSlot.value !=
+                                        null,
+                                onPress: () async {
+                                  if (slotSelectionController
+                                          .selectedSlot.value ==
+                                      null) {
+                                    showGetXBar("Please select a slot first");
+                                    return;
+                                  }
+                                  await slotSelectionController
+                                      .handleBooking(context);
+                                  print(slotSelectionController
+                                      .selectedSlot.value);
+                                },
+                              ),
+                            ],
                           ),
                         ),
                       ),

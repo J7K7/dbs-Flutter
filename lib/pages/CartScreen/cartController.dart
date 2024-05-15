@@ -18,8 +18,8 @@ class CartController extends GetxController {
   final SuccessAnimationController bookingSuccessController =
       Get.put(SuccessAnimationController());
   final businessCategoryId =
-      int.tryParse(SharedPrefs.getString(BUSINESS_CATEGORYID)!) ??
-          1; // Default 1
+      int.tryParse(SharedPrefs.getString(BUSINESS_CATEGORYID));
+  // Default 1
   RxDouble grandTotal = 0.0.obs;
   @override
   Future<void> onInit() async {

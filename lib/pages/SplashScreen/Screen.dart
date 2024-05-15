@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
             child: Text(
               'DYNAMIC BOOKING SYSTEM',
               style: AppTextStyles.subheadingTextStyle
-                  .copyWith(fontSize: screenWidth * 0.05),
+                  .copyWith(fontSize: screenWidth * 0.035),
             ),
           ),
           spinKitWidgetWaveSpinner(),

@@ -176,7 +176,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       Get.to(SlotSelectionPage(),
                           transition: Transition.cupertino);
                       // print(product.productId);
-                    } else {
+                    } else if (SharedPrefs.getString(BUSINESS_CATEGORYID) ==
+                        '2') {
                       DayWiseSelectionController controller =
                           Get.put<DayWiseSelectionController>(
                         DayWiseSelectionController(product: product),
@@ -184,6 +185,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       controller.selectProduct(product);
                       Get.to(DayWiseOrderSelectionPage(product: product),
                           transition: Transition.cupertino);
+                    } else {
+                      print("No SHared Preference found why ??");
                     }
                     // SharedPrefs.getString(BUSINESS_CATEGORYID) == '1'
                     //     ? Get.to(SlotSelectionPage(product: product),
