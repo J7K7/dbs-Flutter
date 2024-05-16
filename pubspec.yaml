@@ -54,6 +54,10 @@ dependencies:
   dotted_line: ^3.2.0
   custom_navigation_bar: ^0.8.2
   font_awesome_flutter: ^10.7.0
+  image_picker: ^0.8.3+3
+  path: ^1.8.3
+  mime: ^1.0.5
+  http_parser: ^4.0.2
 
   
 

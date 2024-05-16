@@ -23,58 +23,57 @@ class ProductListScreen extends StatelessWidget {
     // double screenHeight = MediaQuery.of(context).size.height;
 
     double screenWidth = MediaQuery.of(context).size.width;
-    final homePageController = Get.put(HomePageController());
+    // final homePageController = Get.put(HomePageController());
     // print(screenWidth);
     // _controller.callAPIGetProducts();
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_sharp),
-            onPressed: () {
-              print("Back Button Is pressed");
-              homePageController.clearSelectedDates();
-              Get.back();
-            }),
+        // leading: IconButton(
+        //     icon: const Icon(Icons.arrow_back_ios_sharp),
+        //     onPressed: () {
+        //       print("Back Button Is pressed");
+        //       homePageController.clearSelectedDates();
+        //       Get.back();
+        //     }),
         title: const Expanded(
           child: Text('Products', style: AppTextStyles.headingTextStyle),
         ),
-        actions: [
-          // IconButton(
-          //   icon: Icon(Icons.filter_list), // You can also use Icons.filter_alt
-          //   onPressed: () {
-          //     // Implement your filter logic here
-          //     // This onPressed callback will be triggered when the icon is pressed
-          //     print('Filter button pressed');
-          //   },
-          // ),
-          // IconButton(
-          //   icon: const Icon(
-          //     Icons.shopping_cart,
-          //   ),
-          //   onPressed: () {
-          //     print("Shopping Button Is pressed");
+        // actions: [
+        //   // IconButton(
+        //   //   icon: Icon(Icons.filter_list), // You can also use Icons.filter_alt
+        //   //   onPressed: () {
+        //   //     // Implement your filter logic here
+        //   //     // This onPressed callback will be triggered when the icon is pressed
+        //   //     print('Filter button pressed');
+        //   //   },
+        //   // ),
+        //   // IconButton(
+        //   //   icon: const Icon(
+        //   //     Icons.shopping_cart,
+        //   //   ),
+        //   //   onPressed: () {
+        //   //     print("Shopping Button Is pressed");
 
-          //     print(screenWidth);
-          //   },
-          // )
-        ],
+        //   //     print(screenWidth);
+        //   //   },
+        //   // )
+        // ],
       ),
       body: Obx(
         () => _controller.isLoading.value
             ? spinKitWidgetWaveSpinner()
             : _controller.listOfProducts.isEmpty
-                ? Scaffold(
-                    body: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/Product_not_found.png'),
-                            fit: BoxFit.fill,
-                          ),
-                        )))
+                ? Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image:
+                            AssetImage('assets/images/Product_not_found.png'),
+                        fit: BoxFit.fill,
+                      ),
+                    ))
                 : ResponsiveBuilder(
                     builder: (context, sizingInformation) {
                       return Padding(
@@ -149,9 +148,8 @@ int responsiveItemCount(BuildContext context, SizingInformation info) {
   } else if (screenWidth > 600 && screenWidth <= 1300) {
     // Adjust breakpoint for medium screens
     return 2; // Medium: 2 columns
-  } else {
-    return 3; // Large: 3 columns
   }
+  return 3; // Large: 3 columns
 }
 
 // Decide by the hit and trail.

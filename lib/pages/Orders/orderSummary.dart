@@ -469,9 +469,9 @@ class OrderItemWidget extends StatelessWidget {
 
     var screenWidth = MediaQuery.of(context).size.width;
     // Calculate total price of all slots
-    int totalPrice = 0;
+    double totalPrice = 0;
     for (var slot in product['slots']) {
-      totalPrice += slot['price'] * slot['quantity'] as int;
+      totalPrice += slot['price'] * slot['quantity'];
     }
 
     // Calculate grand total price

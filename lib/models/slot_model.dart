@@ -17,7 +17,9 @@ class SlotModel {
     slotDate = json['slotDate'];
     slotFromDateTime = json['slotFromDateTime'];
     slotToDateTime = json['slotToDateTime'];
-    slotPrice = json['slotPrice'] != null ? json['slotPrice']!.toDouble() : 0.0;
+    // slotPrice = json['slotPrice'] != null ? json['slotPrice']!.toDouble() : 0.0;
+    var price = json['slotPrice'];
+    slotPrice = price is double ? price : double.tryParse(price) ?? 0.0;
     slotId = json['slotId'];
   }
 

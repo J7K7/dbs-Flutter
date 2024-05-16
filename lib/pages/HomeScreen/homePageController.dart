@@ -120,7 +120,11 @@ class HomePageController extends GetxController {
         textEditingController.text = selectedDate.value != null
             ? DateFormat('yyyy-MM-dd').format(selectedDate.value!)
             : '';
+        if (searchQuery != '') {
+          // print(searchQuery);
 
+          handleSearch();
+        }
         // update(); // Notify listeners of the change
       }
     } else {

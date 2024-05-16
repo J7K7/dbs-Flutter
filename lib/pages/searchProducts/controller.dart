@@ -219,7 +219,7 @@ class ProductListController extends GetxController {
     //   isActive(true);
     // }
     // cnt += 1;
-    // callAPISearchProducts();
+    callAPISearchProducts();
   }
 
   void callAPISearchProducts({
@@ -267,9 +267,10 @@ class ProductListController extends GetxController {
         // Get.to(HomeScreen());
       },
     );
-    listOfProducts
-        .addAll(dummyProducts.map((data) => ProductModel.fromJson(data)));
+    // listOfProducts
+    //     .addAll(dummyProducts.map((data) => ProductModel.fromJson(data)));
     // isLoading(false);
+    // return ;
   }
 
   Future<void> fetchproductsOfSelectedCategory(int? productCategoryId) async {
