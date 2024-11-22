@@ -66,6 +66,9 @@ class LoginController extends GetxController {
         print(data['response']['token']);
         SharedPrefs.setCustomObject(LOGINDATA, data['response']);
         print(SharedPrefs.getCustomObject(LOGINDATA));
+        // await SharedPrefs.init(); // Ensure _prefsInstance is initialized
+        String businessCategoryId = '1';
+        SharedPrefs.setString(BUSINESS_CATEGORYID, businessCategoryId);
         txtEmail.clear();
         txtPassword.clear();
         // Get.offAll(() => NavigationDrawerShow());

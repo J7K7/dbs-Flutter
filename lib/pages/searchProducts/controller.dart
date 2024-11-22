@@ -250,13 +250,15 @@ class ProductListController extends GetxController {
             listOfProducts.add(ProductModel.fromJson(v));
           });
         }
+        print("API RESPONSE AFTER THE ADDING INTO LIST:");
+        print(listOfProducts);
         isLoading(false);
       },
       failed: (data) async {
         isLoading(false);
         print('API request failed: $data');
         showGetXBar(data["msg"]);
-        // Get.to(HomeScreen());
+        Get.to(HomeScreen());
       },
       params: queryParams,
       error: (msg) {
@@ -264,7 +266,7 @@ class ProductListController extends GetxController {
         print("error ");
         isLoading(false);
         showGetXBar(msg);
-        // Get.to(HomeScreen());
+        Get.to(HomeScreen());
       },
     );
     // listOfProducts

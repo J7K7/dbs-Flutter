@@ -28,7 +28,7 @@ class ProductListScreen extends StatelessWidget {
     // _controller.callAPIGetProducts();
     return Scaffold(
       appBar: AppBar(
-        elevation: 1,
+        elevation: 0,
         // leading: IconButton(
         //     icon: const Icon(Icons.arrow_back_ios_sharp),
         //     onPressed: () {
@@ -36,8 +36,12 @@ class ProductListScreen extends StatelessWidget {
         //       homePageController.clearSelectedDates();
         //       Get.back();
         //     }),
-        title: const Expanded(
-          child: Text('Products', style: AppTextStyles.headingTextStyle),
+        title: Text(
+          'PROFILE',
+          style: TextStyle(
+            fontSize: (screenWidth * 0.035).clamp(10, 20),
+            letterSpacing: 1.5,
+          ),
         ),
         // actions: [
         //   // IconButton(
@@ -78,58 +82,66 @@ class ProductListScreen extends StatelessWidget {
                     builder: (context, sizingInformation) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Expanded(
-                          child: screenWidth <= 600
-                              ? GetBuilder<ProductListController>(
-                                  builder: (controller) {
-                                    return ListView.separated(
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: screenWidth <= 600
+                                  ? GetBuilder<ProductListController>(
+                                      builder: (controller) {
+                                        return ListView.separated(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          separatorBuilder: (c, i) => vSpace(),
+                                          itemCount:
+                                              controller.listOfProducts.length,
+                                          itemBuilder: (context, index) {
+                                            var item = controller
+                                                .listOfProducts[index];
+                                            print(
+                                                "item inside the productList:");
+                                            print(item);
+                                            return ProductCard(
+                                              product: item,
+                                              onPress: () {
+                                                Get.to(ProductDetailsScreen(
+                                                    product: item));
+                                                Transition.circularReveal;
+                                              },
+                                            );
+                                          },
+                                        );
+                                      },
+                                    )
+                                  : GridView.builder(
                                       shrinkWrap: true,
-                                      scrollDirection: Axis.vertical,
-                                      separatorBuilder: (c, i) => vSpace(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: responsiveItemCount(
+                                            context,
+                                            sizingInformation), // Dynamic count
+                                        mainAxisSpacing: 16,
+                                        childAspectRatio: getAspectRatio(
+                                            screenWidth, sizingInformation),
+
+                                        crossAxisSpacing: screenWidth * 0.001,
+                                      ),
                                       itemCount:
-                                          controller.listOfProducts.length,
+                                          _controller.listOfProducts.length,
                                       itemBuilder: (context, index) {
                                         var item =
-                                            controller.listOfProducts[index];
-                                        // print(item.images![0]['imagePath']);
+                                            _controller.listOfProducts[index];
                                         return ProductCard(
                                           product: item,
                                           onPress: () {
                                             Get.to(ProductDetailsScreen(
                                                 product: item));
-                                            Transition.circularReveal;
+                                            Transition.fade;
                                           },
                                         );
                                       },
-                                    );
-                                  },
-                                )
-                              : GridView.builder(
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: responsiveItemCount(context,
-                                        sizingInformation), // Dynamic count
-                                    mainAxisSpacing: 16,
-                                    childAspectRatio: getAspectRatio(
-                                        screenWidth, sizingInformation),
-
-                                    crossAxisSpacing: screenWidth * 0.001,
-                                  ),
-                                  itemCount: _controller.listOfProducts.length,
-                                  itemBuilder: (context, index) {
-                                    var item =
-                                        _controller.listOfProducts[index];
-                                    return ProductCard(
-                                      product: item,
-                                      onPress: () {
-                                        Get.to(ProductDetailsScreen(
-                                            product: item));
-                                        Transition.fade;
-                                      },
-                                    );
-                                  },
-                                ),
+                                    ),
+                            ),
+                          ],
                         ),
                       );
                     },

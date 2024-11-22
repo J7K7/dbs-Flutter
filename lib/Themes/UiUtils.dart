@@ -70,8 +70,8 @@ Widget getImageWidget(String? imagePath, {bool isUser = false}) {
     return errorImageWidget();
   }
 
-  print("Inside image widget  : ");
-  print(imagePath);
+  // print("Inside image widget  : ");
+  // print(imagePath);
 
   return CachedNetworkImage(
     imageUrl: (isUser ? USER_IMAGE_PATH : PRODUCT_IMAGE_PATH) + imagePath,

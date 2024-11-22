@@ -51,7 +51,8 @@ class ProductCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      feature['iconData'] ?? Icons.check,
+                      // feature['iconData'] ?? Icons.check,
+                      Icons.check,
                       size: 16,
                       color: primary200,
                     ),
@@ -115,7 +116,7 @@ class ProductCard extends StatelessWidget {
                       Expanded(
                         flex: 6, // 70% of the available space
                         child: Text(
-                          product.productName?.toUpperCase() ?? '',
+                          product.productName?.toUpperCase() ?? ' ',
                           style: AppTextStyles.mediumHeadingTextStyle
                               .copyWith(fontWeight: FontWeight.bold),
                           maxLines: 1,
@@ -144,9 +145,7 @@ class ProductCard extends StatelessWidget {
                   // ),
                   vSpace(5),
                   Text(
-                    product.productDescription != null
-                        ? product.productDescription!
-                        : 'Description not available',
+                    product.productDescription ?? 'Description not available',
                     style: AppTextStyles.bodyTextStyle,
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
@@ -154,10 +153,14 @@ class ProductCard extends StatelessWidget {
                   vSpace(16),
                   isFeatureDisplay
                       ? screenWidth <= 600
-                          ? featuresWidget
+                          ? product.features != null
+                              ? featuresWidget
+                              : SizedBox()
                           : SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: featuresWidget,
+                              child: product.features != null
+                                  ? featuresWidget
+                                  : SizedBox(),
                             )
                       : vSpace(0),
                 ],
